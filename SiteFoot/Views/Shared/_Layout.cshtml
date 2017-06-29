@@ -1,44 +1,147 @@
-﻿<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title - My ASP.NET Application</title>
-    @Styles.Render("~/Content/css")
-    @Scripts.Render("~/bundles/modernizr")
+﻿@{
+    var user = new SiteFoot.Models.User();
+    var groupe = new SiteFoot.Models.Groupe();
+    if (Request.IsAuthenticated)
+    {
+        user = (SiteFoot.Models.User)HttpContext.Current.Session["CurrentUser"];
+        groupe = (SiteFoot.Models.Groupe)HttpContext.Current.Session["CurrentGroupe"];
 
-</head>
-<body>
-    <div class="navbar navbar-inverse navbar-fixed-top">
-        <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                @Html.ActionLink("Application name", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
-            </div>
-            <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Home", "Index", "Home")</li>
-                    <li>@Html.ActionLink("About", "About", "Home")</li>
-                    <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
-                </ul>
-                @Html.Partial("_LoginPartial")
+        user = SiteFoot.Facades.Utilisateur.GetByName(user);
+        HttpContext.Current.Session["CurrentUser"] = user;
+    }
+}
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <title>@ViewBag.Title - My ASP.NET MVC Application</title>
+        <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        <meta name="viewport" content="width=device-width" />
+
+    </head>
+    <body>
+        <header>
+            <nav class="top-nav">
+                
+                <div class="nav-wrapper blue lighten-2">
+                    <ul class="left">
+                        <li><button id="collapse" data-activates="nav-mobile" class="button-collapse top-nav full hide-on-large-only btn btn-flat">Menu</button></li>
+                    </ul>
+                        
+                    @if (Request.IsAuthenticated)
+                    {
+                        <ul class="right">
+                            <li>Vous êtes connecté en temps que @user.Login</li>
+                        </ul>
+                    }
+                </div>
+                
+            </nav>
+            <ul id="nav-mobile" class="side-nav fixed">
+                <li class="logo">
+                    <center>
+                        <div class="background">
+                            <a id="logo-container" href="/" class="brand-logo">
+                                <img src="~/Content/images/FC_Sélestat.jpg" />
+                            </a>
+                        </div>
+                    </center>
+
+                </li>
+                <li class="bold" id="accueil_list">@Html.ActionLink("Accueil", "Index", "Home")</li>
+                <li class="bold" id="about_list">@Html.ActionLink("A propos du FCS", "About", "Home")</li>
+                <li class="bold" id="annonces_list">@Html.ActionLink("Annonces", "Annonces", "Home")</li>
+                @if (Request.IsAuthenticated)
+                {
+                    <li>
+                        <ul id="collapse_calendrier" class="collapsible collapsible-accordion">
+
+                            <li class="bold">
+                                <a class="collapsible-header waves-effect waves-teal">Calendrier</a>
+                                <div class="collapsible-body">
+                                    <ul>
+                                        <li id="buvette_list">@Html.ActionLink("Buvette", "Buvette", "Calendrier")</li>
+                                        <li id="entrainement_list">@Html.ActionLink("Entrainement", "Entrainement", "Calendrier")</li>
+                                        <li id="educateur_list">@Html.ActionLink("Formation Educateur", "FormationEducateur", "Calendrier")</li>
+                                    </ul>
+                                </div>
+                            </li>
+                        </ul>
+                    </li>
+
+                    <li>@Html.ActionLink("Déconnexion", "Deconnexion", "Home")</li>
+                }
+                else
+                {
+                    <li><a onclick="$('#modal_connect').modal('open');">Connexion</a></li>
+                }
+                
+            </ul>
+        </header>
+        <div id="body">
+            @RenderSection("featured", required: false)
+            <div class="content-wrapper main-content clear-fix">
+                @RenderBody()
             </div>
         </div>
-    </div>
-    <div class="container body-content">
-        @RenderBody()
-        <hr />
-        <footer>
-            <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
-        </footer>
-    </div>
+        <div id="modal_connect" class="modal modal-fixed-footer">
+            <div class="modal-content">
+                <h4>Connexion</h4>
+                <div class="row">
+                    <form class="col s12" id="form_connect">
+                        <div class="row">
+                            <div class="input-field col s6">
+                                <input id="_username" type="text" class="validate">
+                                <label>Login</label>
+                            </div>
+                            <div class="input-field col s6">
+                                <input id="_password" type="password" class="validate">
+                                <label>Mot de passe</label>
+                            </div>
+                        </div>
+                        <button href="#!" class="btn" id="btn_connect" type="submit">Connexion</button>
+                        <a href="#!" class="btn" id="btn_fermer">Fermer</a>
+                    </form>
+                </div>
+            </div>
+            <div class="modal-footer">
 
-    @Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/bootstrap")
-    @RenderSection("scripts", required: false)
-</body>
+            </div>
+        </div>
+        <footer>
+            <div class="content-wrapper">
+                <div class="float-left">
+                    <p>&copy; @DateTime.Now.Year - My ASP.NET MVC Application</p>
+                </div>
+            </div>
+        </footer>
+
+
+        @RenderSection("scripts", required: false)
+    </body>
 </html>
+
+@Styles.Render("~/Content/css")
+@Scripts.Render("~/bundles/modernizr")
+@Scripts.Render("~/bundles/jquery")
+@Styles.Render("~/bundles/materialise")
+@Scripts.Render("~/bundels/jqueryval")
+@Scripts.Render(@"~\Scripts\Home\common.js")
+<style>
+    #modal_connect {
+        height: 30% !important;
+        width: 60% !important;
+    }
+
+    #toast-container {
+        top: auto !important;
+        right: auto !important;
+        bottom: 10%;
+        left: 40%;
+    }
+
+    li:hover {
+        background-color: #64b5f6;
+    }
+</style>
