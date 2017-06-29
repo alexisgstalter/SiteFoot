@@ -18,14 +18,13 @@ namespace SiteFoot.Facades
 
         public static bool Connect(User u)
         {
-            Debug.WriteLine("cxc");
             User user = Utilisateur.GetByName(u);
             if (user != null)
             {
                 String passwordToHash = u.Password;
                 String login = u.Login;
                 String saltKey = user.Salt;
-
+                Debug.WriteLine("cc");
                 String passwordToCheck = Hash.GetHashSHA256("#" + passwordToHash + saltKey);
                 //Vérifications dans la BDD
                 String connectionString = ConfigurationManager.ConnectionStrings["SQLSiteWeb"].ToString(); //Récupération de la chaîne de connexion
