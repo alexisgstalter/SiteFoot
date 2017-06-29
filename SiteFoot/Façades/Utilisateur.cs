@@ -24,7 +24,7 @@ namespace SiteFoot.Facades
                 String passwordToHash = u.Password;
                 String login = u.Login;
                 String saltKey = user.Salt;
-
+                Debug.WriteLine("cc");
                 String passwordToCheck = Hash.GetHashSHA256("#" + passwordToHash + saltKey);
                 //Vérifications dans la BDD
                 String connectionString = ConfigurationManager.ConnectionStrings["SQLSiteWeb"].ToString(); //Récupération de la chaîne de connexion
