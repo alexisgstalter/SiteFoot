@@ -18,6 +18,7 @@ namespace SiteFoot.Facades
 
         public static bool Connect(User u)
         {
+            Debug.WriteLine("cxc");
             User user = Utilisateur.GetByName(u);
             if (user != null)
             {
