@@ -2,6 +2,7 @@
 using SiteFoot.Models;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -21,7 +22,7 @@ namespace SiteFoot.Controllers
         public ActionResult About()
         {
             ViewBag.Message = "Your app description page.";
-
+            Debug.WriteLine("cc");
             return View();
         }
 
