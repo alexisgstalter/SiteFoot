@@ -1,0 +1,56 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+
+namespace SiteFoot.Models
+{
+    public class User
+    {
+        private int id;
+        private String login;
+        private String password;
+        private String email;
+        private int groupe;
+        private String salt;
+
+
+        public User()
+        {
+
+        }
+
+        public int Id
+        {
+            get { return id; }
+            set { id = value; }
+        }
+        public String Login
+        {
+            get { return login; }
+            set { login = value; }
+        }
+
+
+        public String Password
+        {
+            get { return password; }
+            set { password = value; }
+        }
+        public String Email
+        {
+            get { return email; }
+            set { email = value; }
+        }
+        public int Groupe
+        {
+            get { return groupe; }
+            set { groupe = value; }
+        }
+        public String Salt
+        {
+            get { return salt; }
+            set { salt = value; }
+        }
+    }
+}
