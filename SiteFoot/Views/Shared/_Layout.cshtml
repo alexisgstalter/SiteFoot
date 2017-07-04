@@ -6,8 +6,11 @@
         user = (SiteFoot.Models.User)HttpContext.Current.Session["CurrentUser"];
         groupe = (SiteFoot.Models.Groupe)HttpContext.Current.Session["CurrentGroupe"];
 
-        user = SiteFoot.Facades.Utilisateur.GetByName(user);
-        HttpContext.Current.Session["CurrentUser"] = user;
+        if (user != null)
+        {
+            user = SiteFoot.Facades.Utilisateur.GetByName(user);
+            HttpContext.Current.Session["CurrentUser"] = user;
+        }
     }
 }
 <!DOCTYPE html>
@@ -18,7 +21,13 @@
         <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
         <meta name="viewport" content="width=device-width" />
-
+        @Styles.Render("~/Content/css")
+        @Styles.Render("~/bundles/materialise")
+        @Scripts.Render("~/bundles/modernizr")
+        @Scripts.Render("~/bundles/jquery")
+        @Scripts.Render("~/bundles/jqueryval")
+        @Scripts.Render("~/bundles/fullcalendar")
+        @Scripts.Render(@"~\Scripts\Home\common.js")
     </head>
     <body>
         <header>
@@ -29,7 +38,7 @@
                         <li><button id="collapse" data-activates="nav-mobile" class="button-collapse top-nav full hide-on-large-only btn btn-flat">Menu</button></li>
                     </ul>
                         
-                    @if (Request.IsAuthenticated)
+                    @if (Request.IsAuthenticated && user != null)
                     {
                         <ul class="right">
                             <li>Vous êtes connecté en temps que @user.Login</li>
@@ -52,7 +61,7 @@
                 <li class="bold" id="accueil_list">@Html.ActionLink("Accueil", "Index", "Home")</li>
                 <li class="bold" id="about_list">@Html.ActionLink("A propos du FCS", "About", "Home")</li>
                 <li class="bold" id="annonces_list">@Html.ActionLink("Annonces", "Annonces", "Home")</li>
-                @if (Request.IsAuthenticated)
+                @if (Request.IsAuthenticated && user != null)
                 {
                     <li>
                         <ul id="collapse_calendrier" class="collapsible collapsible-accordion">
@@ -69,7 +78,20 @@
                             </li>
                         </ul>
                     </li>
+                    <li>
+                        <ul id="collapse_calendrier" class="collapsible collapsible-accordion">
 
+                            <li class="bold">
+                                <a class="collapsible-header waves-effect waves-teal">Résultats</a>
+                                <div class="collapsible-body">
+                                    <ul>
+                                        <li id="buvette_list">@Html.ActionLink("Matchs", "Match", "Resultats")</li>
+                                        <li id="entrainement_list">@Html.ActionLink("Championnats", "Championnat", "Resultats")</li>
+                                    </ul>
+                                </div>
+                            </li>
+                        </ul>
+                    </li>
                     <li>@Html.ActionLink("Déconnexion", "Deconnexion", "Home")</li>
                 }
                 else
@@ -112,24 +134,15 @@
         <footer>
             <div class="content-wrapper">
                 <div class="float-left">
-                    <p>&copy; @DateTime.Now.Year - My ASP.NET MVC Application</p>
+                    <p>&copy; @DateTime.Now.Year - Football Club Sélestat</p>
                 </div>
             </div>
         </footer>
 
-        <h4 style="padding-top: 2em;">Horizontal menu</h4>
-
-
-        @RenderSection("scripts", required: false)
     </body>
 </html>
 
-@Styles.Render("~/Content/css")
-@Scripts.Render("~/bundles/modernizr")
-@Scripts.Render("~/bundles/jquery")
-@Styles.Render("~/bundles/materialise")
-@Scripts.Render("~/bundels/jqueryval")
-@Scripts.Render(@"~\Scripts\Home\common.js")
+
 <style>
     #modal_connect {
         height: 30% !important;

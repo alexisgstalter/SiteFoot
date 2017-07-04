@@ -5,4 +5,43 @@
 }
 
 <h2>buvette</h2>
+<br />
+<div id="calendrier_buvette"></div>
+<div id="modal_modif_buvette" class="modal modal-fixed-footer">
+    <div class="modal-content">
+        <h4>Détail</h4>
+        <form class="row" id="form_modif_event">
+            <div class="col s12">
+                <div class="row">
+                    <div class="input-field col s6">
+                        <input id="intitule" type="text" class="validate">
+                        <label>Titre</label>
+                    </div>
+                    <div class="input-field col s6">
+                        <input id="responsable" type="text" class="validate">
+                        <label>Responsable</label>
+                    </div>
+                </div>
 
+            </div>
+            <div class="col s12" >
+                <div class="row">
+                    <div class="input-field col s6">
+                        <input id="debut" type="text" class="validate">
+                        <label>Heure de début</label>
+                    </div>
+                    <div class="input-field col s6">
+                        <input id="fin" type="text" class="validate">
+                        <label>Heure de fin</label>
+                    </div>
+                </div>
+            </div>
+            <button href="#!" class="btn" id="btn_modifier" type="submit">Modifier</button>
+            <a href="#!" class="btn" id="btn_supprimer">Supprimer</a>
+        </form>
+    </div>
+    <div class="modal-footer">
+
+    </div>
+</div>
+@Scripts.Render(@"~\Scripts\Calendrier\buvette.js")

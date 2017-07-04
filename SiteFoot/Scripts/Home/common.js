@@ -1,5 +1,5 @@
 ﻿$(document).ready(function () {
-
+    
     switch (window.location.pathname) {
         case '/':
             $('#accueil_list').addClass('active');
