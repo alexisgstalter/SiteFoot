@@ -101,9 +101,8 @@
                 
             </ul>
         </header>
-        <div id="body">
-            @RenderSection("featured", required: false)
-            <div class="content-wrapper main-content clear-fix">
+        <div id="body" class="row">
+            <div class="col s9 offset-s3">
                 @RenderBody()
             </div>
         </div>

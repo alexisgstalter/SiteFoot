@@ -23,7 +23,9 @@
             $('#annonces_list').addClass('active');
             break;
     }
-    $(".active").css("background-color", "#64b5f6");
+    $("li.active").css("background-color", "#64b5f6");
+    $("a.active").css("background-color", "#2196f3 ");
+    $("a.active").css("color", "white ");
     $('.modal').modal();
     $(".button-collapse").sideNav({
         closeOnClick: true

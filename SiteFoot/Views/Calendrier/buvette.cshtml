@@ -4,9 +4,32 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>buvette</h2>
-<br />
-<div id="calendrier_buvette"></div>
+<div class="row">
+    <form class="container">
+        <center><h2>Ajouter un évenement</h2></center>
+        <div class="input-field">
+            <input id="intitule_create" type="text" class="validate">
+            <label>Titre</label>
+        </div>
+        <div class="input-field">
+            <input id="responsable_create" type="text" class="validate">
+            <label>Responsable</label>
+        </div>
+        <div class="input-field">
+            <input id="debut_create" placeholder="jj/mm/aaaa hh:mm" type="text" class="validate">
+            <label>Date de début</label>
+        </div>
+        <div class="input-field">
+            <input id="fin_create" placeholder="jj/mm/aaaa hh:mm" type="text" class="validate">
+            <label>Date de fin</label>
+        </div>
+        <center><button href="#!" class="btn" id="btn_ajouter" type="submit">Ajouter</button></center>
+    </form>
+    <br />
+    <div id="calendrier_buvette" class=""></div>
+
+</div>
+
 <div id="modal_modif_buvette" class="modal modal-fixed-footer">
     <div class="modal-content">
         <h4>Détail</h4>
