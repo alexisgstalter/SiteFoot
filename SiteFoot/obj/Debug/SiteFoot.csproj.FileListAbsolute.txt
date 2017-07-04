@@ -78,3 +78,9 @@ C:\Projet\SiteFoot\SiteFoot\bin\zh-Hant\System.Spatial.resources.dll
 C:\Projet\SiteFoot\SiteFoot\obj\Debug\SiteFoot.csprojResolveAssemblyReference.cache
 C:\Projet\SiteFoot\SiteFoot\obj\Debug\SiteFoot.dll
 C:\Projet\SiteFoot\SiteFoot\obj\Debug\SiteFoot.pdb
+C:\Projet\SiteFoot\SiteFoot\bin\System.Net.Http.Formatting.dll
+C:\Projet\SiteFoot\SiteFoot\bin\System.Web.Http.dll
+C:\Projet\SiteFoot\SiteFoot\bin\System.Web.Http.WebHost.dll
+C:\Projet\SiteFoot\SiteFoot\bin\System.Net.Http.Formatting.xml
+C:\Projet\SiteFoot\SiteFoot\bin\System.Web.Http.xml
+C:\Projet\SiteFoot\SiteFoot\bin\System.Web.Http.WebHost.xml

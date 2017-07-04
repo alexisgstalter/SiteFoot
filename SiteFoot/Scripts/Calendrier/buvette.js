@@ -33,7 +33,7 @@
             $("#debut").empty();
             $("#fin").empty();
             $.ajax({
-                url: "/Calendrier/GetEvent",
+                url: "/Calendrier/GetEventBuvette",
                 type: "POST",
                 data: {id : calEvent.id},
                 dataType: "json",
@@ -57,5 +57,32 @@
             });
 
         }
+    });
+
+    $("#form_modif_event").submit(function () {
+        var responsable = $("#responsable").val();
+        var titre = $("#intitule").val();
+        var debut = $("#debut").val();
+        var fin = $("#fin").val();
+        $.ajax({
+            url: "/Calendrier/UpdateEventBuvette",
+            type: "POST",
+            data: { id: current_id, debut : debut, fin : fin, titre : titre, responsable: responsable },
+            dataType: "json",
+            success: function (data) {
+                if (data.ok) {
+                    Materialize.toast("L'évenement a été modifié", 3000);
+                    $("#calendrier_buvette").fullCalendar('refetchEvents');
+                }
+                else {
+                    Materialize.toast(data.error, 3000);
+                }
+            },
+            error: function (xhr, status, error) {
+                var err = eval("(" + xhr.responseText + ")");
+                alert(err.Message);
+            }
+        });
+        return false;
     });
 })
