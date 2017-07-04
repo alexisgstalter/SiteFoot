@@ -21,13 +21,14 @@
         <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
         <meta name="viewport" content="width=device-width" />
-        @Styles.Render("~/Content/css")
+
         @Styles.Render("~/bundles/materialise")
         @Scripts.Render("~/bundles/modernizr")
         @Scripts.Render("~/bundles/jquery")
         @Scripts.Render("~/bundles/jqueryval")
         @Scripts.Render("~/bundles/fullcalendar")
         @Scripts.Render(@"~\Scripts\Home\common.js")
+        @Styles.Render("~/Content/css")
     </head>
     <body>
         <header>
@@ -106,11 +107,11 @@
                 @RenderBody()
             </div>
         </div>
-        <div id="modal_connect" class="modal modal-fixed-footer">
+        <div id="modal_connect" class="modal">
             <div class="modal-content">
                 <h4>Connexion</h4>
                 <div class="row">
-                    <form class="col s12" id="form_connect">
+                    <form class="col s12 modal-form-row" id="form_connect">
                         <div class="row">
                             <div class="input-field col s6">
                                 <input id="_username" type="text" class="validate">
@@ -140,22 +141,3 @@
 
     </body>
 </html>
-
-
-<style>
-    #modal_connect {
-        height: 30% !important;
-        width: 60% !important;
-    }
-
-    #toast-container {
-        top: auto !important;
-        right: auto !important;
-        bottom: 10%;
-        left: 40%;
-    }
-
-    li:hover {
-        background-color: #64b5f6;
-    }
-</style>

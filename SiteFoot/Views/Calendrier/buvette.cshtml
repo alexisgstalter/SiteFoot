@@ -5,22 +5,22 @@
 }
 
 <div class="row">
-    <form class="container">
+    <form class="container blue-text text-lighten-2" id="create_buvette">
         <center><h2>Ajouter un évenement</h2></center>
         <div class="input-field">
-            <input id="intitule_create" type="text" class="validate">
+            <input id="intitule_create" name="intitule_create" type="text" class="validate">
             <label>Titre</label>
         </div>
         <div class="input-field">
-            <input id="responsable_create" type="text" class="validate">
+            <input id="responsable_create" name="responsable_create" type="text" class="validate">
             <label>Responsable</label>
         </div>
         <div class="input-field">
-            <input id="debut_create" placeholder="jj/mm/aaaa hh:mm" type="text" class="validate">
+            <input id="debut_create" name="debut_create" placeholder="jj/mm/aaaa hh:mm" type="text" class="validate">
             <label>Date de début</label>
         </div>
         <div class="input-field">
-            <input id="fin_create" placeholder="jj/mm/aaaa hh:mm" type="text" class="validate">
+            <input id="fin_create" name="fin_create" placeholder="jj/mm/aaaa hh:mm" type="text" class="validate">
             <label>Date de fin</label>
         </div>
         <center><button href="#!" class="btn" id="btn_ajouter" type="submit">Ajouter</button></center>
@@ -30,7 +30,7 @@
 
 </div>
 
-<div id="modal_modif_buvette" class="modal modal-fixed-footer">
+<div id="modal_modif_buvette" class="modal">
     <div class="modal-content">
         <h4>Détail</h4>
         <form class="row" id="form_modif_event">
@@ -47,7 +47,7 @@
                 </div>
 
             </div>
-            <div class="col s12" >
+            <div class="col s12">
                 <div class="row">
                     <div class="input-field col s6">
                         <input id="debut" type="text" class="validate">
@@ -62,9 +62,6 @@
             <button href="#!" class="btn" id="btn_modifier" type="submit">Modifier</button>
             <a href="#!" class="btn" id="btn_supprimer">Supprimer</a>
         </form>
-    </div>
-    <div class="modal-footer">
-
     </div>
 </div>
 @Scripts.Render(@"~\Scripts\Calendrier\buvette.js")

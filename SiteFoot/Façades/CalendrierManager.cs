@@ -49,5 +49,30 @@ namespace SiteFoot.Façades
             cmd.ExecuteNonQuery();
             myConnection.Close();
         }
+        public static void SaveEventBuvette(String titre, String responsable, DateTime date_debut, DateTime date_fin)
+        {
+            String connectionString = ConfigurationManager.ConnectionStrings["SQLSiteWeb"].ToString(); //Récupération de la chaîne de connexion
+            SqlConnection myConnection = new SqlConnection(connectionString); //Nouvelle connexion à la base de donnée
+            myConnection.Open(); //On ouvre la connexion
+            SqlCommand cmd = new SqlCommand("insert into TestBuvette (title,start,fin,allDay,utilisateur) values(@titre, @date_debut, @date_fin, 0, @responsable)", myConnection);
+            cmd.Parameters.Add("@date_debut", SqlDbType.DateTime).Value = date_debut;
+            cmd.Parameters.Add("@date_fin", SqlDbType.DateTime).Value = date_fin;
+            cmd.Parameters.Add("@titre", SqlDbType.VarChar).Value = titre;
+            cmd.Parameters.Add("@responsable", SqlDbType.VarChar).Value = responsable;
+            cmd.ExecuteNonQuery();
+            myConnection.Close();
+        }
+
+        public static void DeleteEventBuvette(int id)
+        {
+            String connectionString = ConfigurationManager.ConnectionStrings["SQLSiteWeb"].ToString(); //Récupération de la chaîne de connexion
+            SqlConnection myConnection = new SqlConnection(connectionString); //Nouvelle connexion à la base de donnée
+            myConnection.Open(); //On ouvre la connexion
+            SqlCommand cmd = new SqlCommand("Delete from TestBuvette where id=@id", myConnection);
+            cmd.Parameters.Add("@id", SqlDbType.Int).Value = id;
+
+            cmd.ExecuteNonQuery();
+            myConnection.Close();
+        }
     }
 }
