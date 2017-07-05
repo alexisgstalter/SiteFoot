@@ -180,10 +180,12 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Controllers\BackofficeController.cs" />
     <Compile Include="Controllers\CalendrierController.cs" />
     <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ResultatsController.cs" />
+    <Compile Include="Façades\BackofficeManager.cs" />
     <Compile Include="Façades\CalendrierManager.cs" />
     <Compile Include="Façades\GroupeManager.cs" />
     <Compile Include="Façades\Hash.cs" />
@@ -250,7 +252,7 @@
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <None Include="Scripts\jquery-3.1.1.intellisense.js" />
-    <Content Include="Scripts\Calendrier\entrainement.js" />
+    <Content Include="Scripts\Backoffice\CreateEquipe.js" />
     <Content Include="Scripts\Calendrier\buvette.js" />
     <Content Include="Scripts\fullcalendar.js" />
     <Content Include="Scripts\fullcalendar.min.js" />
@@ -389,13 +391,13 @@
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Web.config" />
     <Content Include="Views\Calendrier\buvette.cshtml" />
-    <Content Include="Views\Calendrier\entrainement.cshtml" />
     <Content Include="Views\Calendrier\formationeducateur.cshtml" />
     <Content Include="Scripts\jquery-3.1.1.slim.min.map" />
     <Content Include="Scripts\jquery-3.1.1.min.map" />
     <Content Include="Views\Resultats\Championnat.cshtml" />
     <Content Include="Views\Resultats\Match.cshtml" />
     <Content Include="Views\Error\AccessDenied.cshtml" />
+    <Content Include="Views\Backoffice\CreateEquipe.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
