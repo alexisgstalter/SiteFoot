@@ -1,5 +1,4 @@
 ﻿$(document).ready(function () {
-    
     $(".table").addClass("striped");
 
     switch (window.location.pathname) {
