@@ -78,3 +78,7 @@ C:\Projet\SiteFoot\SiteFoot\bin\zh-Hant\System.Spatial.resources.dll
 C:\Projet\SiteFoot\SiteFoot\obj\Debug\SiteFoot.csprojResolveAssemblyReference.cache
 C:\Projet\SiteFoot\SiteFoot\obj\Debug\SiteFoot.dll
 C:\Projet\SiteFoot\SiteFoot\obj\Debug\SiteFoot.pdb
+C:\Projet\SiteFoot\SiteFoot\bin\Org.Mentalis.Security.Cryptography.dll
+C:\Projet\SiteFoot\SiteFoot\bin\Mono.Math.dll
+C:\Projet\SiteFoot\SiteFoot\bin\Org.Mentalis.Security.Cryptography.xml
+C:\Projet\SiteFoot\SiteFoot\bin\Mono.Math.xml
