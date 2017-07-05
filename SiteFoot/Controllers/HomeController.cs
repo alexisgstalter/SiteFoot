@@ -32,7 +32,7 @@ namespace SiteFoot.Controllers
 
             return View();
         }
-        public JsonResult Login(String username, String password, String rememberme)
+        public JsonResult Login(String username, String password)
         {
             /*try
             {*/
@@ -40,14 +40,13 @@ namespace SiteFoot.Controllers
             User u = new User();
             u.Login = username;
             u.Password = password;
-            bool remember = Convert.ToBoolean(rememberme);
 
             //On essaye de connecter l'utilisateur
             if (Utilisateur.Connect(u))
             {
                 User connected_user = Utilisateur.GetByName(u); //On récupère toutes les informations de l'utilisateur et on les place dans la base de données
                 String authString = connected_user.Login + "#" + u.Password;    //On stocke le nom d'utilisateur et le mot de passe dans un cookie
-                FormsAuthentication.SetAuthCookie(authString, remember);
+                FormsAuthentication.SetAuthCookie(authString, false);
                 //On ajoute dans un cookie l'activité et le dépot de l'utilisateur
 
                 Session["CurrentUser"] = connected_user;    //On place l'utilisateur dans la session
