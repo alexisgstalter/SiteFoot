@@ -42,7 +42,7 @@ namespace SiteFoot.Controllers
                     for (int i = 0; i < liste_equipe.Rows.Count; i++)
                     {
                         html = html + "<tr>";
-                        html = html + "<td>" + liste_equipe.Rows[i]["nom_equipe"].ToString() + "</td><td>" + liste_equipe.Rows[i]["categorie"].ToString() + "</td><td>" + liste_equipe.Rows[i]["id_entraineur"].ToString() + "</td><td><img class='img-responsive' src='/Content/images/" + liste_equipe.Rows[i]["ecusson"].ToString() + "' /></td><td data-value='" + liste_equipe.Rows[i]["id"].ToString() + "' class='edit edit_ligne'><i class='material-icons prefix'>mode_edit</i><td class='delete delete_ligne' data-value='" + liste_equipe.Rows[i]["id"].ToString() + "'><i class='material-icons prefix'>clear</i></td>";
+                        html = html + "<td>" + liste_equipe.Rows[i]["nom_equipe"].ToString() + "</td><td>" + liste_equipe.Rows[i]["categorie"].ToString() + "</td><td>" + liste_equipe.Rows[i]["id_entraineur"].ToString() + "</td><td><img class='img-responsive' src='~/Content/images/" + liste_equipe.Rows[i]["ecusson"].ToString() + "' /></td><td data-value='" + liste_equipe.Rows[i]["id"].ToString() + "' class='edit edit_ligne'><i class='material-icons prefix'>mode_edit</i><td class='delete delete_ligne' data-value='" + liste_equipe.Rows[i]["id"].ToString() + "'><i class='material-icons prefix'>clear</i></td>";
                     }
                     html = html + "</tr>";
                 }

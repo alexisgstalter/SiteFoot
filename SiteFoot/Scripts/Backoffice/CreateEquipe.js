@@ -135,10 +135,4 @@
     }
 
 
-    $(".addCmdOuverte").click(function () {
-        $('#addCmdOuverteModal').modal('show');
-    });
-
-
-
 })

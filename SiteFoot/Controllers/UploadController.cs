@@ -42,7 +42,7 @@ namespace SiteFoot.Controllers
                     else if (file.ContentLength > 0)
                     {
                         int MaxContentLength = 1024 * 1024 * 1; //On fixe la taille du fichier à uploader à 1 MB
-                        string[] tabextension = new string[] { ".xls", ".jpeg" }; //type d'extension pris en compte
+                        string[] tabextension = new string[] {".jpg" }; //type d'extension pris en compte
 
                         //On teste l'extention si respecté
                         if (!tabextension.Contains(file.FileName.Substring(file.FileName.LastIndexOf('.'))))
@@ -56,10 +56,8 @@ namespace SiteFoot.Controllers
                         }
                         else
                         {
-                            //Debug.WriteLine("test");
                             try
                             {
-                                Debug.WriteLine("format ok");
                                 //On transfert le fichier vers le chemin spécifié
                                 var nomfichier = Path.GetFileName(file.FileName);
                                 var chemin = Path.Combine((@"\\neon-01\c$\Fichiers Clients\Ecusson"), nomfichier);
