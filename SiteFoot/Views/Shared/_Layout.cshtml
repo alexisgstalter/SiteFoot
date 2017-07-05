@@ -72,7 +72,7 @@
                                     <ul>
                                         <li id="buvette_list">@Html.ActionLink("Buvette", "Buvette", "Calendrier")</li>
                                         <li id="entrainement_list">@Html.ActionLink("Entrainement", "Entrainement", "Calendrier")</li>
-                                        <li id="educateur_list">@Html.ActionLink("Formation Educateur", "FormationEducateur", "Calendrier")</li>
+                                        <li id="formation_list">@Html.ActionLink("Formation Educateur", "FormationEducateur", "Calendrier")</li>
                                     </ul>
                                 </div>
                             </li>
@@ -85,8 +85,20 @@
                                 <a class="collapsible-header waves-effect waves-teal">Résultats</a>
                                 <div class="collapsible-body">
                                     <ul>
-                                        <li id="buvette_list">@Html.ActionLink("Matchs", "Match", "Resultats")</li>
-                                        <li id="entrainement_list">@Html.ActionLink("Championnats", "Championnat", "Resultats")</li>
+                                        <li id="matchs_list">@Html.ActionLink("Matchs", "Match", "Resultats")</li>
+                                        <li id="championnats_list">@Html.ActionLink("Championnats", "Championnat", "Resultats")</li>
+                                    </ul>
+                                </div>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <ul id="collapse_calendrier" class="collapsible collapsible-accordion">
+                            <li class="bold">
+                                <a class="collapsible-header waves-effect waves-teal">BackOffice</a>
+                                <div class="collapsible-body">
+                                    <ul>
+                                        <li id="creation_equipe_list">@Html.ActionLink("Création equipe", "CreateEquipe", "Backoffice")</li>
                                     </ul>
                                 </div>
                             </li>

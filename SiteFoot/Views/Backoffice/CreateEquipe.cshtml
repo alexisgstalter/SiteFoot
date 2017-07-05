@@ -1,0 +1,30 @@
+﻿@{
+    ViewBag.Title = "Create equipe";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row">
+    <form class="container">
+        <center><h2>Ajouter une équipe</h2></center>
+        <div class="input-field">
+            <input id="nom_equipe_create" type="text" class="validate">
+            <i class="large material-icons">insert_chart</i><label>Equipe</label>
+        </div>
+        <div class="input-field">
+            <input id="entraineur_create" type="text" class="validate">
+            <label>Entraîneur</label>
+        </div>
+
+        <div class='input-field'>
+           <span class='input-group-addon'>Pieces jointes</span><input id='pj' class='form-control piece_jointe' type='file' multiple />
+        </div>
+        <label>Ecusson</label>
+       
+        <center><button href="#!" class="btn" id="btn_ajouter" type="submit">Ajouter</button></center>
+    </form>
+    <br />
+    <div class="container" id="requested_equipe"></div>
+</div>
+
+
+@Scripts.Render(@"~\Scripts\Backoffice\CreateEquipe.js")
