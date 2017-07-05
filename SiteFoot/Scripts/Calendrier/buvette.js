@@ -56,7 +56,8 @@
                 }
             });
 
-        }
+        },
+        displayEventEnd : true
     });
 
     $("#form_modif_event").submit(function () {
@@ -73,6 +74,7 @@
                 if (data.ok) {
                     Materialize.toast("L'évenement a été modifié", 3000);
                     $("#calendrier_buvette").fullCalendar('refetchEvents');
+                    $("#modal_modif_buvette").modal('close');
                 }
                 else {
                     Materialize.toast(data.error, 3000);
@@ -84,5 +86,94 @@
             }
         });
         return false;
+    });
+    $("#create_buvette").validate({
+        errorPlacement: function(error, element) {
+            error.insertAfter(element.parent("div"));
+        },
+        onfocusout: function (element) {
+            this.element(element);
+        },
+        rules: {
+            responsable_create: {
+                required : true
+            },
+            intitule_create: {
+                required : true
+            },
+            debut_create: {
+                required : true
+            },
+            fin_create: {
+                required : true
+            }
+
+        },
+        messages: {
+            responsable_create: {
+                required: "veuillez renseigner ce champs"
+            },
+            intitule_create: {
+                required: "veuillez renseigner ce champs"
+            },
+            debut_create: {
+                required: "veuillez renseigner ce champs"
+            },
+            fin_create: {
+                required: "veuillez renseigner ce champs"
+            }
+        },
+        submitHandler: function (form) {
+            create();
+            return false;
+        }
+    });
+
+    function create() {
+        var responsable = $("#responsable_create").val();
+        var titre = $("#intitule_create").val();
+        var debut = $("#debut_create").val();
+        var fin = $("#fin_create").val();
+        $.ajax({
+            url: "/Calendrier/SaveEventBuvette",
+            type: "POST",
+            data: { debut: debut, fin: fin, titre: titre, responsable: responsable },
+            dataType: "json",
+            success: function (data) {
+                if (data.ok) {
+                    Materialize.toast("L'évenement a été créé", 3000);
+                    $("#calendrier_buvette").fullCalendar('refetchEvents');
+                }
+                else {
+                    Materialize.toast(data.error, 3000);
+                }
+            },
+            error: function (xhr, status, error) {
+                var err = eval("(" + xhr.responseText + ")");
+                alert(err.Message);
+            }
+        });
+    }
+    $("#btn_supprimer").click(function () {
+        $.ajax({
+            url: "/Calendrier/DeleteEventBuvette",
+            type: "POST",
+            data: { id : current_id },
+            dataType: "json",
+            success: function (data) {
+                if (data.ok) {
+                    Materialize.toast("L'évenement a été supprimé", 3000);
+                    $("#calendrier_buvette").fullCalendar('refetchEvents');
+                    $("#modal_modif_buvette").modal('close');
+                }
+                else {
+                    Materialize.toast(data.error, 3000);
+                }
+            },
+            error: function (xhr, status, error) {
+                var err = eval("(" + xhr.responseText + ")");
+                alert(err.Message);
+            }
+        });
     });
 })

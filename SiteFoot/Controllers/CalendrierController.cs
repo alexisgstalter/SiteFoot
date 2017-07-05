@@ -96,6 +96,39 @@ namespace SiteFoot.Controllers
                 return Json(new { ok = false, error = e.Message });
             }
         }
+        public JsonResult SaveEventBuvette(String debut, String fin, String titre, String responsable)
+        {
+            try
+            {
+                DateTime date_debut;
+                if (!DateTime.TryParse(debut, out date_debut) || !DateTime.TryParse(fin, out date_debut))
+                {
+                    throw new Exception("Le format de date saisi est incorrect");
+                }
+                date_debut = DateTime.Parse(debut);
+                DateTime date_fin = DateTime.Parse(fin);
+                CalendrierManager.SaveEventBuvette(titre, responsable, date_debut, date_fin);
+                return Json(new { ok = true });
+
+            }
+            catch (Exception e)
+            {
+                return Json(new { ok = false, error = e.Message });
+            }
+        }
+        public JsonResult DeleteEventBuvette(int id)
+        {
+            try
+            {
+                CalendrierManager.DeleteEventBuvette(id);
+                return Json(new { ok = true });
+
+            }
+            catch (Exception e)
+            {
+                return Json(new { ok = false, error = e.Message });
+            }
+        }
     }
 
 }
