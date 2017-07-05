@@ -180,6 +180,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Controllers\UploadController.cs" />
     <Compile Include="Controllers\BackofficeController.cs" />
     <Compile Include="Controllers\CalendrierController.cs" />
     <Compile Include="Controllers\ErrorController.cs" />
@@ -251,6 +252,7 @@
     <Content Include="Content\themes\base\tooltip.css" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
+    <None Include="Properties\PublishProfiles\SiteFoot.pubxml" />
     <None Include="Scripts\jquery-3.1.1.intellisense.js" />
     <Content Include="Scripts\Backoffice\CreateEquipe.js" />
     <Content Include="Scripts\Calendrier\buvette.js" />

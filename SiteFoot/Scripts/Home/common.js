@@ -1,5 +1,6 @@
 ﻿$(document).ready(function () {
-    
+    $('select').material_select();
+
     $(".table").addClass("striped");
 
     switch (window.location.pathname) {

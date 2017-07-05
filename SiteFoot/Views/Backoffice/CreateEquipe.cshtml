@@ -2,28 +2,64 @@
     ViewBag.Title = "Create equipe";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
 <div class="row">
-    <form class="container">
-        <center><h2>Ajouter une équipe</h2></center> 
+    <form class="container" id="create_equipe" style="color : #8F010C">
+        <center><h2>Ajouter une équipe</h2></center>
+
         <div class="input-field">
-            <input id="nom_equipe_create" type="text" class="validate">
+            <i class="material-icons prefix">assignment_ind</i>
+            <input id="nom_equipe" type="text" class="validate">
+            <label>Nom de l'équipe</label>
         </div>
+      
         <div class="input-field">
-            <input id="entraineur_create" type="text" class="validate">
+            <i class="material-icons prefix">reorder</i>
+            <select id="liste_categorie">
+                <option value="" disabled selected>Sélectionnez une catégorie</option>
+                <option value="U6">U6</option>
+                <option value="U7">U7</option>
+                <option value="U8">U8</option>
+                <option value="U9">U9</option>
+                <option value="U10">U10</option>
+                <option value="U11">U11</option>
+                <option value="U12">U12</option>
+                <option value="U13">U13</option>
+                <option value="U14">U14</option>
+                <option value="U15">U15</option>
+                <option value="U16">U16</option>
+                <option value="U17">U17</option>
+                <option value="U18">U18</option>
+                <option value="U19">U19</option>
+                <option value="U20">U20</option>
+                <option value="Seniors">Séniors</option>
+                <option value="Veterans">Vétérans</option>
+                <option value="Feminines">Féminines</option>
+            </select>
+            <label>Catégories</label>
+        </div>
+
+        <div class="input-field">
+            <i class="material-icons prefix">explicit</i>
+            <input id="entraineur" type="text" class="validate">
             <label>Entraîneur</label>
         </div>
 
-        <div class='input-field'>
-           <span class='input-group-addon'>Pieces jointes</span><input id='pj' class='form-control piece_jointe' type='file' multiple />
+
+        <div class="file-field input-field">
+            <div class="btn">
+                <span>Ecusson</span>
+                <input type="file">
+            </div>
+            <div class="file-path-wrapper">
+                <input id="ecusson" class="file-path validate" type="text">
+            </div>
         </div>
-        <label>Ecusson</label>
-       
+        
         <center><button href="#!" class="btn" id="btn_ajouter" type="submit">Ajouter</button></center>
     </form>
+
     <br />
     <div class="container" id="requested_equipe"></div>
 </div>
-
 
 @Scripts.Render(@"~\Scripts\Backoffice\CreateEquipe.js")
