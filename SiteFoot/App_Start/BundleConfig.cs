@@ -12,7 +12,7 @@ namespace SiteFoot
                         "~/Scripts/jquery-{version}.js", "~/Scripts/materialize.js"));
             bundles.Add(new ScriptBundle("~/bundles/fullcalendar").Include(
             "~/Scripts/moment.js", "~/Scripts/fullcalendar.js", "~/Scripts/locale/fr.js"));
-            bundles.Add(new StyleBundle("~/bundles/materialise").Include("~/Content/materialize.css","~/Content/fullcalendar.css"));
+            bundles.Add(new StyleBundle("~/bundles/materialise").Include("~/Content/fullcalendar.css","~/Content/materialize.css"));
 
             bundles.Add(new ScriptBundle("~/bundles/jqueryui").Include(
                         "~/Scripts/jquery-ui-{version}.js"));

@@ -1,5 +1,7 @@
 ﻿$(document).ready(function () {
     
+    $(".table").addClass("striped");
+
     switch (window.location.pathname) {
         case '/':
             $('#accueil_list').addClass('active');
@@ -23,8 +25,8 @@
             $('#annonces_list').addClass('active');
             break;
     }
-    $("li.active").css("background-color", "#64b5f6");
-    $("a.active").css("background-color", "#2196f3 ");
+    $("li.active").css("background-color", "#8F010C");
+    $("a.active").css("background-color", "#590A0D ");
     $("a.active").css("color", "white ");
     $('.modal').modal();
     $(".button-collapse").sideNav({
