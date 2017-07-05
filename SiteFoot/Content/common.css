@@ -6,18 +6,40 @@
 }
 
 li:hover {
-    background-color: #64b5f6;
+    background-color: #8F010C;
+}
+li > a:hover{
+    color: white;
 }
 .error {
-    color: #2196f3;
+    color: #590A0D;
 }
 .btn {
-    background-color : #2196f3;
+    background-color : #590A0D;
 }
 .btn:hover {
-    background-color : #64b5f6;
+    background-color : #8F010C;
 }
-
+.waves-effect.waves-brown .waves-ripple {
+    /* The alpha value allows the text and background color
+    of the button to still show through. */
+    background-color: #8F010C;
+}
+.fc-content{
+    background-color : #8F010C;
+    border-color : #590A0D;
+}
+.fc-day-grid-event .fc-content .fc-time{
+    border-color : #590A0D;
+}
+.fc-unthemed td.fc-today{
+    background-color : #F28C92;
+}
+.fc-day-top{
+    background : inherit;
+    background-color : #8F010C;
+    color : white;
+}
 input:not([type]):focus:not([readonly]),
 input[type=text]:not(.browser-default):focus:not([readonly]),
 input[type=password]:not(.browser-default):focus:not([readonly]),
@@ -31,9 +53,9 @@ input[type=tel]:not(.browser-default):focus:not([readonly]),
 input[type=number]:not(.browser-default):focus:not([readonly]),
 input[type=search]:not(.browser-default):focus:not([readonly]),
 textarea.materialize-textarea:focus:not([readonly]) {
-  border-bottom: 1px solid #64b5f6;
-  -webkit-box-shadow: 0 1px 0 0 #64b5f6;
-          box-shadow: 0 1px 0 0 #64b5f6;
+  border-bottom: 1px solid #8F010C;
+  -webkit-box-shadow: 0 1px 0 0 #8F010C;
+          box-shadow: 0 1px 0 0 #8F010C;
 }
 
 input:not([type]):focus:not([readonly]) + label,
@@ -49,7 +71,7 @@ input[type=tel]:not(.browser-default):focus:not([readonly]) + label,
 input[type=number]:not(.browser-default):focus:not([readonly]) + label,
 input[type=search]:not(.browser-default):focus:not([readonly]) + label,
 textarea.materialize-textarea:focus:not([readonly]) + label {
-  color: #64b5f6;
+  color: #8F010C;
 }
 
 input:not([type]).valid, input:not([type]):focus.valid,
@@ -77,9 +99,9 @@ input[type=search]:not(.browser-default).valid,
 input[type=search]:not(.browser-default):focus.valid,
 textarea.materialize-textarea.valid,
 textarea.materialize-textarea:focus.valid {
-  border-bottom: 1px solid #64b5f6;
-  -webkit-box-shadow: 0 1px 0 0 #64b5f6;
-          box-shadow: 0 1px 0 0 #64b5f6;
+  border-bottom: 1px solid #8F010C;
+  -webkit-box-shadow: 0 1px 0 0 #8F010C;
+          box-shadow: 0 1px 0 0 #8F010C;
 }
 
 input:not([type]).valid + label:after,
@@ -109,7 +131,7 @@ input[type=search]:not(.browser-default):focus.valid + label:after,
 textarea.materialize-textarea.valid + label:after,
 textarea.materialize-textarea:focus.valid + label:after {
   content: attr(data-success);
-  color: #64b5f6;
+  color: #8F010C;
   opacity: 1;
 }
 
@@ -138,9 +160,9 @@ input[type=search]:not(.browser-default).invalid,
 input[type=search]:not(.browser-default):focus.invalid,
 textarea.materialize-textarea.invalid,
 textarea.materialize-textarea:focus.invalid {
-  border-bottom: 1px solid #64b5f6;
-  -webkit-box-shadow: 0 1px 0 0 #64b5f6;
-          box-shadow: 0 1px 0 0 #64b5f6;
+  border-bottom: 1px solid #8F010C;
+  -webkit-box-shadow: 0 1px 0 0 #8F010C;
+          box-shadow: 0 1px 0 0 #8F010C;
 }
 
 input:not([type]).invalid + label:after,
@@ -170,7 +192,7 @@ input[type=search]:not(.browser-default):focus.invalid + label:after,
 textarea.materialize-textarea.invalid + label:after,
 textarea.materialize-textarea:focus.invalid + label:after {
   content: attr(data-error);
-  color: #64b5f6;
+  color: #8F010C;
   opacity: 1;
 }
 
