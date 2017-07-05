@@ -262,13 +262,16 @@
     <Content Include="Scripts\gcal.js" />
     <Content Include="Scripts\gcal.min.js" />
     <Content Include="Scripts\Home\common.js" />
-    <Content Include="Scripts\jquery-2.2.4.min.js" />
+    <None Include="Scripts\jquery-3.1.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.1.1.js" />
+    <Content Include="Scripts\jquery-3.1.1.min.js" />
     <Content Include="Scripts\jquery-3.1.1.slim.js" />
     <Content Include="Scripts\jquery-3.1.1.slim.min.js" />
+    <Content Include="Scripts\jquery-3.1.1.slim.min.map" />
+    <Content Include="Scripts\jquery-3.1.1.min.map" />
+    <None Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\jquery-ui-1.12.1.js" />
     <Content Include="Scripts\jquery-ui-1.12.1.min.js" />
-    <None Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\knockout-2.2.0.debug.js" />
@@ -394,8 +397,6 @@
     <Content Include="Views\Web.config" />
     <Content Include="Views\Calendrier\buvette.cshtml" />
     <Content Include="Views\Calendrier\formationeducateur.cshtml" />
-    <Content Include="Scripts\jquery-3.1.1.slim.min.map" />
-    <Content Include="Scripts\jquery-3.1.1.min.map" />
     <Content Include="Views\Resultats\Championnat.cshtml" />
     <Content Include="Views\Resultats\Match.cshtml" />
     <Content Include="Views\Error\AccessDenied.cshtml" />
