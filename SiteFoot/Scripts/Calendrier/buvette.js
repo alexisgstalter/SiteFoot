@@ -1,5 +1,46 @@
 ﻿$(document).ready(function () {
     //$.fullCalendar.formatDate("dd/MM/yyyy HH:mm:ss");
+    $("#responsable_create").autocomplete({
+        
+        source: function (requete, reponse) { // les deux arguments représentent les données nécessaires au plugin
+            $.ajax({
+                type: "POST",
+                url: "/Calendrier/AutocompleteLogin",
+                data: '{username:"' + $("#responsable_create").val() + '"}',
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (data) {
+                    alert("ohoh !");
+                    if (data.ok) {
+                        reponse($.map(data.content, function (item) {
+                            return {
+                                label: item
+                            };
+                        }));
+                    }
+                    else {
+                        reponse(["impossible de charger le contenu"]);
+                    }
+                }
+            });
+        },
+        focus: function (event, ui) {   //Déclenché au survol
+            $("#responsable_create").val(ui.item.label);
+            $("#responsable_create").trigger("propertychange");//On informe le formulaire que le champs a été modifié
+        },
+        close: function (event, ui) {   //Déclenché lorsque le menu se ferme
+            $("#responsable_create").trigger("propertychange");//On informe le formulaire que le champs a été modifié
+        },
+        open: function (event, ui) {    //Quand le menu apparaît
+            $(".ui-autocomplete").css("z-index", 2000); //Important sinon le munu n'apparaît pas !
+        }
+    })._renderItem = function (ul, item) {  //hack pour mettre en évidence la selection
+        // only change here was to replace .text() with .html()
+        return $("<li></li>")
+              .data("item.autocomplete", item)
+              .append($("<a></a>").html(highlight(item.label, this.term)))
+              .appendTo(ul);
+    };
     var current_id;
     $("#calendrier_buvette").fullCalendar({
         header: {

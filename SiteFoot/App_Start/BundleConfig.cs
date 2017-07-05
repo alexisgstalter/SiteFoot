@@ -15,7 +15,7 @@ namespace SiteFoot
             bundles.Add(new StyleBundle("~/bundles/materialise").Include("~/Content/fullcalendar.css","~/Content/materialize.css"));
 
             bundles.Add(new ScriptBundle("~/bundles/jqueryui").Include(
-                        "~/Scripts/jquery-ui-{version}.js"));
+                        "~/Scripts/jquery-ui.min.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(
                         "~/Scripts/jquery.unobtrusive*",

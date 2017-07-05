@@ -36,8 +36,7 @@ li > a:hover{
     background-color : #F28C92;
 }
 .fc-day-top{
-    background : inherit;
-    background-color : #8F010C;
+    background : #8F010C!important;
     color : white;
 }
 input:not([type]):focus:not([readonly]),

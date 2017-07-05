@@ -1,6 +1,8 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using SiteFoot.Facades;
 using SiteFoot.Façades;
+using SiteFoot.Models;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -26,6 +28,20 @@ namespace SiteFoot.Controllers
         public ActionResult FormationEducateur()
         {
             return View();
+        }
+        public JsonResult AutocompleteLogin(String username)
+        {
+            try
+            {
+                User u = new User();
+                u.Login = Server.HtmlEncode(username);
+                return Json(new { ok = true, content = Utilisateur.GetLoginAutoComplete(u) });
+            }
+            catch (Exception)
+            {
+
+                return Json(new { ok = false });
+            }
         }
         public String GetEventsBuvette(string start, string end)
         {
