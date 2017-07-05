@@ -1,7 +1,7 @@
 /*!
- * FullCalendar v3.3.1 Google Calendar Plugin
- * Docs & License: https://fullcalendar.io/
- * (c) 2017 Adam Shaw
+ * FullCalendar v2.4.0 Google Calendar Plugin
+ * Docs & License: http://fullcalendar.io/
+ * (c) 2015 Adam Shaw
  */
  
 (function(factory) {
@@ -18,11 +18,11 @@
 
 
 var API_BASE = 'https://www.googleapis.com/calendar/v3/calendars';
-var FC = $.fullCalendar;
-var applyAll = FC.applyAll;
+var fc = $.fullCalendar;
+var applyAll = fc.applyAll;
 
 
-FC.sourceNormalizers.push(function(sourceOptions) {
+fc.sourceNormalizers.push(function(sourceOptions) {
 	var googleCalendarId = sourceOptions.googleCalendarId;
 	var url = sourceOptions.url;
 	var match;
@@ -64,7 +64,7 @@ FC.sourceNormalizers.push(function(sourceOptions) {
 });
 
 
-FC.sourceFetchers.push(function(sourceOptions, start, end, timezone) {
+fc.sourceFetchers.push(function(sourceOptions, start, end, timezone) {
 	if (sourceOptions.googleCalendarId) {
 		return transformOptions(sourceOptions, start, end, timezone, this); // `this` is the calendar
 	}
@@ -86,7 +86,7 @@ function transformOptions(sourceOptions, start, end, timezone, calendar) {
 		(calendar.options.googleCalendarError || $.noop).apply(calendar, errorObjs);
 
 		// print error to debug console
-		FC.warn.apply(null, [ message ].concat(apiErrorObjs || []));
+		fc.warn.apply(null, [ message ].concat(apiErrorObjs || []));
 	}
 
 	if (!apiKey) {
@@ -136,10 +136,10 @@ function transformOptions(sourceOptions, start, end, timezone, calendar) {
 			}
 			else if (data.items) {
 				$.each(data.items, function(i, entry) {
-					var url = entry.htmlLink || null;
+					var url = entry.htmlLink;
 
 					// make the URLs for each event show times in the correct timezone
-					if (timezoneArg && url !== null) {
+					if (timezoneArg) {
 						url = injectQsComponent(url, 'ctz=' + timezoneArg);
 					}
 
