@@ -100,7 +100,7 @@ namespace SiteFoot.Façades
             return data;
         }
 
-        public static DataTable GetEntrainements(int id_entraineur, int id_equipe, int id_membre, int id_terrain, DateTime date_debut, DateTime date_fin)
+        public static DataTable GetEntrainements(int id_entraineur, int id_equipe, String nom_membre, int id_terrain, DateTime date_debut, DateTime date_fin)
         {
             String connectionString = ConfigurationManager.ConnectionStrings["SQLSiteFoot"].ToString(); //Récupération de la chaîne de connexion
             SqlConnection myConnection = new SqlConnection(connectionString); //Nouvelle connexion à la base de donnée
@@ -114,9 +114,9 @@ namespace SiteFoot.Façades
             {
                 query += "and a.id_equipe = @id_equipe ";
             }
-            if(id_membre != 0)
+            if(nom_membre != "" && nom_membre != null)
             {
-                query += "and b.id in (select id_equipe from MembreEquipe where id=@id_membre) ";
+                query += "and b.id in (select id_equipe from MembreEquipe where prenom + ' ' + nom =@id_membre) ";
             }
             if (id_terrain != 0)
             {
@@ -126,7 +126,7 @@ namespace SiteFoot.Façades
             SqlDataAdapter source = new SqlDataAdapter(query, myConnection);
             source.SelectCommand.Parameters.Add("@id_entraineur", SqlDbType.Int).Value = id_entraineur;
             source.SelectCommand.Parameters.Add("@id_equipe", SqlDbType.Int).Value = id_equipe;
-            source.SelectCommand.Parameters.Add("@id_membre", SqlDbType.Int).Value = id_membre;
+            source.SelectCommand.Parameters.Add("@id_membre", SqlDbType.VarChar).Value = nom_membre;
             source.SelectCommand.Parameters.Add("@id_terrain", SqlDbType.Int).Value = id_terrain;
             source.SelectCommand.Parameters.Add("@date_debut", SqlDbType.DateTime).Value = date_debut;
             source.SelectCommand.Parameters.Add("@date_fin", SqlDbType.DateTime).Value = date_fin;
@@ -173,17 +173,22 @@ namespace SiteFoot.Façades
             return data;
         }
 
-        public static DataTable GetAllMembresEquipe(int id_equipe)
+
+        public static String[] GetAutoComplete(String partial_name)
         {
+            List<String> res = new List<String>();
             String connectionString = ConfigurationManager.ConnectionStrings["SQLSiteFoot"].ToString(); //Récupération de la chaîne de connexion
             SqlConnection myConnection = new SqlConnection(connectionString); //Nouvelle connexion à la base de donnée
             myConnection.Open(); //On ouvre la connexion
-            SqlDataAdapter source = new SqlDataAdapter("select * from Membres where id_equipe in (select id from Equipe where id=@id)", myConnection);
-            source.SelectCommand.Parameters.Add("@id", SqlDbType.Int).Value = id_equipe;
-            DataTable data = new DataTable();
-            source.Fill(data);
-            myConnection.Close();
-            return data;
+            SqlCommand command = new SqlCommand("SELECT prenom + ' ' + nom FROM MembreEquipe where prenom + ' ' + nom LIKE '%' + @nom + '%'", myConnection);
+            command.Parameters.Add("@nom", SqlDbType.VarChar).Value = partial_name;
+            SqlDataReader reader = command.ExecuteReader();
+
+            while (reader.Read())
+            {
+                res.Add(reader[0].ToString());
+            }
+            return res.ToArray();
         }
     }
 }

@@ -8,23 +8,22 @@
         <center><h2>Ajouter un évenement</h2></center>
 
         <div class="input-field">
-            <select id="terrain" name="terrain" type="text" class="validate">@Html.Action("LoadListTerrains", "Calendrier")</select>
+            <select id="terrain" name="terrain" type="text" class="validate"><option value='0'>Choisir un terrain</option>@Html.Action("LoadListTerrains", "Calendrier")</select>
             <label>Terrain</label>
         </div>
         <div class="input-field">
-            <select id="entraineur">@Html.Action("LoadListEntraineurs", "Calendrier")</select>
+            <select id="entraineur"><option value='0'>Choisir un Entraineur</option>@Html.Action("LoadListEntraineurs", "Calendrier")</select>
             <label>Entraineur</label>
         </div>
         <div class="input-field">
-            <select id="equipe" name="equipe" type="text" class="validate">@Html.Action("LoadListEquipes", "Calendrier")</select>
+            <select id="equipe" name="equipe" type="text" class="validate"><option value='0'>Choisir un equipe</option>@Html.Action("LoadListEquipes", "Calendrier")</select>
             <label>Equipe</label>
         </div>
         <div class="input-field">
-            <select id="membre" name="membre" type="text" class="validate"></select>
+            <input id="membre" name="membre" type="text" class="validate">
             <label>Membre</label>
         </div>
-        <p> Il faut d'abord sélectionner une équipe pour pouvoir choisir un membre</p>
-        <center><button href="#!" class="btn" id="btn_ajouter" type="submit">Chercher</button></center>
+        <p> La recherche est enclenchée dès qu'un paramètre est changé</p>
     </form>
     <br />
     @{
@@ -41,6 +40,8 @@
             <center><button type="button" class="btn" id="add_modal">Ajouter un entrainement</button></center>
         }
     }
+    <br />
     <div id="calendrier_entrainement" class="" style="color : #8F010C"></div>
     
 </div>
+@Scripts.Render(@"~\Scripts\Calendrier\entrainement.js")

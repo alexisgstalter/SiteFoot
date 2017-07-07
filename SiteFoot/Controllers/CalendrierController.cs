@@ -210,6 +210,38 @@ namespace SiteFoot.Controllers
                 return Content(null);
             }
         }
+
+        public String GetEventsEntrainement(int id_entraineur, int id_equipe, String id_membre, int id_terrain, DateTime start, DateTime end)
+        {
+            try
+            {
+                DataTable entrainements = CalendrierManager.GetEntrainements(id_entraineur, id_equipe, id_membre, id_terrain, start, end);
+                
+                //entrainements.Columns[0].DataType = typeof(String);
+                string result = JsonConvert.SerializeObject(entrainements);
+
+
+                return result;
+            }
+            catch (Exception e)
+            {
+                return "";
+            }
+        }
+
+        public String AutocompleteMembre(String partial_name)
+        {
+            try
+            {
+                String[] content = CalendrierManager.GetAutoComplete(Server.HtmlEncode(partial_name));
+                string result = JsonConvert.SerializeObject(content);
+                return result;
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+        }
     }
 
 }

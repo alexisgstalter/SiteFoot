@@ -9,10 +9,10 @@ namespace SiteFoot
         public static void RegisterBundles(BundleCollection bundles)
         {
             bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
-                        "~/Scripts/jquery-{version}.js", "~/Scripts/materialize.js", "~/Scripts/jquery.datetimepicker.js"));
+                        "~/Scripts/jquery-{version}.js", "~/Scripts/materialize.js", "~/Scripts/jquery.datetimepicker.js","~/Scripts/jQuery-autoComplete-master/jquery.auto-complete.js"));
             bundles.Add(new ScriptBundle("~/bundles/fullcalendar").Include(
             "~/Scripts/moment.js", "~/Scripts/fullcalendar.js", "~/Scripts/locale/fr.js"));
-            bundles.Add(new StyleBundle("~/bundles/materialise").Include("~/Content/fullcalendar.css", "~/Content/materialize.css", "~/Content/jquery.datetimepicker.css"));
+            bundles.Add(new StyleBundle("~/bundles/materialise").Include("~/Content/fullcalendar.css", "~/Content/materialize.css", "~/Content/jquery.datetimepicker.css", "~/Scripts/jQuery-autoComplete-master/jquery.auto-complete.css"));
 
             bundles.Add(new ScriptBundle("~/bundles/jqueryui").Include(
                         "~/Scripts/jquery-ui-{version}.js"));
