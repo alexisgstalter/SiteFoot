@@ -7,12 +7,14 @@
 <div class="row">
     <form class="container" id="create_buvette" style="color : #8F010C">
         <center><h2>Ajouter un évenement</h2></center>
+
         <div class="input-field">
             <input id="intitule_create" name="intitule_create" type="text" class="validate">
             <label>Titre</label>
         </div>
         <div class="input-field">
-            <input id="responsable_create" name="responsable_create" type="text" class="validate">
+            <i class="material-icons prefix">reorder</i>
+            <select id="responsable_create"></select>
             <label>Responsable</label>
         </div>
         <div class="input-field">
@@ -41,7 +43,9 @@
                         <label>Titre</label>
                     </div>
                     <div class="input-field col s6">
-                        <input id="responsable" type="text" class="validate">
+                        <select id="responsable" type="text" class="validate">
+                            <!-- rempli par Jsonresult-->
+                        </select>
                         <label>Responsable</label>
                     </div>
                 </div>

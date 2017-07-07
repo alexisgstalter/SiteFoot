@@ -14,7 +14,7 @@ namespace SiteFoot.Façades
 
         public static DataTable GetAllEquipe()
         {
-            String connectionString = ConfigurationManager.ConnectionStrings["SQLSiteWeb"].ToString(); //Récupération de la chaîne de connexion
+            String connectionString = ConfigurationManager.ConnectionStrings["SQLSiteFoot"].ToString(); //Récupération de la chaîne de connexion
             SqlConnection myConnection = new SqlConnection(connectionString); //Nouvelle connexion à la base de donnée
             myConnection.Open(); //On ouvre la connexion
             SqlDataAdapter source = new SqlDataAdapter("select * from Equipe order by nom_equipe", myConnection);
@@ -28,7 +28,7 @@ namespace SiteFoot.Façades
         public static void RemoveEquipe(String id)
         {
             String requete = "DELETE FROM Equipe WHERE id=@id";
-            String connectionString = ConfigurationManager.ConnectionStrings["SQLSiteWeb"].ToString(); //Récupération de la chaîne de connexion
+            String connectionString = ConfigurationManager.ConnectionStrings["SQLSiteFoot"].ToString(); //Récupération de la chaîne de connexion
             SqlConnection myConnection = new SqlConnection(connectionString); //Nouvelle connexion à la base de donnée
             myConnection.Open(); //On ouvre la connexion
             SqlCommand command = new SqlCommand(requete, myConnection);
@@ -40,7 +40,7 @@ namespace SiteFoot.Façades
         
         public static void SaveEquipe(String nom_equipe, String liste_categorie, String entraineur, String ecusson)
         {
-            String connectionString = ConfigurationManager.ConnectionStrings["SQLSiteWeb"].ToString(); //Récupération de la chaîne de connexion
+            String connectionString = ConfigurationManager.ConnectionStrings["SQLSiteFoot"].ToString(); //Récupération de la chaîne de connexion
             SqlConnection myConnection = new SqlConnection(connectionString); //Nouvelle connexion à la base de donnée
             myConnection.Open(); //On ouvre la connexion
             SqlCommand cmd = new SqlCommand("insert into Equipe (nom_equipe,categorie,ecusson,id_entraineur) values(@nom_equipe, @liste_categorie, @ecusson, @entraineur)", myConnection);

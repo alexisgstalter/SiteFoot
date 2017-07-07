@@ -4,7 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
-using SiteFoot.Facades;
+using SiteFoot.Façades;
 using SiteFoot.Models;
 
 namespace SiteFoot
@@ -56,8 +56,16 @@ namespace SiteFoot
                         else
                         {
                             //On souhaite vérifier que le groupe de l'utilisateur est identique au groupe passé en paramètre
-                            Groupe g = (Groupe)filterContext.HttpContext.Session["CurrentGroupe"];
-                            if (g.Nom == GroupeAllow)
+                            List<Groupe> g = (List<Groupe>)filterContext.HttpContext.Session["CurrentGroupe"];
+                            bool ok = false;
+                            foreach (Groupe grp in g)
+                            {
+                                if (grp.Nom == GroupeAllow)
+                                {
+                                    ok = true;
+                                }
+                            }
+                            if (ok)
                             {
                                 //C'est ok
                             }

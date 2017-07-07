@@ -210,6 +210,7 @@
     <Content Include="Content\images\lyon.jpg" />
     <Content Include="Content\images\marseille.jpg" />
     <Content Include="Content\images\psg.jpg" />
+    <Content Include="Content\jquery.datetimepicker.css" />
     <Content Include="Content\materialize.css" />
     <Content Include="Content\materialize.min.css" />
     <Content Include="Content\themes\base\accordion.css" />
@@ -276,6 +277,7 @@
     <Content Include="Scripts\jquery-ui-1.12.1.js" />
     <Content Include="Scripts\jquery-ui-1.12.1.min.js" />
     <Content Include="Scripts\jquery-ui.min.js" />
+    <Content Include="Scripts\jquery.datetimepicker.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\knockout-2.2.0.debug.js" />
@@ -405,6 +407,7 @@
     <Content Include="Views\Resultats\Match.cshtml" />
     <Content Include="Views\Error\AccessDenied.cshtml" />
     <Content Include="Views\Backoffice\CreateEquipe.cshtml" />
+    <Content Include="Views\Calendrier\entrainement.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

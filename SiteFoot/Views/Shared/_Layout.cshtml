@@ -1,17 +1,18 @@
 ﻿@{
     var user = new SiteFoot.Models.User();
-    var groupe = new SiteFoot.Models.Groupe();
+    var groupe = new List<SiteFoot.Models.Groupe>();
     if (Request.IsAuthenticated)
     {
         user = (SiteFoot.Models.User)HttpContext.Current.Session["CurrentUser"];
-        groupe = (SiteFoot.Models.Groupe)HttpContext.Current.Session["CurrentGroupe"];
+        groupe = (List<SiteFoot.Models.Groupe>)HttpContext.Current.Session["CurrentGroupe"];
 
         if (user != null)
         {
-            user = SiteFoot.Facades.Utilisateur.GetByName(user);
+            user = SiteFoot.Façades.Utilisateur.GetByName(user);
             HttpContext.Current.Session["CurrentUser"] = user;
         }
     }
+
 }
 <!DOCTYPE html>
 <html lang="en">
@@ -93,18 +94,25 @@
                             </li>
                         </ul>
                     </li>
-                    <li>
-                        <ul id="collapse_calendrier" class="collapsible collapsible-accordion">
-                            <li class="bold">
-                                <a class="collapsible-header waves-effect waves-teal">BackOffice</a>
-                                <div class="collapsible-body">
-                                    <ul>
-                                        <li id="creation_equipe_list">@Html.ActionLink("Création equipe", "CreateEquipe", "Backoffice")</li>
-                                    </ul>
-                                </div>
+                    foreach (SiteFoot.Models.Groupe grp in groupe)
+                    {
+                        if (grp.Nom == "ADMIN")
+                        {
+                            <li>
+                                <ul id="collapse_calendrier" class="collapsible collapsible-accordion">
+                                    <li class="bold">
+                                        <a class="collapsible-header waves-effect waves-teal">BackOffice</a>
+                                        <div class="collapsible-body">
+                                            <ul>
+                                                <li id="creation_equipe_list">@Html.ActionLink("Création equipe", "CreateEquipe", "Backoffice")</li>
+                                            </ul>
+                                        </div>
+                                    </li>
+                                </ul>
                             </li>
-                        </ul>
-                    </li>
+                        }
+                    }
+
                     <li>@Html.ActionLink("Déconnexion", "Deconnexion", "Home")</li>
                 }
                 else
