@@ -35,8 +35,42 @@ namespace SiteFoot.Models
             get { return code_groupe; }
             set { code_groupe = value; }
         }
-        
-        
+
+        private bool droit_gerer_buvette;
+
+        public bool Droit_gerer_buvette
+        {
+            get { return droit_gerer_buvette; }
+            set { droit_gerer_buvette = value; }
+        }
+        private bool droit_gerer_entrainement;
+
+        public bool Droit_gerer_entrainement
+        {
+            get { return droit_gerer_entrainement; }
+            set { droit_gerer_entrainement = value; }
+        }
+        private bool droit_entrainement_autre; //droit de modifier le créneau des autres
+
+        public bool Droit_entrainement_autre
+        {
+            get { return droit_entrainement_autre; }
+            set { droit_entrainement_autre = value; }
+        }
+        private bool droit_gerer_formateur;
+
+        public bool Droit_gerer_formateur
+        {
+            get { return droit_gerer_formateur; }
+            set { droit_gerer_formateur = value; }
+        }
+        private bool droit_formateur_autre; //droit de modifier la formation des autres
+
+        public bool Droit_formateur_autre
+        {
+            get { return droit_formateur_autre; }
+            set { droit_formateur_autre = value; }
+        }
         
     }
 }

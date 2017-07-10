@@ -1,4 +1,4 @@
-﻿using SiteFoot.Facades;
+﻿using SiteFoot.Façades;
 using SiteFoot.Models;
 using System;
 using System.Collections.Generic;
@@ -50,7 +50,7 @@ namespace SiteFoot.Controllers
                 //On ajoute dans un cookie l'activité et le dépot de l'utilisateur
 
                 Session["CurrentUser"] = connected_user;    //On place l'utilisateur dans la session
-                Session["CurrentGroupe"] = GroupeManager.GetById(connected_user.Groupe);
+                Session["CurrentGroupe"] = GroupeManager.GetById(connected_user.Id);
                 return Json(new { ok = true, isGranted = true });
             }
             else

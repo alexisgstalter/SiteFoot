@@ -11,7 +11,7 @@ using System.Web.Routing;
 using System.Diagnostics;
 using SiteFoot.Models;
 
-namespace SiteFoot.Facades
+namespace SiteFoot.Façades
 {
     public class Utilisateur
     {
@@ -28,7 +28,7 @@ namespace SiteFoot.Facades
 
                 String passwordToCheck = Hash.GetHashSHA256("#" + passwordToHash + saltKey);
                 //Vérifications dans la BDD
-                String connectionString = ConfigurationManager.ConnectionStrings["SQLSiteWeb"].ToString(); //Récupération de la chaîne de connexion
+                String connectionString = ConfigurationManager.ConnectionStrings["SQLSiteFoot"].ToString(); //Récupération de la chaîne de connexion
                 SqlConnection myConnection = new SqlConnection(connectionString); //Nouvelle connexion à la base de donnée
                 myConnection.Open(); //On ouvre la connexion
                 SqlCommand command = new SqlCommand("SELECT * from Utilisateurs where login=@login AND password=@password", myConnection);
@@ -73,7 +73,7 @@ namespace SiteFoot.Facades
                     //Si l'utilisateur n'es pas présent dans la session, on refait la session (ses informations d'authentifications sont valides)
                     User connected_user = Utilisateur.GetByName(u);
                     HttpContext.Session["CurrentUser"] = connected_user;    //L'utilisateur est connecté donc on raffraichit sa session
-                    HttpContext.Session["CurrentGroupe"] = GroupeManager.GetById(connected_user.Groupe);
+                    HttpContext.Session["CurrentGroupe"] = GroupeManager.GetById(connected_user.Id);
                     //HttpContext.Session["CurrentActivity"] = Utilisateur.GetActivityFromReflex(connected_user); //Si la session est terminée, on recharge les informations de la base de données
                     //HttpContext.Session["CurrentDepot"] = Utilisateur.GetDepotFromReflex(connected_user);   //Si la session est terminée, on recharge les informations de la base de données
                     return true;
@@ -98,7 +98,7 @@ namespace SiteFoot.Facades
             //Dans un premier temps on récupère le mot de passe, on y ajoute la clé de salage et on le hash
             String saltkey = Hash.GetNewSaltKey(); //On récupère une clé de salage
             String pwd = Utilisateur.GetNewPassword(u.Password, saltkey); //On créé le mot de passe
-            String connectionString = ConfigurationManager.ConnectionStrings["SQLSiteWeb"].ToString(); //Récupération de la chaîne de connexion
+            String connectionString = ConfigurationManager.ConnectionStrings["SQLSiteFoot"].ToString(); //Récupération de la chaîne de connexion
             SqlConnection myConnection = new SqlConnection(connectionString); //Nouvelle connexion à la base de donnée
             myConnection.Open(); //On ouvre la connexion
             String query = "INSERT INTO Utilisateurs (login,password,email,groupe,salt) VALUES (@login,@password,@email,@groupe,@salt)";
@@ -121,7 +121,7 @@ namespace SiteFoot.Facades
 
         private static void AddNewClearPassword(User u)
         {
-            String connectionString = ConfigurationManager.ConnectionStrings["SQLSiteWeb"].ToString(); //Récupération de la chaîne de connexion
+            String connectionString = ConfigurationManager.ConnectionStrings["SQLSiteFoot"].ToString(); //Récupération de la chaîne de connexion
             SqlConnection myConnection = new SqlConnection(connectionString); //Nouvelle connexion à la base de donnée
             myConnection.Open(); //On ouvre la connexion
             String query = "INSERT INTO Passwords (id_user,clear_password) VALUES (@id,@password)";
@@ -135,7 +135,7 @@ namespace SiteFoot.Facades
         public static DataTable getAll() //Renvoi un utilisateur avec son nom de groupe
         {
 
-            String connectionString = ConfigurationManager.ConnectionStrings["SQLSiteWeb"].ToString(); //Récupération de la chaîne de connexion
+            String connectionString = ConfigurationManager.ConnectionStrings["SQLSiteFoot"].ToString(); //Récupération de la chaîne de connexion
             SqlConnection myConnection = new SqlConnection(connectionString); //Nouvelle connexion à la base de donnée
             myConnection.Open(); //On ouvre la connexion
             SqlDataAdapter source = new SqlDataAdapter("SELECT u.id,u.login, u.password,u.email,g.nom, u.salt, p.clear_password, u.proprietaire, u.fournisseur, u.annulation_commande, u.droit_stock_mini, u.droit_packing_list, u.droit_BL, u.droit_validation_litige FROM Utilisateurs u, Groupe g, Passwords p WHERE u.groupe=g.id AND p.id_user=u.id ORDER BY u.login", myConnection); //Permet de remplacer l'id du groupe par son nom
@@ -151,35 +151,48 @@ namespace SiteFoot.Facades
         {
 
             User user = new User();
-            String connectionString = ConfigurationManager.ConnectionStrings["SQLSiteWeb"].ToString(); //Récupération de la chaîne de connexion
+
+            String connectionString = ConfigurationManager.ConnectionStrings["SQLSiteFoot"].ToString(); //Récupération de la chaîne de connexion
             SqlConnection myConnection = new SqlConnection(connectionString); //Nouvelle connexion à la base de donnée
             myConnection.Open(); //On ouvre la connexion
-            SqlCommand command = new SqlCommand("SELECT * from Utilisateurs where id=@id", myConnection);
+            SqlCommand command = new SqlCommand("SELECT * from Utilisateurs where  id=@id", myConnection);
             command.Parameters.AddWithValue("@id", id);
             SqlDataReader reader = command.ExecuteReader();
 
+
             if (reader.Read())
             {
+
                 user.Id = (int)reader[0];
                 user.Login = (string)reader[1];
                 user.Password = (string)reader[2];
                 user.Email = (string)reader[3];
-                user.Groupe = (int)reader[4];
-                user.Salt = (string)reader[5];
+
+                user.Salt = (string)reader[4];
+                reader.Close();
+                SqlCommand command2 = new SqlCommand("select id from Groupe where id in (select id from GroupesUtilisateur where id_utilisateur=@id)", myConnection);
+                command2.Parameters.AddWithValue("@id", id);
+                SqlDataReader reader_groupe = command2.ExecuteReader();
+                while (reader_groupe.Read())
+                {
+                    user.Groupe.Add((int)reader[0]);
+                }
+                reader_groupe.Close();
+                myConnection.Close();
+                return user;
             }
             else
             {
-                user = null;
+                reader.Close();
+                myConnection.Close();
+                return null;
             }
-            reader.Close();
-            myConnection.Close();
-            return user;
 
         }
 
         public static String GetClearPassword(User u)
         {
-            String connectionString = ConfigurationManager.ConnectionStrings["SQLSiteWeb"].ToString(); //Récupération de la chaîne de connexion
+            String connectionString = ConfigurationManager.ConnectionStrings["SQLSiteFoot"].ToString(); //Récupération de la chaîne de connexion
             SqlConnection myConnection = new SqlConnection(connectionString); //Nouvelle connexion à la base de donnée
             myConnection.Open(); //On ouvre la connexion
             String query = "SELECT * FROM Passwords WHERE id_user=@id";
@@ -203,7 +216,7 @@ namespace SiteFoot.Facades
 
             //Dans un premier temps on récupère le mot de passe, on y ajoute la clé de salage et on le hash
 
-            String connectionString = ConfigurationManager.ConnectionStrings["SQLSiteWeb"].ToString(); //Récupération de la chaîne de connexion
+            String connectionString = ConfigurationManager.ConnectionStrings["SQLSiteFoot"].ToString(); //Récupération de la chaîne de connexion
             SqlConnection myConnection = new SqlConnection(connectionString); //Nouvelle connexion à la base de donnée
             myConnection.Open(); //On ouvre la connexion
             String query = "DELETE FROM Utilisateurs WHERE id=@id";
@@ -219,7 +232,7 @@ namespace SiteFoot.Facades
             Debug.WriteLine("id :" + u.Id);
             String saltkey = Utilisateur.GetSaltKeyById(u); //On récupère la clé de salage de l'utilisateur
             String pwd = Utilisateur.GetNewPassword(u.Password, saltkey); //On créé le mot de passe crypté
-            String connectionString = ConfigurationManager.ConnectionStrings["SQLSiteWeb"].ToString(); //Récupération de la chaîne de connexion
+            String connectionString = ConfigurationManager.ConnectionStrings["SQLSiteFoot"].ToString(); //Récupération de la chaîne de connexion
             SqlConnection myConnection = new SqlConnection(connectionString); //Nouvelle connexion à la base de donnée
             myConnection.Open(); //On ouvre la connexion
             String query = "UPDATE Utilisateurs SET login=@login,password=@password,email=@email,groupe=@groupe WHERE id=@id";
@@ -238,7 +251,7 @@ namespace SiteFoot.Facades
 
         public static void UpdateClearPassword(User u)
         {
-            String connectionString = ConfigurationManager.ConnectionStrings["SQLSiteWeb"].ToString(); //Récupération de la chaîne de connexion
+            String connectionString = ConfigurationManager.ConnectionStrings["SQLSiteFoot"].ToString(); //Récupération de la chaîne de connexion
             SqlConnection myConnection = new SqlConnection(connectionString); //Nouvelle connexion à la base de donnée
             myConnection.Open(); //On ouvre la connexion
             String query = "UPDATE Passwords SET clear_password=@password WHERE id_user=@id";
@@ -259,7 +272,7 @@ namespace SiteFoot.Facades
 
         public static String GetSaltKeyById(User u)
         {
-            String connectionString = ConfigurationManager.ConnectionStrings["SQLSiteWeb"].ToString(); //Récupération de la chaîne de connexion
+            String connectionString = ConfigurationManager.ConnectionStrings["SQLSiteFoot"].ToString(); //Récupération de la chaîne de connexion
             SqlConnection myConnection = new SqlConnection(connectionString); //Nouvelle connexion à la base de donnée
             myConnection.Open(); //On ouvre la connexion
             SqlCommand command = new SqlCommand("SELECT salt from Utilisateurs where id=@id", myConnection);
@@ -280,12 +293,13 @@ namespace SiteFoot.Facades
         {
             User user = new User();
 
-            String connectionString = ConfigurationManager.ConnectionStrings["SQLSiteWeb"].ToString(); //Récupération de la chaîne de connexion
+            String connectionString = ConfigurationManager.ConnectionStrings["SQLSiteFoot"].ToString(); //Récupération de la chaîne de connexion
             SqlConnection myConnection = new SqlConnection(connectionString); //Nouvelle connexion à la base de donnée
             myConnection.Open(); //On ouvre la connexion
-            SqlCommand command = new SqlCommand("SELECT * from Utilisateurs where login=@login", myConnection);
+            SqlCommand command = new SqlCommand("SELECT * from Utilisateurs where  login=@login", myConnection);
             command.Parameters.AddWithValue("@login", u.Login);
             SqlDataReader reader = command.ExecuteReader();
+
 
             if (reader.Read())
             {
@@ -294,9 +308,18 @@ namespace SiteFoot.Facades
                 user.Login = (string)reader[1];
                 user.Password = (string)reader[2];
                 user.Email = (string)reader[3];
-                user.Groupe = (int)reader[4];
-                user.Salt = (string)reader[5];
+
+                user.Salt = (string)reader[4];
                 reader.Close();
+                SqlCommand command2 = new SqlCommand("select id from Groupe where id in (select id_groupe from GroupesUtilisateur where id_utilisateur=@id)", myConnection);
+                command2.Parameters.AddWithValue("@id", u.Id);
+                SqlDataReader reader_groupe = command2.ExecuteReader();
+                user.Groupe = new List<int>();
+                if (reader_groupe.Read())
+                {
+                    user.Groupe.Add(reader_groupe.GetInt32(0));
+                }
+                reader_groupe.Close();
                 myConnection.Close();
                 return user;
             }
@@ -311,7 +334,7 @@ namespace SiteFoot.Facades
         public static bool Exists(User u) //On vérifie sur les 10 premiers caractères pour ne pas avoir de conflits avec reflex
         {
 
-            String connectionString = ConfigurationManager.ConnectionStrings["SQLSiteWeb"].ToString(); //Récupération de la chaîne de connexion
+            String connectionString = ConfigurationManager.ConnectionStrings["SQLSiteFoot"].ToString(); //Récupération de la chaîne de connexion
             SqlConnection myConnection = new SqlConnection(connectionString); //Nouvelle connexion à la base de donnée
             myConnection.Open(); //On ouvre la connexion
             SqlCommand command = new SqlCommand("SELECT * from Utilisateurs where login=@login", myConnection);
@@ -357,7 +380,7 @@ namespace SiteFoot.Facades
 
         public static bool ExistsForUpdate(User u)
         {
-            String connectionString = ConfigurationManager.ConnectionStrings["SQLSiteWeb"].ToString(); //Récupération de la chaîne de connexion
+            String connectionString = ConfigurationManager.ConnectionStrings["SQLSiteFoot"].ToString(); //Récupération de la chaîne de connexion
             SqlConnection myConnection = new SqlConnection(connectionString); //Nouvelle connexion à la base de donnée
             myConnection.Open(); //On ouvre la connexion
             SqlCommand command = new SqlCommand("SELECT * from Utilisateurs where login=@login AND id<>@id", myConnection);

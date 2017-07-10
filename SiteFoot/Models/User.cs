@@ -11,7 +11,7 @@ namespace SiteFoot.Models
         private String login;
         private String password;
         private String email;
-        private int groupe;
+        private List<int> groupe;
         private String salt;
 
 
@@ -42,7 +42,7 @@ namespace SiteFoot.Models
             get { return email; }
             set { email = value; }
         }
-        public int Groupe
+        public List<int> Groupe
         {
             get { return groupe; }
             set { groupe = value; }

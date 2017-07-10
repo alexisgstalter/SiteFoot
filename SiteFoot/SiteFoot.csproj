@@ -211,6 +211,7 @@
     <Content Include="Content\images\lyon.jpg" />
     <Content Include="Content\images\marseille.jpg" />
     <Content Include="Content\images\psg.jpg" />
+    <Content Include="Content\jquery.datetimepicker.css" />
     <Content Include="Content\materialize.css" />
     <Content Include="Content\materialize.min.css" />
     <Content Include="Content\themes\base\accordion.css" />
@@ -260,6 +261,7 @@
     <None Include="Scripts\jquery-3.1.1.intellisense.js" />
     <Content Include="Scripts\Backoffice\CreateEquipe.js" />
     <Content Include="Scripts\Calendrier\buvette.js" />
+    <Content Include="Scripts\Calendrier\entrainement.js" />
     <Content Include="Scripts\fullcalendar.js" />
     <Content Include="Scripts\fullcalendar.min.js" />
     <Content Include="Scripts\fullcalendar\jquery.min.js" />
@@ -273,10 +275,42 @@
     <Content Include="Scripts\jquery-3.1.1.slim.min.js" />
     <Content Include="Scripts\jquery-3.1.1.slim.min.map" />
     <Content Include="Scripts\jquery-3.1.1.min.map" />
+    <Content Include="Scripts\jQuery-autoComplete-master\auto-complete.jquery.json" />
+    <Content Include="Scripts\jQuery-autoComplete-master\bower.json" />
+    <Content Include="Scripts\jQuery-autoComplete-master\readme.md" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jQuery-autoComplete-master\demo.html" />
+    <Content Include="Scripts\jQuery-autoComplete-master\img\at.png" />
+    <Content Include="Scripts\jQuery-autoComplete-master\img\au.png" />
+    <Content Include="Scripts\jQuery-autoComplete-master\img\bg.png" />
+    <Content Include="Scripts\jQuery-autoComplete-master\img\br.png" />
+    <Content Include="Scripts\jQuery-autoComplete-master\img\ca.png" />
+    <Content Include="Scripts\jQuery-autoComplete-master\img\ch.png" />
+    <Content Include="Scripts\jQuery-autoComplete-master\img\cn.png" />
+    <Content Include="Scripts\jQuery-autoComplete-master\img\cz.png" />
+    <Content Include="Scripts\jQuery-autoComplete-master\img\de.png" />
+    <Content Include="Scripts\jQuery-autoComplete-master\img\dk.png" />
+    <Content Include="Scripts\jQuery-autoComplete-master\img\es.png" />
+    <Content Include="Scripts\jQuery-autoComplete-master\img\fi.png" />
+    <Content Include="Scripts\jQuery-autoComplete-master\img\fr.png" />
+    <Content Include="Scripts\jQuery-autoComplete-master\img\hu.png" />
+    <Content Include="Scripts\jQuery-autoComplete-master\img\in.png" />
+    <Content Include="Scripts\jQuery-autoComplete-master\img\it.png" />
+    <Content Include="Scripts\jQuery-autoComplete-master\img\ja.png" />
+    <Content Include="Scripts\jQuery-autoComplete-master\img\nl.png" />
+    <Content Include="Scripts\jQuery-autoComplete-master\img\no.png" />
+    <Content Include="Scripts\jQuery-autoComplete-master\img\pt.png" />
+    <Content Include="Scripts\jQuery-autoComplete-master\img\ro.png" />
+    <Content Include="Scripts\jQuery-autoComplete-master\img\ru.png" />
+    <Content Include="Scripts\jQuery-autoComplete-master\img\tr.png" />
+    <Content Include="Scripts\jQuery-autoComplete-master\img\us.png" />
+    <Content Include="Scripts\jQuery-autoComplete-master\jquery.auto-complete.css" />
+    <Content Include="Scripts\jQuery-autoComplete-master\jquery.auto-complete.js" />
+    <Content Include="Scripts\jQuery-autoComplete-master\jquery.auto-complete.min.js" />
     <Content Include="Scripts\jquery-ui-1.12.1.js" />
     <Content Include="Scripts\jquery-ui-1.12.1.min.js" />
     <Content Include="Scripts\jquery-ui.min.js" />
+    <Content Include="Scripts\jquery.datetimepicker.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\knockout-2.2.0.debug.js" />
@@ -406,6 +440,7 @@
     <Content Include="Views\Resultats\Match.cshtml" />
     <Content Include="Views\Error\AccessDenied.cshtml" />
     <Content Include="Views\Backoffice\CreateEquipe.cshtml" />
+    <Content Include="Views\Calendrier\entrainement.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

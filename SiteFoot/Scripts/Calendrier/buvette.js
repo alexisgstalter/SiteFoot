@@ -1,87 +1,73 @@
 ﻿$(document).ready(function () {
     //$.fullCalendar.formatDate("dd/MM/yyyy HH:mm:ss");
-    $("#responsable_create").autocomplete({
-        
-        source: function (requete, reponse) { // les deux arguments représentent les données nécessaires au plugin
-            $.ajax({
-                type: "POST",
-                url: "/Calendrier/AutocompleteLogin",
-                data: '{username:"' + $("#responsable_create").val() + '"}',
-                contentType: "application/json; charset=utf-8",
-                dataType: "json",
-                success: function (data) {
-                    alert("ohoh !");
-                    if (data.ok) {
-                        reponse($.map(data.content, function (item) {
-                            return {
-                                label: item
-                            };
-                        }));
-                    }
-                    else {
-                        reponse(["impossible de charger le contenu"]);
-                    }
-                }
-            });
+    $("#debut ,#fin ,#debut_create ,#fin_create").datetimepicker({
+        lang : 'fr',
+        mask: true,
+        format: 'd/m/Y H:i',
+        step: 15
+    });
+    $("select").on('contentChanged', function () {
+        $(this).material_select();
+    });
+
+    $.ajax({
+        url: "/Calendrier/GetResponsablesBuvette",
+        type: "POST",
+        data: { },
+        dataType: "json",
+        success: function (data) {
+            if (data.ok) {
+                $("#responsable_create").append(data.html);
+                $("#responsable_create").trigger('contentChanged');
+                $("#responsable").append(data.html);
+                $("#responsable").trigger('contentChanged');
+            }
         },
-        focus: function (event, ui) {   //Déclenché au survol
-            $("#responsable_create").val(ui.item.label);
-            $("#responsable_create").trigger("propertychange");//On informe le formulaire que le champs a été modifié
-        },
-        close: function (event, ui) {   //Déclenché lorsque le menu se ferme
-            $("#responsable_create").trigger("propertychange");//On informe le formulaire que le champs a été modifié
-        },
-        open: function (event, ui) {    //Quand le menu apparaît
-            $(".ui-autocomplete").css("z-index", 2000); //Important sinon le munu n'apparaît pas !
+        error: function (xhr, status, error) {
+            var err = eval("(" + xhr.responseText + ")");
+            alert(err.Message);
         }
-    })._renderItem = function (ul, item) {  //hack pour mettre en évidence la selection
-        // only change here was to replace .text() with .html()
-        return $("<li></li>")
-              .data("item.autocomplete", item)
-              .append($("<a></a>").html(highlight(item.label, this.term)))
-              .appendTo(ul);
-    };
+    });
+
     var current_id;
     $("#calendrier_buvette").fullCalendar({
         header: {
             left: 'prev,next today',
             center: 'title',
             right: 'month,agendaWeek,agendaDay',
-            lang:'fr'
+            lang: 'fr'
         },
-        allDayDefault : false,
+        allDayDefault: false,
         startParam: 'start',
-        endParam : 'end',
+        endParam: 'end',
         eventSources: [
             {
                 url: "/Calendrier/GetEventsBuvette",
                 type: "POST",
                 data: {},
-                dataType : "json",
+                dataType: "json",
                 success: function (data) {
-                    
                 },
                 error: function (xhr, status, error) {
-                    var err = eval("(" + xhr.responseText + ")");
-                    alert(err.Message);
+                    alert(error + " " + status);
                 }
             }
         ],
         timeFormat: 'H:mm',
         eventClick: function (calEvent, jsEvent, view) {
-            $("#responsable").empty();
             $("#intitule").empty();
             $("#debut").empty();
             $("#fin").empty();
             $.ajax({
                 url: "/Calendrier/GetEventBuvette",
                 type: "POST",
-                data: {id : calEvent.id},
+                data: { id: calEvent.id },
                 dataType: "json",
                 success: function (data) {
                     if (data.ok) {
                         if (data.hasResult) {
                             $("#responsable").val(data.responsable);
+                            $("#responsable").material_select();
                             $("#intitule").val(data.titre);
                             $("#debut").val(data.heure_debut);
                             $("#fin").val(data.heure_fin);
@@ -98,7 +84,7 @@
             });
 
         },
-        displayEventEnd : true
+        displayEventEnd: true
     });
 
     $("#form_modif_event").submit(function () {
@@ -109,7 +95,7 @@
         $.ajax({
             url: "/Calendrier/UpdateEventBuvette",
             type: "POST",
-            data: { id: current_id, debut : debut, fin : fin, titre : titre, responsable: responsable },
+            data: { id: current_id, debut: debut, fin: fin, titre: titre, responsable: responsable },
             dataType: "json",
             success: function (data) {
                 if (data.ok) {
@@ -129,7 +115,7 @@
         return false;
     });
     $("#create_buvette").validate({
-        errorPlacement: function(error, element) {
+        errorPlacement: function (error, element) {
             error.insertAfter(element.parent("div"));
         },
         onfocusout: function (element) {
@@ -137,16 +123,16 @@
         },
         rules: {
             responsable_create: {
-                required : true
+                required: true
             },
             intitule_create: {
-                required : true
+                required: true
             },
             debut_create: {
-                required : true
+                required: true
             },
             fin_create: {
-                required : true
+                required: true
             }
 
         },
@@ -171,7 +157,7 @@
     });
 
     function create() {
-        var responsable = $("#responsable_create").val();
+        var responsable = $("#responsable_create option:selected").val();
         var titre = $("#intitule_create").val();
         var debut = $("#debut_create").val();
         var fin = $("#fin_create").val();
@@ -199,7 +185,7 @@
         $.ajax({
             url: "/Calendrier/DeleteEventBuvette",
             type: "POST",
-            data: { id : current_id },
+            data: { id: current_id },
             dataType: "json",
             success: function (data) {
                 if (data.ok) {
@@ -217,4 +203,4 @@
             }
         });
     });
-})
+});
