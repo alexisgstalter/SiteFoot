@@ -12,7 +12,8 @@
             <input id="nom_equipe" type="text" class="validate">
             <label>Nom de l'équipe</label>
         </div>
-      
+        <br />
+
         <div class="input-field">
             <i class="material-icons prefix">reorder</i>
             <select id="liste_categorie">
@@ -38,8 +39,17 @@
             </select>
             <label>Catégories</label>
         </div>
+        <br />
 
         <div class="input-field">
+            <i class="material-icons prefix">explicit</i>
+            @Html.Action("GenerateListeEntraineur", "Backoffice", new { name = "GenerateListeEntraineur" })
+            <label>Entraîneur</label>
+        </div>
+        <br />
+
+        
+        <!--<div class="input-field">
             <i class="material-icons prefix">explicit</i>
             <input id="entraineur" type="text" class="validate">
             <label>Entraîneur</label>
@@ -47,19 +57,119 @@
 
         <div class="file-field input-field">
             <div class="btn">
-                <span>Ecusson</span>
-                <input type="file">
+                <span>Ecusson de l'équipe</span>
+                <input type="file" accept="image/jpeg">
             </div>
             <div class="file-path-wrapper">
                 <input id="ecusson" class="file-path validate" type="text">
             </div>
-        </div>
+        </div>-->
+
         
+        <div>
+            <button id="OpenUpload" type="button" class="btn btn-danger">Ecusson de l'équipe</button>
+        </div>
+
+
         <center><button href="#!" class="btn" id="btn_ajouter" type="submit">Ajouter</button></center>
     </form>
 
     <br />
     <div class="container" id="requested_equipe"></div>
+</div>
+
+
+
+
+<div class="modal" id="UploadModal">
+    <div class="modal-content">
+
+        <div class="modal-header modal-header-danger">
+            <h4 class="modal-title" id="myModalLabel">Ajout d'un écusson</h4>
+        </div>
+        <div class="modal-body">
+            <div class="control-group">
+                @using (Html.BeginForm("Upload", "Upload", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                {   
+                    <div class="form-group">
+                        <div class="col-md-offset-3 col-md-5 ">
+                            <input type="file" name="file" id="file" class="form-control" />
+                            <span class="glyphicon glyphicon-folder-open form-control-feedback"></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-offset-3 col-md-5 ">
+                            <span class="help-block"></span>
+                        </div>
+                    </div>
+                    <br /><br />
+                    <div class="form-group">
+                        <div class="col-md-offset-5 col-md-11">
+                            <button href="#!" class="btn" id="btn_upload" type="submit">Upload</button>
+                            <a class="modal-action modal-close waves-effect waves-green btn-flat">Fermer</a>
+                        </div>
+                    </div>
+                }
+            </div>
+            
+        </div>
+    </div>
+</div>
+
+
+
+
+<div id="EquipeModal" class="modal">
+    <div class="modal-content">
+        <form class="row" id="EquipeModalForm">
+            <div class="modal-header modal-header-danger">
+                <h4 class="modal-title" id="myModalLabel">Modification équipe</h4>
+            </div>
+            <div class="modal-body">
+                <div class="control-group">
+                    <label class="control-label" for="equipe_edit">Nom équipe :</label>
+                    <div class="controls">
+                        <div class="input-group">
+                            <span class="input-group-addon"><span class="glyphicon glyphicon-pencil"></span></span>
+                            <input id="equipe_edit" name="equipe_edit" class="form-control" type="text" class="input-large" disabled>
+                            <span></span>
+                        </div>
+                        <span class="help-block"></span>
+                    </div>
+                    
+                    <label class="control-label" for="categorie_edit">Catégorie :</label>
+                    <div class="controls">
+                        <div class="input-group">
+                            <span class="input-group-addon"><span class="glyphicon glyphicon-pencil"></span></span>
+                            <input id="categorie_edit" name="categorie_edit" class="form-control" type="text" class="input-large" disabled>
+                            <span></span>
+                        </div>
+                        <span class="help-block"></span>
+                    </div>
+
+                    <div class="file-field input-field">
+                        <div class="btn">
+                            Ecusson
+                            <input type="file">
+                        </div>
+                        <div class="file-path-wrapper">
+                            <input id="ecusson_edit" name="ecusson_edit" class="file-path validate" type="text">
+                        </div>
+                    </div>
+
+                    <div class="input-field">
+                        @Html.Action("GenerateListeEntraineurUpdate", "Backoffice", new { name = "GenerateListeEntraineurUpdate" })
+                        <label>Entraîneur</label>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <a class="modal-action modal-close waves-effect waves-green btn-flat">Fermer</a>
+                    <button href="#!" class="btn" id="btn_modifier" type="submit">Modifier</button>
+                </div>
+            </div>
+        </form>
+    </div>
 </div>
 
 @Scripts.Render(@"~\Scripts\Backoffice\CreateEquipe.js")

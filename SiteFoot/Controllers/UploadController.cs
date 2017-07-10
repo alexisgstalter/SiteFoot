@@ -59,8 +59,8 @@ namespace SiteFoot.Controllers
                             try
                             {
                                 //On transfert le fichier vers le chemin spécifié
-                                var nomfichier = Path.GetFileName(file.FileName);
-                                var chemin = Path.Combine((@"\\neon-01\c$\Fichiers Clients\Ecusson"), nomfichier);
+                                var nomfichier = Path.GetFileName(file.FileName).ToLower();
+                                var chemin = Path.Combine((@"\\sodium-01\c$\inetpub\Fichiers Foot"), nomfichier);
                                 file.SaveAs(chemin);
                                 //On efface toutes les erreurs du Modèle
                                 ModelState.Clear();

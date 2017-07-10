@@ -207,6 +207,7 @@
     <Content Include="Content\fullcalendar.min.css" />
     <Content Include="Content\fullcalendar.print.css" />
     <Content Include="Content\images\FC_Sélestat.jpg" />
+    <Content Include="Content\images\france-football.jpg" />
     <Content Include="Content\images\lyon.jpg" />
     <Content Include="Content\images\marseille.jpg" />
     <Content Include="Content\images\psg.jpg" />
