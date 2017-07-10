@@ -1,6 +1,8 @@
 ﻿@{
     ViewBag.Title = "entrainement";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    var u = (SiteFoot.Models.User)HttpContext.Current.Session["CurrentUser"];
+    var groupes = (List<SiteFoot.Models.Groupe>)HttpContext.Current.Session["CurrentGroupe"];
 }
 
 <div class="row">
@@ -16,7 +18,9 @@
             <label>Entraineur</label>
         </div>
         <div class="input-field">
-            <select id="equipe" name="equipe" type="text" class="validate"><option value='0'>Choisir un equipe</option>@Html.Action("LoadListEquipes", "Calendrier")</select>
+            <select id="equipe" name="equipe" type="text" class="validate"><option value='0'>Choisir un Equipe</option>
+                @Html.Action("LoadListEquipes", "Calendrier")
+            </select>
             <label>Equipe</label>
         </div>
         <div class="input-field">
@@ -27,7 +31,7 @@
     </form>
     <br />
     @{
-        var groupes = (List<SiteFoot.Models.Groupe>)HttpContext.Current.Session["CurrentGroupe"];
+        
         bool can_add_entrainement = false;
         foreach (SiteFoot.Models.Groupe grp in groupes)
 	    {
@@ -43,5 +47,110 @@
     <br />
     <div id="calendrier_entrainement" class="" style="color : #8F010C"></div>
     
+</div>
+<div id="modal_modif_entrainement" class="modal">
+    <div class="modal-content">
+        <h4>Détail</h4>
+        <form class="row" id="form_modif_event">
+            <div class="col s12">
+                <div class="row">
+                    <div class="input-field col s6">
+                        <input id="intitule_modif" name="intitule_modif" type="text" class="validate">
+                        <label>Titre</label>
+                    </div>
+                    <div class="input-field col s6">
+                        <select id="terrain_modif" name="terrain_modif" type="text" class="validate">
+
+                            @Html.Action("LoadListTerrains", "Calendrier")
+
+                        </select>
+                        <label>Terrain</label>
+                    </div>
+
+                </div>
+
+            </div>
+            <div class="col s12">
+                <div class="row">
+
+                    <div class="input-field col s12">
+                        <select id="equipe_modif" name="equipe" type="text" class="validate">
+
+                            @Html.Action("LoadListEquipes", "Calendrier")
+
+                        </select>
+                        <label>Equipe</label>
+                    </div>
+                </div>
+
+            </div>
+            <div class="col s12">
+                <div class="row">
+                    <div class="input-field col s6">
+                        <input id="debut_modif" name="debut_modif" type="text" class="validate">
+                        <label>Heure de début</label>
+                    </div>
+                    <div class="input-field col s6">
+                        <input id="fin_modif" name="fin_modif" type="text" class="validate">
+                        <label>Heure de fin</label>
+                    </div>
+                </div>
+            </div>
+            <button href="#!" class="btn" id="btn_modifier" type="submit">Modifier</button>
+            <button href="#!" class="btn" id="btn_supprimer" type="button">Supprimer</button>
+        </form>
+    </div>
+</div>
+<div id="modal_ajout_entrainement" class="modal">
+    <div class="modal-content">
+        <h4>Ajouter un entrainement</h4>
+        <form class="row" id="form_ajout_event">
+            <div class="col s12">
+                <div class="row">
+                    <div class="input-field col s6">
+                        <input id="intitule_ajout" name="intitule_ajout" type="text" class="validate">
+                        <label>Titre</label>
+                    </div>
+                    <div class="input-field col s6">
+                        <select id="terrain_ajout" name="terrain_ajout" type="text" class="validate">
+
+                            @Html.Action("LoadListTerrains", "Calendrier")
+
+                        </select>
+                        <label>Terrain</label>
+                    </div>
+
+                </div>
+
+            </div>
+            <div class="col s12">
+                <div class="row">
+
+                    <div class="input-field col s12">
+                        <select id="equipe_ajout" name="equipe" type="text" class="validate">
+
+                            @Html.Action("LoadListEquipes", "Calendrier")
+
+                        </select>
+                        <label>Equipe</label>
+                    </div>
+                </div>
+
+            </div>
+            <div class="col s12">
+                <div class="row">
+                    <div class="input-field col s6">
+                        <input id="debut_ajout" name="debut_ajout" type="text" class="validate">
+                        <label>Heure de début</label>
+                    </div>
+                    <div class="input-field col s6">
+                        <input id="fin_ajout" name="fin_ajout" type="text" class="validate">
+                        <label>Heure de fin</label>
+                    </div>
+                </div>
+            </div>
+            <button href="#!" class="btn" id="btn_ajouter" type="submit">Ajouter</button>
+        </form>
+    </div>
 </div>
 @Scripts.Render(@"~\Scripts\Calendrier\entrainement.js")

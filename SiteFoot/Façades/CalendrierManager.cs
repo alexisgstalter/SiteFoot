@@ -190,5 +190,64 @@ namespace SiteFoot.Façades
             }
             return res.ToArray();
         }
+
+        public static DataTable GetEntrainementByID(int id)
+        {
+
+            String connectionString = ConfigurationManager.ConnectionStrings["SQLSiteFoot"].ToString(); //Récupération de la chaîne de connexion
+            SqlConnection myConnection = new SqlConnection(connectionString); //Nouvelle connexion à la base de donnée
+            myConnection.Open(); //On ouvre la connexion
+            string query = "select * from Entrainement where id=@id";
+
+            SqlDataAdapter source = new SqlDataAdapter(query, myConnection);
+            source.SelectCommand.Parameters.Add("@id", SqlDbType.Int).Value = id;
+            DataTable data = new DataTable();
+            source.Fill(data);
+            myConnection.Close();
+            return data;
+        
+        }
+
+        public static bool EstEntraineurEquipe(int id_entraineur, int id_equipe)
+        {
+            String connectionString = ConfigurationManager.ConnectionStrings["SQLSiteFoot"].ToString(); //Récupération de la chaîne de connexion
+            SqlConnection myConnection = new SqlConnection(connectionString); //Nouvelle connexion à la base de donnée
+            myConnection.Open(); //On ouvre la connexion
+            SqlDataAdapter source = new SqlDataAdapter("select id_entraineur from Equipe where id_equipe=@id_equipe", myConnection);
+            source.SelectCommand.Parameters.Add("@id_equipe", SqlDbType.Int).Value = id_equipe;
+            DataTable data = new DataTable();
+            source.Fill(data);
+            myConnection.Close();
+            if (data.Rows.Count > 0)
+            {
+                if (int.Parse(data.Rows[0][0].ToString()) == id_entraineur)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        public static void SaveEntrainement(String title, DateTime start, DateTime end, int id_terrain, int id_equipe)
+        {
+            String connectionString = ConfigurationManager.ConnectionStrings["SQLSiteFoot"].ToString(); //Récupération de la chaîne de connexion
+            SqlConnection myConnection = new SqlConnection(connectionString); //Nouvelle connexion à la base de donnée
+            myConnection.Open(); //On ouvre la connexion
+            SqlCommand cmd = new SqlCommand("insert into Entrainement values (@title, @start, @end, @id_terrain, @id_equipe)", myConnection);
+            cmd.Parameters.Add("@title", SqlDbType.VarChar).Value = title;
+            cmd.Parameters.Add("@start", SqlDbType.DateTime).Value = start;
+            cmd.Parameters.Add("@end", SqlDbType.DateTime).Value = end;
+            cmd.Parameters.Add("@id_terrain", SqlDbType.Int).Value = id_terrain;
+            cmd.Parameters.Add("@id_equipe", SqlDbType.Int).Value = id_equipe;
+            cmd.ExecuteNonQuery();
+            myConnection.Close();
+        }
     }
 }

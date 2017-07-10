@@ -3,7 +3,8 @@
     $("#debut ,#fin ,#debut_create ,#fin_create").datetimepicker({
         lang : 'fr',
         mask: true,
-        format: 'd/m/Y H:i'
+        format: 'd/m/Y H:i',
+        step: 15
     });
     $("select").on('contentChanged', function () {
         $(this).material_select();

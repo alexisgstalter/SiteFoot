@@ -210,6 +210,23 @@ namespace SiteFoot.Controllers
                 return Content(null);
             }
         }
+        public ActionResult LoadListEquipesByIDEntraineur(int id)
+        {
+            try
+            {
+                string html = "";
+                DataTable equipes = CalendrierManager.LoadEquipeByIDEntraineur(id);
+                foreach (DataRow t in equipes.Rows)
+                {
+                    html += "<option value=" + t["id"].ToString() + ">" + t["nom_equipe"].ToString() + "</option>";
+                }
+                return Content(html);
+            }
+            catch (Exception)
+            {
+                return Content(null);
+            }
+        }
 
         public String GetEventsEntrainement(int id_entraineur, int id_equipe, String id_membre, int id_terrain, DateTime start, DateTime end)
         {
@@ -240,6 +257,48 @@ namespace SiteFoot.Controllers
             catch (Exception)
             {
                 return null;
+            }
+        }
+
+        public JsonResult GetEventEntrainement(int id)
+        {
+            try
+            {
+                DataTable ev = CalendrierManager.GetEntrainementByID(id);
+                if (ev.Rows.Count > 0)
+                {
+                    return Json(new { ok = true, hasResult = true, id = ev.Rows[0]["id"].ToString(), titre = ev.Rows[0]["title"].ToString(), equipe = ev.Rows[0]["id_equipe"].ToString(), terrain = ev.Rows[0]["id_terrain"].ToString(), heure_debut = DateTime.Parse(ev.Rows[0]["start"].ToString()).ToString("dd/MM/yyyy HH:mm:ss"), heure_fin = DateTime.Parse(ev.Rows[0]["fin"].ToString()).ToString("dd/MM/yyyy HH:mm:ss") });
+                }
+                else
+                {
+                    return Json(new { ok = true, hasResult = false });
+                }
+            }
+            catch (Exception e)
+            {
+                return Json(new { ok = false, error = e.Message });
+            }
+        }
+        public JsonResult CheckEntraineurEquipe(int id_equipe)
+        {
+            try
+            {
+                User u = (User)Session["CurrentUser"];
+                List<Groupe> grps = GroupeManager.GetById(u.Id);
+                foreach (Groupe g in grps)
+	            {
+		            if(g.Droit_entrainement_autre)
+                    {
+                        return Json(true);
+                    }
+	            }
+                bool check = CalendrierManager.EstEntraineurEquipe(u.Id, id_equipe);
+                return Json(check);
+                
+            }
+            catch (Exception e)
+            {
+                return Json(false);
             }
         }
     }
