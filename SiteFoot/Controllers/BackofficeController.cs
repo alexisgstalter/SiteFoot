@@ -73,7 +73,7 @@ namespace SiteFoot.Controllers
         {
             try
             {
-    
+     
                 if (nom_equipe == "" || liste_categorie == "" || entraineur == "" || ecusson == "")
                 {
                     throw new Exception("Veuillez renseigner tous les champs");
