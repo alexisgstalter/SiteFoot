@@ -31,7 +31,7 @@ namespace SiteFoot.Controllers
                 html += "<thead>";
                 html += "<tr role='row'>";
                 html += "<th>Nom de l'équipe</th><th>Catégorie</th><th>Entraîneur</th><th>Ecusson</th><th>Modifier</th><th>Supprimer</th>";
-                html += "</tr></thead>";
+                html += "</tr></thead>"; 
                 html += "<tbody>";
                 bool hasResult = false;
                 DataTable liste_equipe = BackofficeManager.GetAllEquipe();
