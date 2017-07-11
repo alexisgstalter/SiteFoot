@@ -31,17 +31,21 @@
     </form>
     <br />
     @{
-        
-        bool can_add_entrainement = false;
-        foreach (SiteFoot.Models.Groupe grp in groupes)
-	    {
-		    if(grp.Droit_gerer_entrainement){
-                can_add_entrainement = true;
-            }
-	    }
-        if(can_add_entrainement)
+
+        if (Request.IsAuthenticated && u != null)
         {
-            <center><button type="button" class="btn" id="add_modal">Ajouter un entrainement</button></center>
+            bool can_add_entrainement = false;
+            foreach (SiteFoot.Models.Groupe grp in groupes)
+            {
+                if (grp.Droit_gerer_entrainement)
+                {
+                    can_add_entrainement = true;
+                }
+            }
+            if (can_add_entrainement)
+            {
+                <center><button type="button" class="btn" id="add_modal">Ajouter un entrainement</button></center>
+            }
         }
     }
     <br />

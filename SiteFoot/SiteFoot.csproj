@@ -441,6 +441,7 @@
     <Content Include="Views\Error\AccessDenied.cshtml" />
     <Content Include="Views\Backoffice\CreateEquipe.cshtml" />
     <Content Include="Views\Calendrier\entrainement.cshtml" />
+    <Content Include="Views\Backoffice\CreateUser.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

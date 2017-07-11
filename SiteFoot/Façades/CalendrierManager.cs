@@ -105,7 +105,7 @@ namespace SiteFoot.Façades
             String connectionString = ConfigurationManager.ConnectionStrings["SQLSiteFoot"].ToString(); //Récupération de la chaîne de connexion
             SqlConnection myConnection = new SqlConnection(connectionString); //Nouvelle connexion à la base de donnée
             myConnection.Open(); //On ouvre la connexion
-            string query = "select a.id, b.nom_equipe as 'title', a.start, a.fin as 'end' from Entrainement a, Equipe b where a.id_equipe=b.id ";
+            string query = "select a.id, b.nom_equipe + ' - ' + b.categorie as 'title', a.start, a.fin as 'end' from Entrainement a, Equipe b where a.id_equipe=b.id ";
             if (id_entraineur != 0)
             {
                 query += "and b.id_entraineur=@id_entraineur ";

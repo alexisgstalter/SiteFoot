@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using SiteFoot.Façades;
+using SiteFoot.Models;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -19,7 +20,10 @@ namespace SiteFoot.Controllers
         {
             return View();
         }
-
+        public ActionResult CreateUser()
+        {
+            return View();
+        }
 
         public JsonResult LoadAllEquipe()
         {
@@ -173,6 +177,43 @@ namespace SiteFoot.Controllers
                 html = html + "</select>";
             }
             return Content(html);
+        }
+
+        public ActionResult LoadGroupes()
+        {
+            DataTable groupes = GroupeManager.getAll();
+            string html = "";
+            foreach (DataRow row in groupes.Rows)
+            {
+                html += "<option value='" + row["id"].ToString() + "'>" + row["nom"].ToString() + "</option>";
+            }
+            return Content(html);
+        }
+
+        public JsonResult GetUtilisateurs()
+        {
+            try
+            {
+                String html = "<table class='striped bordered highlight'><thead><th>ID</th><th>Login</th><th>Prénom</th><th>Nom</th><th>Email</th><th>Téléphone</th><th>Editer</th><th>Supprimer</th>";
+                DataTable utilisateurs = Utilisateur.getAll();
+                foreach (DataRow row in utilisateurs.Rows)
+                {
+                    List<Groupe> grps = GroupeManager.GetById(int.Parse(row["id"].ToString()));
+                    string groupes = "";
+                    foreach (Groupe g in grps)
+                    {
+                        groupes += g.Nom + ",";
+                    }
+                    groupes = groupes.Remove(groupes.LastIndexOf(','), 1);
+                    html += "<tr><td>" + row["id"].ToString() + "</td><td>";
+                }
+                html += "</tbody></table>";
+                return Json(new { ok = true, html = html });
+            }
+            catch (Exception e)
+            {
+                return Json(new { ok = false, error = e.Message });
+            }
         }
     }
 }
