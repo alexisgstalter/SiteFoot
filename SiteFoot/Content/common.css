@@ -6,37 +6,40 @@
 }
 
 li:hover {
-    background-color: #8F010C;
+    background-color: #6a1b9a;
 }
 li > a:hover{
     color: white;
 }
 .error {
-    color: #590A0D;
+    color: #4a148c;
 }
 .btn {
-    background-color : #590A0D;
+    background-color : #4a148c;
 }
 .btn:hover {
-    background-color : #8F010C;
+    background-color : #6a1b9a;
+}
+form {
+    color : #6a1b9a;
 }
 .waves-effect.waves-brown .waves-ripple {
     /* The alpha value allows the text and background color
     of the button to still show through. */
-    background-color: #8F010C;
+    background-color: #6a1b9a;
 }
 .fc-content{
-    background-color : #8F010C;
-    border-color : #590A0D;
+    background-color : #6a1b9a;
+    border-color : #4a148c;
 }
 .fc-day-grid-event .fc-content .fc-time{
-    border-color : #590A0D;
+    border-color : #4a148c;
 }
 .fc-unthemed td.fc-today{
-    background-color : #F28C92;
+    background-color : #8e24aa;
 }
 .fc-day-top{
-    background : #8F010C!important;
+    background : #6a1b9a!important;
     color : white;
 }
 input:not([type]):focus:not([readonly]),
@@ -52,9 +55,9 @@ input[type=tel]:not(.browser-default):focus:not([readonly]),
 input[type=number]:not(.browser-default):focus:not([readonly]),
 input[type=search]:not(.browser-default):focus:not([readonly]),
 textarea.materialize-textarea:focus:not([readonly]) {
-  border-bottom: 1px solid #8F010C;
-  -webkit-box-shadow: 0 1px 0 0 #8F010C;
-          box-shadow: 0 1px 0 0 #8F010C;
+  border-bottom: 1px solid #6a1b9a;
+  -webkit-box-shadow: 0 1px 0 0 #6a1b9a;
+          box-shadow: 0 1px 0 0 #6a1b9a;
 }
 
 input:not([type]):focus:not([readonly]) + label,
@@ -70,7 +73,7 @@ input[type=tel]:not(.browser-default):focus:not([readonly]) + label,
 input[type=number]:not(.browser-default):focus:not([readonly]) + label,
 input[type=search]:not(.browser-default):focus:not([readonly]) + label,
 textarea.materialize-textarea:focus:not([readonly]) + label {
-  color: #8F010C;
+  color: #6a1b9a;
 }
 
 input:not([type]).valid, input:not([type]):focus.valid,
@@ -98,9 +101,9 @@ input[type=search]:not(.browser-default).valid,
 input[type=search]:not(.browser-default):focus.valid,
 textarea.materialize-textarea.valid,
 textarea.materialize-textarea:focus.valid {
-  border-bottom: 1px solid #8F010C;
-  -webkit-box-shadow: 0 1px 0 0 #8F010C;
-          box-shadow: 0 1px 0 0 #8F010C;
+  border-bottom: 1px solid #6a1b9a;
+  -webkit-box-shadow: 0 1px 0 0 #6a1b9a;
+          box-shadow: 0 1px 0 0 #6a1b9a;
 }
 
 input:not([type]).valid + label:after,
@@ -130,7 +133,7 @@ input[type=search]:not(.browser-default):focus.valid + label:after,
 textarea.materialize-textarea.valid + label:after,
 textarea.materialize-textarea:focus.valid + label:after {
   content: attr(data-success);
-  color: #8F010C;
+  color: #6a1b9a;
   opacity: 1;
 }
 
@@ -159,9 +162,9 @@ input[type=search]:not(.browser-default).invalid,
 input[type=search]:not(.browser-default):focus.invalid,
 textarea.materialize-textarea.invalid,
 textarea.materialize-textarea:focus.invalid {
-  border-bottom: 1px solid #8F010C;
-  -webkit-box-shadow: 0 1px 0 0 #8F010C;
-          box-shadow: 0 1px 0 0 #8F010C;
+  border-bottom: 1px solid #6a1b9a;
+  -webkit-box-shadow: 0 1px 0 0 #6a1b9a;
+          box-shadow: 0 1px 0 0 #6a1b9a;
 }
 
 input:not([type]).invalid + label:after,
@@ -191,7 +194,7 @@ input[type=search]:not(.browser-default):focus.invalid + label:after,
 textarea.materialize-textarea.invalid + label:after,
 textarea.materialize-textarea:focus.invalid + label:after {
   content: attr(data-error);
-  color: #8F010C;
+  color: #6a1b9a;
   opacity: 1;
 }
 

@@ -54,7 +54,7 @@ namespace SiteFoot.Controllers
                         }
                         
                         html = html + "<tr>";
-                        html = html + "<td>" + liste_equipe.Rows[i]["nom_equipe"].ToString() + "</td><td>" + liste_equipe.Rows[i]["categorie"].ToString() + "</td><td>" + nom_entraîneur + "</td><td><img class='img-responsive' src='../Fichiers Foot/" + liste_equipe.Rows[i]["ecusson"].ToString() + "' /></td><td data-id_ligne='" + liste_equipe.Rows[i]["id"].ToString() + "' class='edit_ligne'><i class='material-icons prefix'>mode_edit</i><td class='delete delete_ligne' data-value='" + liste_equipe.Rows[i]["id"].ToString() + "'><i class='material-icons prefix'>clear</i></td>";
+                        html = html + "<td>" + liste_equipe.Rows[i]["nom_equipe"].ToString() + "</td><td>" + liste_equipe.Rows[i]["categorie"].ToString() + "</td><td>" + nom_entraîneur + "</td><td><img class='img-responsive' src='/Fichiers Foot/" + liste_equipe.Rows[i]["ecusson"].ToString() + "' /></td><td data-id_ligne='" + liste_equipe.Rows[i]["id"].ToString() + "' class='edit_ligne'><i class='material-icons prefix'>mode_edit</i><td class='delete delete_ligne' data-value='" + liste_equipe.Rows[i]["id"].ToString() + "'><i class='material-icons prefix'>clear</i></td>";
                     }
                     html = html + "</tr>";
                 }

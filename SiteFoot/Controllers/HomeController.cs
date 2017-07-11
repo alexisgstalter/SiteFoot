@@ -34,8 +34,8 @@ namespace SiteFoot.Controllers
         }
         public JsonResult Login(String username, String password)
         {
-            /*try
-            {*/
+            try
+            {
             //On récupère le nom d'utilisateur et le mot de passe
             User u = new User();
             u.Login = username;
@@ -58,12 +58,12 @@ namespace SiteFoot.Controllers
                 return Json(new { ok = true, isGranted = false });
             }
 
-            /*}
+            }
             catch (Exception ex)
             {
                 
                 return Json(new { ok = false, error = ex.Message });
-            }*/
+            }
         }
         public ActionResult Deconnexion()
         {

@@ -301,6 +301,78 @@ namespace SiteFoot.Controllers
                 return Json(false);
             }
         }
+        public JsonResult SaveEntrainement(String title, DateTime start, DateTime end, int id_terrain, int id_equipe)
+        {
+            try
+            {
+                User u = (User)Session["CurrentUser"];
+                List<Groupe> grps = GroupeManager.GetById(u.Id);
+                bool equipe_ok = false;
+                equipe_ok = CalendrierManager.EstEntraineurEquipe(u.Id, id_equipe);
+                foreach (Groupe g in grps)
+                {
+                    if (g.Droit_entrainement_autre)
+                    {
+                        equipe_ok = true;
+                    }
+                }
+                
+                if (equipe_ok == false)
+                {
+                    throw new Exception("vous n'êtes pas l'entraineur de cette équipe");
+                }
+                CalendrierManager.SaveEntrainement(title, start, end, id_terrain, id_equipe);
+                return Json(new { ok = true });
+
+            }
+            catch (Exception e)
+            {
+                return Json(new { ok = false, error = e.Message });
+            }
+        }
+        public JsonResult UpdateEntrainement(int id,String title, DateTime start, DateTime end, int id_terrain, int id_equipe)
+        {
+            try
+            {
+                User u = (User)Session["CurrentUser"];
+                List<Groupe> grps = GroupeManager.GetById(u.Id);
+                bool equipe_ok = false;
+                equipe_ok = CalendrierManager.EstEntraineurEquipe(u.Id, id_equipe);
+                foreach (Groupe g in grps)
+                {
+                    if (g.Droit_entrainement_autre)
+                    {
+                        equipe_ok = true;
+                    }
+                }
+                
+                if (equipe_ok == false)
+                {
+                    throw new Exception("vous n'êtes pas l'entraineur de cette équipe");
+                }
+                CalendrierManager.UpdateEntrainement(id,title, start, end, id_terrain, id_equipe);
+                return Json(new { ok = true });
+
+            }
+            catch (Exception e)
+            {
+                return Json(new { ok = false, error = e.Message });
+            }
+        }
+        public JsonResult DeleteEntrainement(int id)
+        {
+            try
+            {
+
+                CalendrierManager.DeleteEntrainement(id);
+                return Json(new { ok = true });
+
+            }
+            catch (Exception e)
+            {
+                return Json(new { ok = false, error = e.Message });
+            }
+        }
     }
 
 }
