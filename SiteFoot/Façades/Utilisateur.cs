@@ -199,6 +199,7 @@ namespace SiteFoot.Façades
             SqlCommand command = new SqlCommand(query, myConnection);
             command.Parameters.AddWithValue("@id", u.Id);
             SqlDataReader reader = command.ExecuteReader();
+            myConnection.Close();
             if(reader.Read())
             {
                 return reader[1].ToString();
@@ -366,7 +367,7 @@ namespace SiteFoot.Façades
             SqlCommand command = new SqlCommand("SELECT utcprf FROM reflex.hlutilp where utcprf LIKE '%' + @login +'%'", myConnection);
             command.Parameters.AddWithValue("@login", u.Login);
             SqlDataReader reader = command.ExecuteReader();
-
+            myConnection.Close();
             while (reader.Read())
             {
 

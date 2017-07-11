@@ -26,8 +26,8 @@
             $('#annonces_list').addClass('active');
             break;
     }
-    $("li.active").css("background-color", "#8F010C");
-    $("a.active").css("background-color", "#590A0D ");
+    $("li.active").css("background-color", "#6a1b9a");
+    $("a.active").css("background-color", "#4a148c ");
     $("a.active").css("color", "white ");
     $('.modal').modal();
     $(".button-collapse").sideNav({
@@ -46,12 +46,11 @@
         {*/
         var username = $("#_username").val();
         var password = $("#_password").val();
-        var rememberme = $("#remember_me").is(":checked");
         //$('#loginModal .modal-content').block({ baseZ: 2500, message: '<h1><img src="/Images/Site/busy.gif" /> </h1>' });
         $.ajax({
             type: "POST",
             url: "/Home/Login",
-            data: '{username:"' + username + '",password:"' + password + '",rememberme:"' + rememberme + '" }',
+            data: '{username:"' + username + '",password:"' + password + '" }',
             contentType: "application/json; charset=utf-8",
             dataType: "json",
             success: function (msg) {
@@ -59,7 +58,7 @@
                 if (msg.ok) { //Il n'y a eu aucune erreur côté serveur
                     if (msg.isGranted) {    //L'utilisateur est connecté
                         //$('#loginModal .modal-content').unblock();
-                        location.replace("/")
+                        location.replace("/");
                         
                     }
                     else {  //L'utilisateur n'est pas connecté
@@ -70,6 +69,9 @@
                 else {  //Il y eu une erreur côté serveur
                     alert(msg.error);
                 }
+            },
+            error: function (xhr, status, error) {
+                alert(error);
             }
         });
         /*}*/
