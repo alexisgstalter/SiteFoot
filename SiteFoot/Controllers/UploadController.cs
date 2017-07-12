@@ -129,7 +129,7 @@ namespace SiteFoot.Controllers
             }
             name_fichier = name_fichier.Remove(name_fichier.LastIndexOf(";"));
 
-            BackofficeManager.SaveEcussonEquipeFoot(name_fichier, nom_equipe, liste_categorie, entraineur);
+            //BackofficeManager.SaveEcussonEquipeFoot(name_fichier, nom_equipe, liste_categorie);
 
             return RedirectToAction("SaisieEquipe", "Upload");
         }

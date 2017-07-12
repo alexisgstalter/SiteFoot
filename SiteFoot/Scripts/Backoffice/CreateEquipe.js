@@ -117,7 +117,7 @@
         for (var i = 0; i < $("#entraineur option:selected").length; i++) {
             entraineur.push($("#entraineur option:selected").eq(i).val());
         }
-        var ecusson = $("#ecusson").val();
+        var ecusson = $("#pj").val();
         $.ajax({
             url: "/Backoffice/SaveEquipe",
             type: "POST",
