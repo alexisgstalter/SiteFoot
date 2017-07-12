@@ -75,8 +75,8 @@ namespace SiteFoot.Controllers
         
         public JsonResult SaveEquipe(String nom_equipe, String liste_categorie, int[] entraineur, String ecusson)
         {
-            try
-            {
+           /* try
+            {*/
      
                 if (nom_equipe == "" || liste_categorie == "" || entraineur.Length == 0 || ecusson == "")
                 {
@@ -86,11 +86,11 @@ namespace SiteFoot.Controllers
                 BackofficeManager.SaveEquipe(nom_equipe, liste_categorie, entraineur, ecusson);
                 return Json(new { ok = true });
 
-            }
+            /*}
             catch (Exception e)
             {
                 return Json(new { ok = false, error = e.Message });
-            }
+            }*/
         }
 
 
@@ -151,7 +151,7 @@ namespace SiteFoot.Controllers
             if (ListeEntraineur.Rows.Count > 0)
             {
                 html = html + "<select id='entraineur' multiple>";
-                html = html + "<option value='' disabled selected>Sélectionnez un entraîneur</option>";
+                html = html + "<option value='' disabled>Sélectionnez un entraîneur</option>";
                 for (int i = 0; i < ListeEntraineur.Rows.Count; i++)
                 {
                     html = html + "<option value='" + ListeEntraineur.Rows[i]["id"].ToString() + "'>" + ListeEntraineur.Rows[i]["nom"].ToString() + " " + ListeEntraineur.Rows[i]["prenom"].ToString() + "</option>";

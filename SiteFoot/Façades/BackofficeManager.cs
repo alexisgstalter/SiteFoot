@@ -38,7 +38,10 @@ namespace SiteFoot.Façades
             {
                 res += row["nom"].ToString() + " " + row["prenom"].ToString() + ",";
             }
-            res = res.Remove(res.LastIndexOf(','), 1);
+            if (res.Contains(","))
+            {
+                res = res.Remove(res.LastIndexOf(','), 1);
+            }
             return res;
         }
 

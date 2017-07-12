@@ -108,7 +108,7 @@ namespace SiteFoot.Façades
             string query = "select a.id, b.nom_equipe + ' - ' + b.categorie as 'title', a.start, a.fin as 'end' from Entrainement a, Equipe b where a.id_equipe=b.id ";
             if (id_entraineur != 0)
             {
-                query += "and b.id in (select id_equipe from EntraineurParEquipe where id_entraineur==@id_entraineur) ";
+                query += "and b.id in (select id_equipe from EntraineurParEquipe where id_entraineur=@id_entraineur) ";
             }
             if (id_equipe != 0)
             {
