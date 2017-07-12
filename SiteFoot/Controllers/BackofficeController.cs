@@ -83,7 +83,7 @@ namespace SiteFoot.Controllers
                     throw new Exception("Veuillez renseigner tous les champs");
                 }
 
-                BackofficeManager.SaveEquipe(nom_equipe, liste_categorie, entraineur);
+                BackofficeManager.SaveEquipe(nom_equipe, liste_categorie, entraineur, ecusson);
                 return Json(new { ok = true });
 
             }
@@ -188,6 +188,14 @@ namespace SiteFoot.Controllers
                 html += "<option value='" + row["id"].ToString() + "'>" + row["nom"].ToString() + "</option>";
             }
             return Content(html);
+        }
+
+        public String GenerateBlocEcusson()
+        {
+            String html = "";
+            html += "<div class='input-group has-feedback'><span class='input-group-addon'>Ecussion de l'équipe</span><input id='pj' class='form-control piece_jointe' type='file' multiple /></div></br>";
+            html += "<div class='text-center'><button type='button' class='btn btn-primary' id='upload'/>Enregistrer ecusson</button></div><br>";
+            return html;
         }
 
         public JsonResult GetUtilisateurs()
