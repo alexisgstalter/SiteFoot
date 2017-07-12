@@ -47,6 +47,9 @@ form {
     background : #6a1b9a!important;
     color : white!important;
 }
+i{
+    color : #6a1b9a!important;
+}
 
 
 input:not([type]):focus:not([readonly]),

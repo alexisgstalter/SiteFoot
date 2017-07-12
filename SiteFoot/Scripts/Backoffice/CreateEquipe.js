@@ -113,7 +113,10 @@
     function create_info_equipe() {
         var nom_equipe = $("#nom_equipe").val();
         var liste_categorie = $("#liste_categorie").val();
-        var entraineur = $("#entraineur").val();
+        var entraineur = [];
+        $("#entraineur option:selected").each(function () {
+            entraineur.push($(this).val());
+        });
         var ecusson = $("#ecusson").val();
         $.ajax({
             url: "/Backoffice/SaveEquipe",

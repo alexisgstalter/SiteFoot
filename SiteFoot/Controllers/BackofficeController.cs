@@ -27,8 +27,8 @@ namespace SiteFoot.Controllers
 
         public JsonResult LoadAllEquipe()
         {
-            try
-            {
+            /*try
+            {*/
                 bool valid = false;
                 
                 String html = "<table id='equipetable' class='highlight'>";
@@ -45,17 +45,9 @@ namespace SiteFoot.Controllers
                     hasResult = true;
                     for (int i = 0; i < liste_equipe.Rows.Count; i++)
                     {
-                        int id_entraineur = int.Parse(liste_equipe.Rows[i]["id_entraineur"].ToString());
 
-                        String nom_entraîneur = "";
-
-                        DataTable RecupInfoEntraineur = BackofficeManager.GetInfoEntraineur(id_entraineur);
-                        if (RecupInfoEntraineur.Rows.Count > 0)
-                        {
-                            nom_entraîneur = RecupInfoEntraineur.Rows[0]["nom"].ToString() + " " + RecupInfoEntraineur.Rows[0]["prenom"].ToString();
-
-                            valid = true;
-                        }
+                        String nom_entraîneur = BackofficeManager.GetAllEntraineursEquipe(int.Parse(liste_equipe.Rows[i]["id"].ToString()));
+                
                         
                         html = html + "<tr>";
                         html = html + "<td>" + liste_equipe.Rows[i]["nom_equipe"].ToString() + "</td><td>" + liste_equipe.Rows[i]["categorie"].ToString() + "</td><td>" + nom_entraîneur + "</td><td><img class='img-responsive' src='/Fichiers Foot/" + liste_equipe.Rows[i]["ecusson"].ToString() + "' /></td><td data-id_ligne='" + liste_equipe.Rows[i]["id"].ToString() + "' class='edit_ligne'><i class='material-icons prefix'>mode_edit</i><td class='delete delete_ligne' data-value='" + liste_equipe.Rows[i]["id"].ToString() + "'><i class='material-icons prefix'>clear</i></td>";
@@ -65,20 +57,20 @@ namespace SiteFoot.Controllers
                 html += "</tbody></table>";
 
                 return Json(new { ok = true, html = html, hasResult = hasResult });
-            }
+            /*}
             catch (Exception e)
             {
                 return Json(new { ok = false, error = e.Message });
-            }
+            }*/
         }
 
         
-        public JsonResult SaveEquipe(String nom_equipe, String liste_categorie, String entraineur, String ecusson)
+        public JsonResult SaveEquipe(String nom_equipe, String liste_categorie, int[] entraineur, String ecusson)
         {
             try
             {
      
-                if (nom_equipe == "" || liste_categorie == "" || entraineur == "" || ecusson == "")
+                if (nom_equipe == "" || liste_categorie == "" || entraineur.Length == 0 || ecusson == "")
                 {
                     throw new Exception("Veuillez renseigner tous les champs");
                 }
@@ -150,7 +142,7 @@ namespace SiteFoot.Controllers
             String html = "";
             if (ListeEntraineur.Rows.Count > 0)
             {
-                html = html + "<select id='entraineur'>";
+                html = html + "<select id='entraineur' multiple>";
                 html = html + "<option value='' disabled selected>Sélectionnez un entraîneur</option>";
                 for (int i = 0; i < ListeEntraineur.Rows.Count; i++)
                 {
@@ -194,7 +186,7 @@ namespace SiteFoot.Controllers
         {
             try
             {
-                String html = "<table class='striped bordered highlight'><thead><th>ID</th><th>Login</th><th>Prénom</th><th>Nom</th><th>Email</th><th>Téléphone</th><th>Editer</th><th>Supprimer</th>";
+                String html = "<table class='striped bordered highlight centered'><tr><thead><th>ID</th><th>Login</th><th>Prénom</th><th>Nom</th><th>Email</th><th>Téléphone</th><th>Editer</th><th>Supprimer</th></tr></thead><tbody>";
                 DataTable utilisateurs = Utilisateur.getAll();
                 foreach (DataRow row in utilisateurs.Rows)
                 {
@@ -205,7 +197,7 @@ namespace SiteFoot.Controllers
                         groupes += g.Nom + ",";
                     }
                     groupes = groupes.Remove(groupes.LastIndexOf(','), 1);
-                    html += "<tr><td>" + row["id"].ToString() + "</td><td>";
+                    html += "<tr><td>" + row["id"].ToString() + "</td><td>" + row["login"].ToString() + "</td><td>" + row["prenom"].ToString() + "</td><td>" + row["nom"].ToString() + "</td><td>" + row["email"].ToString() + "</td><td>" + row["telephone"].ToString() + "</td><td><a><i class='material-icons dp48 edit'>mode_edit</i></td><td><i class='material-icons dp48 supp'>delete</i></td></tr>";
                 }
                 html += "</tbody></table>";
                 return Json(new { ok = true, html = html });
