@@ -92,7 +92,7 @@ namespace SiteFoot.Façades
             String connectionString = ConfigurationManager.ConnectionStrings["SQLSiteFoot"].ToString(); //Récupération de la chaîne de connexion
             SqlConnection myConnection = new SqlConnection(connectionString); //Nouvelle connexion à la base de donnée
             myConnection.Open(); //On ouvre la connexion
-            SqlDataAdapter source = new SqlDataAdapter("select * from Equipe where id_entraineur=@id", myConnection);
+            SqlDataAdapter source = new SqlDataAdapter("select * from Equipe where id in (select id_equipe from EntrainementParEquipe where id_equipe=@id)", myConnection);
             source.SelectCommand.Parameters.Add("@id", SqlDbType.Int).Value = id;
             DataTable data = new DataTable();
             source.Fill(data);
@@ -105,10 +105,10 @@ namespace SiteFoot.Façades
             String connectionString = ConfigurationManager.ConnectionStrings["SQLSiteFoot"].ToString(); //Récupération de la chaîne de connexion
             SqlConnection myConnection = new SqlConnection(connectionString); //Nouvelle connexion à la base de donnée
             myConnection.Open(); //On ouvre la connexion
-            string query = "select a.id, b.nom_equipe as 'title', a.start, a.fin as 'end' from Entrainement a, Equipe b where a.id_equipe=b.id ";
+            string query = "select a.id, b.nom_equipe + ' - ' + b.categorie as 'title', a.start, a.fin as 'end' from Entrainement a, Equipe b where a.id_equipe=b.id ";
             if (id_entraineur != 0)
             {
-                query += "and b.id_entraineur=@id_entraineur ";
+                query += "and b.id in (select id_equipe from EntraineurParEquipe where id_entraineur==@id_entraineur) ";
             }
             if (id_equipe != 0)
             {
@@ -213,7 +213,7 @@ namespace SiteFoot.Façades
             String connectionString = ConfigurationManager.ConnectionStrings["SQLSiteFoot"].ToString(); //Récupération de la chaîne de connexion
             SqlConnection myConnection = new SqlConnection(connectionString); //Nouvelle connexion à la base de donnée
             myConnection.Open(); //On ouvre la connexion
-            SqlDataAdapter source = new SqlDataAdapter("select id_entraineur from Equipe where id=@id_equipe", myConnection);
+            SqlDataAdapter source = new SqlDataAdapter("select id_entraineur from EntraineurParEquipe where id_equipe in(select id from Equipe where id=@id_equipe)", myConnection);
             source.SelectCommand.Parameters.Add("@id_equipe", SqlDbType.Int).Value = id_equipe;
             DataTable data = new DataTable();
             source.Fill(data);

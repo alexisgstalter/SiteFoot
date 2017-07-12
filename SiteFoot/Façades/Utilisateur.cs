@@ -138,7 +138,7 @@ namespace SiteFoot.Façades
             String connectionString = ConfigurationManager.ConnectionStrings["SQLSiteFoot"].ToString(); //Récupération de la chaîne de connexion
             SqlConnection myConnection = new SqlConnection(connectionString); //Nouvelle connexion à la base de donnée
             myConnection.Open(); //On ouvre la connexion
-            SqlDataAdapter source = new SqlDataAdapter("SELECT u.id,u.login, u.password,u.email,g.nom, u.salt, p.clear_password, u.proprietaire, u.fournisseur, u.annulation_commande, u.droit_stock_mini, u.droit_packing_list, u.droit_BL, u.droit_validation_litige FROM Utilisateurs u, Groupe g, Passwords p WHERE u.groupe=g.id AND p.id_user=u.id ORDER BY u.login", myConnection); //Permet de remplacer l'id du groupe par son nom
+            SqlDataAdapter source = new SqlDataAdapter("SELECT * FROM Utilisateurs ORDER BY login", myConnection); //Permet de remplacer l'id du groupe par son nom
             DataTable table = new DataTable(); //On créé une table pour avoir une structure de nos données
             source.Fill(table);
             myConnection.Close();

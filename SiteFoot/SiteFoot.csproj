@@ -260,6 +260,7 @@
     <None Include="Properties\PublishProfiles\SiteFoot.pubxml" />
     <None Include="Scripts\jquery-3.1.1.intellisense.js" />
     <Content Include="Scripts\Backoffice\CreateEquipe.js" />
+    <Content Include="Scripts\Backoffice\CreateUser.js" />
     <Content Include="Scripts\Calendrier\buvette.js" />
     <Content Include="Scripts\Calendrier\entrainement.js" />
     <Content Include="Scripts\fullcalendar.js" />
@@ -441,6 +442,7 @@
     <Content Include="Views\Error\AccessDenied.cshtml" />
     <Content Include="Views\Backoffice\CreateEquipe.cshtml" />
     <Content Include="Views\Calendrier\entrainement.cshtml" />
+    <Content Include="Views\Backoffice\CreateUser.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

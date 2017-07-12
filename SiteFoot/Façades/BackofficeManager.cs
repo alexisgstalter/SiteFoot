@@ -23,7 +23,24 @@ namespace SiteFoot.Façades
             myConnection.Close();
             return data;
         }
-
+        public static String GetAllEntraineursEquipe(int id_equipe)
+        {
+            String connectionString = ConfigurationManager.ConnectionStrings["SQLSiteFoot"].ToString(); //Récupération de la chaîne de connexion
+            SqlConnection myConnection = new SqlConnection(connectionString); //Nouvelle connexion à la base de donnée
+            myConnection.Open(); //On ouvre la connexion
+            SqlDataAdapter source = new SqlDataAdapter("SELECT * from Utilisateurs where id in (select id_entraineur from EntraineurParEquipe where id_equipe=@id_equipe)", myConnection);
+            source.SelectCommand.Parameters.Add("@id_equipe", SqlDbType.Int).Value = id_equipe;
+            DataTable data = new DataTable();
+            source.Fill(data);
+            myConnection.Close();
+            String res = "";
+            foreach (DataRow row in data.Rows)
+            {
+                res += row["nom"].ToString() + " " + row["prenom"].ToString() + ",";
+            }
+            res = res.Remove(res.LastIndexOf(','), 1);
+            return res;
+        }
 
         public static void RemoveEquipe(String id)
         {
@@ -37,17 +54,24 @@ namespace SiteFoot.Façades
             myConnection.Close();
         }
 
-       
-        public static void SaveEquipe(String nom_equipe, String liste_categorie, String entraineur)
+        
+        public static void SaveEquipe(String nom_equipe, String liste_categorie, int[] entraineur, String ecusson)
         {
             String connectionString = ConfigurationManager.ConnectionStrings["SQLSiteFoot"].ToString(); //Récupération de la chaîne de connexion
             SqlConnection myConnection = new SqlConnection(connectionString); //Nouvelle connexion à la base de donnée
             myConnection.Open(); //On ouvre la connexion
-            SqlCommand cmd = new SqlCommand("UPDATE Equipe set id_entraineur=@entraineur where nom_equipe=@nom_equipe and categorie=@categorie", myConnection);
+            SqlCommand cmd = new SqlCommand("INSERT INTO Equipe (nom_equipe,categorie,ecusson) output INSERTED.ID values(@nom_equipe, @liste_categorie, @ecusson)", myConnection);
             cmd.Parameters.Add("@nom_equipe", SqlDbType.VarChar).Value = nom_equipe;
-            cmd.Parameters.Add("@categorie", SqlDbType.VarChar).Value = liste_categorie;
-            cmd.Parameters.Add("@entraineur", SqlDbType.VarChar).Value = entraineur;
+            cmd.Parameters.Add("@liste_categorie", SqlDbType.VarChar).Value = liste_categorie;
+            cmd.Parameters.Add("@ecusson", SqlDbType.VarChar).Value = ecusson;
+            int id_equipe = (int)cmd.ExecuteScalar();
+            foreach (int id_entraineur in entraineur)
+            {
+                cmd = new SqlCommand("insert into EntraineurParEquipe values (@id_equipe, @id_entraineur)", myConnection);
+                cmd.Parameters.Add("@id_equipe", SqlDbType.Int).Value = id_equipe;
+                cmd.Parameters.Add("@id_entraineur", SqlDbType.Int).Value = id_entraineur;
             cmd.ExecuteNonQuery();
+            }
             myConnection.Close();
         }
 

@@ -25,10 +25,11 @@
         case '/Home/Annonces':
             $('#annonces_list').addClass('active');
             break;
+        case '/Backoffice/CreateEquipe':
+            break;
     }
     $("li.active").css("background-color", "#6a1b9a");
     $("a.active").css("background-color", "#4a148c ");
-    $("a.active").css("color", "white ");
     $('.modal').modal();
     $(".button-collapse").sideNav({
         closeOnClick: true

@@ -12,7 +12,6 @@ using System.Web.Mvc;
 
 namespace SiteFoot.Controllers
 {
-    [CustomAuthorize(GroupeAllow="ADMIN")]
     public class CalendrierController : Controller
     {
         // GET: Calendrier

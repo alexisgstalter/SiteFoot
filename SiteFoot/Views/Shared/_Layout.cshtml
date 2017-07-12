@@ -23,12 +23,12 @@
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
         <meta name="viewport" content="width=device-width" />
 
-        @Styles.Render("~/bundles/materialise")
-        @Scripts.Render("~/bundles/modernizr")
+
         @Scripts.Render("~/bundles/jquery")
         @Scripts.Render("~/bundles/jqueryval")
         @Scripts.Render("~/bundles/fullcalendar")
         @Scripts.Render(@"~\Scripts\Home\common.js")
+        @Styles.Render("~/bundles/materialise")
         @Styles.Render("~/Content/css")
     </head>
     <body>
@@ -60,15 +60,16 @@
                     </center>
 
                 </li>
-                <li class="bold" id="accueil_list">@Html.ActionLink("Accueil", "Index", "Home")</li>
-                <li class="bold" id="about_list">@Html.ActionLink("A propos du FCS", "About", "Home")</li>
-                <li class="bold" id="annonces_list">@Html.ActionLink("Annonces", "Annonces", "Home")</li>
+                <li id="accueil_list">@Html.ActionLink("Accueil", "Index", "Home")</li>
+                <li id="about_list">@Html.ActionLink("A propos du FCS", "About", "Home")</li>
+                <li id="annonces_list">@Html.ActionLink("Annonces", "Annonces", "Home")</li>
                 @if (Request.IsAuthenticated && user != null)
                 {
+                    
                     <li>
                         <ul id="collapse_calendrier" class="collapsible collapsible-accordion">
                              
-                            <li class="bold">
+                            <li>
                                 <a class="collapsible-header waves-effect ">Calendrier</a>
                                 <div class="collapsible-body">
                                     <ul>
@@ -83,7 +84,7 @@
                     <li>
                         <ul id="collapse_calendrier" class="collapsible collapsible-accordion">
 
-                            <li class="bold">
+                            <li>
                                 <a class="collapsible-header waves-effect ">Résultats</a>
                                 <div class="collapsible-body">
                                     <ul>
@@ -100,11 +101,12 @@
                         {
                             <li>
                                 <ul id="collapse_calendrier" class="collapsible collapsible-accordion">
-                                    <li class="bold">
-                                        <a class="collapsible-header waves-effect waves-teal">BackOffice</a>
+                                    <li>
+                                        <a class="collapsible-header waves-effect">BackOffice</a>
                                         <div class="collapsible-body">
                                             <ul>
-                                                <li id="creation_equipe_list">@Html.ActionLink("Création equipe", "CreateEquipe", "Backoffice")</li>
+                                                <li id="creation_equipe_list">@Html.ActionLink("Gèrer les Utilisateurs", "CreateUser", "Backoffice")</li>
+                                                <li id="creation_equipe_list">@Html.ActionLink("Création Equipe", "CreateEquipe", "Backoffice")</li>
                                             </ul>
                                         </div>
                                     </li>
@@ -117,6 +119,19 @@
                 }
                 else
                 {
+                    <li>
+                        <ul id="collapse_calendrier" class="collapsible collapsible-accordion">
+
+                            <li>
+                                <a class="collapsible-header waves-effect ">Calendrier</a>
+                                <div class="collapsible-body">
+                                    <ul>
+                                        <li id="entrainement_list">@Html.ActionLink("Entrainement", "Entrainement", "Calendrier")</li>
+                                    </ul>
+                                </div>
+                            </li>
+                        </ul>
+                    </li>
                     <li><a onclick="$('#modal_connect').modal('open');">Connexion</a></li>
                 }
                 
