@@ -229,8 +229,8 @@ namespace SiteFoot.Controllers
 
         public String GetEventsEntrainement(int id_entraineur, int id_equipe, String id_membre, int id_terrain, DateTime start, DateTime end)
         {
-            try
-            {
+            /*try
+            {*/
                 DataTable entrainements = CalendrierManager.GetEntrainements(id_entraineur, id_equipe, id_membre, id_terrain, start, end);
                 
                 //entrainements.Columns[0].DataType = typeof(String);
@@ -238,11 +238,11 @@ namespace SiteFoot.Controllers
 
 
                 return result;
-            }
+            /*}
             catch (Exception e)
             {
                 return "";
-            }
+            }*/
         }
 
         public String AutocompleteMembre(String partial_name)

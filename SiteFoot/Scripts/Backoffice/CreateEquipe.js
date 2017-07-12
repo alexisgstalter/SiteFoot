@@ -1,5 +1,6 @@
 ﻿$(document).ready(function () {
    
+    
     $('select').material_select();
 
     loadAllEquipe();
@@ -17,7 +18,6 @@
                 if (msg.ok) { //Il n'y a eu aucune erreur côté serveur
 
                     $('#requested_equipe').append(msg.html);
-                    
                     $('#equipetable').DataTable({
                         "scrollY": false,
                         "scrollX": false,
@@ -114,19 +114,17 @@
 
         var nom_equipe = $("#nom_equipe").val();
         var liste_categorie = $("#liste_categorie").val();
-        var entraineur = [];
-        $("#entraineur option:selected").each(function () {
-            entraineur.push($(this).val());
-        });
-
-        console.log("entraineur : " + entraineur);
-
-
+        var entraineur = Array();
+        for (var i = 0; i < $("#entraineur option:selected").length; i++) {
+            entraineur.push($("#entraineur option:selected").eq(i).val());
+        }
+        var ecusson = $("#pj").val();
         $.ajax({
             url: "/Backoffice/SaveEquipe",
             type: "POST",
-            data: { nom_equipe: nom_equipe, liste_categorie: liste_categorie, entraineur: entraineur },
-            dataType: "json",
+            data: JSON.stringify({ nom_equipe: nom_equipe, liste_categorie: liste_categorie, entraineur: entraineur, ecusson: ecusson }),
+            contentType: "application/json; charset=utf-8",
+            dataType:"json",
             success: function (data) {
                 if (data.ok) {
                     Materialize.toast("L'équipe a été crée", 3000);

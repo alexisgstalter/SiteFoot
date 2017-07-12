@@ -9,6 +9,8 @@
             success: function (data) {
                 if (data.ok) {
                     $("#user_container").append(data.html);
+                    $("table").dynatable();
+
                 }
                 else {
                     Materialize.toast(data.error, 3000);
