@@ -111,17 +111,21 @@
 
 
     function create_info_equipe() {
+
         var nom_equipe = $("#nom_equipe").val();
         var liste_categorie = $("#liste_categorie").val();
         var entraineur = [];
         $("#entraineur option:selected").each(function () {
             entraineur.push($(this).val());
         });
-        var ecusson = $("#ecusson").val();
+
+        console.log("entraineur : " + entraineur);
+
+
         $.ajax({
             url: "/Backoffice/SaveEquipe",
             type: "POST",
-            data: { nom_equipe: nom_equipe, liste_categorie: liste_categorie, entraineur: entraineur, ecusson: ecusson },
+            data: { nom_equipe: nom_equipe, liste_categorie: liste_categorie, entraineur: entraineur },
             dataType: "json",
             success: function (data) {
                 if (data.ok) {
@@ -217,7 +221,6 @@
        
         var nom_equipe = $("#nom_equipe").val();
         var liste_categorie = $("#liste_categorie").val();
-        var entraineur = $("#entraineur").val();
  
         $(".piece_jointe").each(function () {
             var ins = document.getElementById('pj').files.length;
@@ -228,7 +231,6 @@
         });
         fd.append("nom_equipe", nom_equipe);
         fd.append("liste_categorie", liste_categorie);
-        fd.append("entraineur", entraineur);
 
         var ajaxRequest = $.ajax({
             type: "POST",

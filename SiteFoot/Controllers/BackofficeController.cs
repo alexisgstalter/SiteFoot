@@ -69,28 +69,35 @@ namespace SiteFoot.Controllers
             catch (Exception e)
             {
                 return Json(new { ok = false, error = e.Message });
-            }*/ 
-            }
+            } */
+        }
 
         
-        public JsonResult SaveEquipe(String nom_equipe, String liste_categorie, int[] entraineur, String ecusson)
+        public JsonResult SaveEquipe(String nom_equipe, String liste_categorie, String entraineur)
         {
-            try
-            {
-     
-                if (nom_equipe == "" || liste_categorie == "" || entraineur.Length == 0 || ecusson == "")
+            /*try
+            {*/
+                Debug.WriteLine("entraineur " + entraineur);
+                
+                
+                /*if (nom_equipe == "" || liste_categorie == "" || entraineur.Length == 0)
                 {
                     throw new Exception("Veuillez renseigner tous les champs");
                 }
 
-                BackofficeManager.SaveEquipe(nom_equipe, liste_categorie, entraineur, ecusson);
+                BackofficeManager.SaveEquipe(nom_equipe, liste_categorie, entraineur);*/
+
+
+
+
+
                 return Json(new { ok = true });
 
-            }
+            /*}
             catch (Exception e)
             {
                 return Json(new { ok = false, error = e.Message });
-            }
+            }*/
         }
 
 
