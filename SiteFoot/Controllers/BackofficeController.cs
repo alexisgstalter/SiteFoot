@@ -69,7 +69,7 @@ namespace SiteFoot.Controllers
             catch (Exception e)
             {
                 return Json(new { ok = false, error = e.Message });
-            }*/
+            }*/ 
             }
 
         
