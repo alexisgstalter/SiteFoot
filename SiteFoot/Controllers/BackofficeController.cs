@@ -21,6 +21,13 @@ namespace SiteFoot.Controllers
         }
 
 
+        public ActionResult SaisieEquipe()
+        {
+            return View("~/Views/Backoffice/CreateEquipe.cshtml");
+        }
+
+
+
         public JsonResult LoadAllEquipe()
         {
             try
@@ -41,7 +48,7 @@ namespace SiteFoot.Controllers
                     hasResult = true;
                     for (int i = 0; i < liste_equipe.Rows.Count; i++)
                     {
-                        int id_entraineur = int.Parse(liste_equipe.Rows[i]["id_entraineur"].ToString());
+                        int id_entraineur = int.Parse(liste_equipe.Rows[i]["id_entraineur"].ToString()); 
 
                         String nom_entraîneur = "";
 
@@ -54,7 +61,7 @@ namespace SiteFoot.Controllers
                         }
                         
                         html = html + "<tr>";
-                        html = html + "<td>" + liste_equipe.Rows[i]["nom_equipe"].ToString() + "</td><td>" + liste_equipe.Rows[i]["categorie"].ToString() + "</td><td>" + nom_entraîneur + "</td><td><img class='img-responsive' src='/Fichiers Foot/" + liste_equipe.Rows[i]["ecusson"].ToString() + "' /></td><td data-id_ligne='" + liste_equipe.Rows[i]["id"].ToString() + "' class='edit_ligne'><i class='material-icons prefix'>mode_edit</i><td class='delete delete_ligne' data-value='" + liste_equipe.Rows[i]["id"].ToString() + "'><i class='material-icons prefix'>clear</i></td>";
+                        html = html + "<td>" + liste_equipe.Rows[i]["nom_equipe"].ToString() + "</td><td>" + liste_equipe.Rows[i]["categorie"].ToString() + "</td><td>" + nom_entraîneur + "</td><td><img class='img-responsive' src='/Fichiers SiteFoot/" + liste_equipe.Rows[i]["ecusson"].ToString() + "' /></td><td data-id_ligne='" + liste_equipe.Rows[i]["id"].ToString() + "' class='edit_ligne'><i class='material-icons prefix'>mode_edit</i><td class='delete delete_ligne' data-value='" + liste_equipe.Rows[i]["id"].ToString() + "'><i class='material-icons prefix'>clear</i></td>";
                     }
                     html = html + "</tr>";
                 }
@@ -71,15 +78,14 @@ namespace SiteFoot.Controllers
         
         public JsonResult SaveEquipe(String nom_equipe, String liste_categorie, String entraineur, String ecusson)
         {
-            try
+           try
             {
-     
                 if (nom_equipe == "" || liste_categorie == "" || entraineur == "" || ecusson == "")
                 {
                     throw new Exception("Veuillez renseigner tous les champs");
                 }
 
-                BackofficeManager.SaveEquipe(nom_equipe, liste_categorie, entraineur, ecusson);
+                BackofficeManager.SaveEquipe(nom_equipe, liste_categorie, entraineur);
                 return Json(new { ok = true });
 
             }
@@ -174,5 +180,20 @@ namespace SiteFoot.Controllers
             }
             return Content(html);
         }
+
+
+
+        public String GenerateBlocEcusson()
+        {
+            String html = "";
+            html += "<div class='input-group has-feedback'><span class='input-group-addon'>Ecussion de l'équipe</span><input id='pj' class='form-control piece_jointe' type='file' multiple /></div></br>";
+            html += "<div class='text-center'><button type='button' class='btn btn-primary' id='upload'/>Enregistrer ecusson</button></div><br>";
+            return html;
+        }
+
+
+
+
     }
+
 }

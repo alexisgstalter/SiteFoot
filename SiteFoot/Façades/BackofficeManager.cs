@@ -37,17 +37,16 @@ namespace SiteFoot.Façades
             myConnection.Close();
         }
 
-        
-        public static void SaveEquipe(String nom_equipe, String liste_categorie, String entraineur, String ecusson)
+       
+        public static void SaveEquipe(String nom_equipe, String liste_categorie, String entraineur)
         {
             String connectionString = ConfigurationManager.ConnectionStrings["SQLSiteFoot"].ToString(); //Récupération de la chaîne de connexion
             SqlConnection myConnection = new SqlConnection(connectionString); //Nouvelle connexion à la base de donnée
             myConnection.Open(); //On ouvre la connexion
-            SqlCommand cmd = new SqlCommand("INSERT INTO Equipe (nom_equipe,categorie,ecusson,id_entraineur) values(@nom_equipe, @liste_categorie, @ecusson, @entraineur)", myConnection);
+            SqlCommand cmd = new SqlCommand("UPDATE Equipe set id_entraineur=@entraineur where nom_equipe=@nom_equipe and categorie=@categorie", myConnection);
             cmd.Parameters.Add("@nom_equipe", SqlDbType.VarChar).Value = nom_equipe;
-            cmd.Parameters.Add("@liste_categorie", SqlDbType.VarChar).Value = liste_categorie;
+            cmd.Parameters.Add("@categorie", SqlDbType.VarChar).Value = liste_categorie;
             cmd.Parameters.Add("@entraineur", SqlDbType.VarChar).Value = entraineur;
-            cmd.Parameters.Add("@ecusson", SqlDbType.VarChar).Value = ecusson;
             cmd.ExecuteNonQuery();
             myConnection.Close();
         }
@@ -106,5 +105,37 @@ namespace SiteFoot.Façades
             myConnection.Close();
             return data;
         }
+
+
+        public static String GetEcussonEquipeFoot(String nom_equipe)
+        {
+            String connectionString = ConfigurationManager.ConnectionStrings["SQLSiteFoot"].ToString(); //Récupération de la chaîne de connexion
+            SqlConnection myConnection = new SqlConnection(connectionString); //Nouvelle connexion à la base de donnée
+            myConnection.Open(); //On ouvre la connexion
+            SqlCommand cmd = new SqlCommand("select top 1 ecusson from Equipe where nom_equipe=@nom_equipe", myConnection);
+            cmd.Parameters.Add("@nom_equipe", SqlDbType.VarChar).Value = nom_equipe;
+            string res = cmd.ExecuteScalar().ToString();
+            myConnection.Close();
+            return res;
+        }
+
+
+      
+
+
+        public static void SaveEcussonEquipeFoot(string fullpaths, String nom_equipe, String liste_categorie, String entraineur)
+        {
+            String connectionString = ConfigurationManager.ConnectionStrings["SQLSiteFoot"].ToString(); //Récupération de la chaîne de connexion
+            SqlConnection myConnection = new SqlConnection(connectionString); //Nouvelle connexion à la base de donnée
+            myConnection.Open(); //On ouvre la connexion
+            SqlCommand cmd = new SqlCommand("INSERT INTO Equipe (nom_equipe,categorie,ecusson,id_entraineur) values(@nom_equipe, @liste_categorie, @ecusson, @entraineur)", myConnection);
+            cmd.Parameters.Add("@nom_equipe", SqlDbType.VarChar).Value = nom_equipe;
+            cmd.Parameters.Add("@ecusson", SqlDbType.VarChar).Value = fullpaths;
+            cmd.Parameters.Add("@liste_categorie", SqlDbType.VarChar).Value = liste_categorie;
+            cmd.Parameters.Add("@entraineur", SqlDbType.VarChar).Value = entraineur;
+            cmd.ExecuteNonQuery();
+            myConnection.Close();
+        }
+
     }
 }

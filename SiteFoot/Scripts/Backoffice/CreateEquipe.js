@@ -202,8 +202,40 @@
     });
 
 
+    /*
     $("#OpenUpload").click(function () {
         $('#UploadModal').modal('open');
+    });
+    */
+
+    $("#upload").click(function () {
+        var fd = new FormData();
+        var compteur = 0;
+       
+        var nom_equipe = $("#nom_equipe").val();
+        var liste_categorie = $("#liste_categorie").val();
+        var entraineur = $("#entraineur").val();
+ 
+        $(".piece_jointe").each(function () {
+            var ins = document.getElementById('pj').files.length;
+            for (var x = 0; x < ins; x++) {
+                fd.append("fileToUpload" + compteur, document.getElementById('pj').files[x]);
+                compteur++;
+            }
+        });
+        fd.append("nom_equipe", nom_equipe);
+        fd.append("liste_categorie", liste_categorie);
+        fd.append("entraineur", entraineur);
+
+        var ajaxRequest = $.ajax({
+            type: "POST",
+            url: "/Upload/SaveEcussonEquipe",
+            async: false,
+            contentType: false,
+            processData: false,
+            data: fd
+        });
+        find();
     });
 
 

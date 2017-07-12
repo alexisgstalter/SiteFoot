@@ -63,12 +63,18 @@
             <div class="file-path-wrapper">
                 <input id="ecusson" class="file-path validate" type="text">
             </div>
-        </div>-->
+        </div>
 
         
         <div>
             <button id="OpenUpload" type="button" class="btn btn-danger">Ecusson de l'équipe</button>
+        </div>-->
+
+
+        <div class="input-field">
+            @Html.Action("GenerateBlocEcusson", "Backoffice", new { name = "GenerateBlocEcusson" })
         </div>
+        <br />
 
 
         <center><button href="#!" class="btn" id="btn_ajouter" type="submit">Ajouter</button></center>

@@ -82,6 +82,60 @@ namespace SiteFoot.Controllers
 
 
 
+
+
+
+        public ActionResult SaveEcussonEquipe()
+        {
+            string nom_equipe = Request.Form["nom_equipe"];
+            string liste_categorie = Request.Form["liste_categorie"];
+            string entraineur = Request.Form["entraineur"];
+
+            List<String> chemins = new List<string>();
+            List<String> nom_fichier = new List<string>();
+
+
+            foreach (String upload in Request.Files)
+            {
+                var nomfichier = Path.GetFileName(Request.Files[upload].FileName);
+                var chemin = Path.Combine(@"\\hexane-01\d$\SiteFoot\Fichiers SiteFoot", nomfichier);
+
+                int i = 1;
+                while (System.IO.File.Exists(chemin))
+                {
+                    string extension = Path.GetExtension(Request.Files[upload].FileName);
+                    nomfichier = Path.GetFileName(Request.Files[upload].FileName).Replace(extension, "");
+                    nomfichier = nomfichier + "(" + i + ")" + extension;
+                    chemin = Path.Combine(@"\\hexane-01\d$\SiteFoot\Fichiers SiteFoot", nomfichier);
+                    i++;
+                }
+                chemins.Add(chemin);
+                nom_fichier.Add(nomfichier);
+
+                Request.Files[upload].SaveAs(chemin);
+            }
+
+            string paths = "";
+            foreach (string chemin in chemins)
+            {
+                paths += chemin + ";";
+            }
+            paths = paths.Remove(paths.LastIndexOf(";"));
+
+            string name_fichier = "";
+            foreach (string name in nom_fichier)
+            {
+                name_fichier += name + ";";
+            }
+            name_fichier = name_fichier.Remove(name_fichier.LastIndexOf(";"));
+
+            BackofficeManager.SaveEcussonEquipeFoot(name_fichier, nom_equipe, liste_categorie, entraineur);
+
+            return RedirectToAction("SaisieEquipe", "Upload");
+        }
+
+
+
     }
 
 }
