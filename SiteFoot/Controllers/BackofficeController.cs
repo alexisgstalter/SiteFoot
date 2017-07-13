@@ -34,7 +34,7 @@ namespace SiteFoot.Controllers
 
         public JsonResult LoadAllEquipe()
         {
-            try
+            try 
             {
                 bool valid = false;
                 
