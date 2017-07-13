@@ -1,5 +1,4 @@
 ﻿$(document).ready(function () {
-   
     
     $('select').material_select();
 
@@ -144,7 +143,6 @@
 
     $(document).on("click", ".edit_ligne", function () {
         try {
-
             var id = $(this).data("id_ligne");
 
             $.ajax({
@@ -162,6 +160,7 @@
                             $("#entraineur_edit").val(data.id_entraineur);
                             $("#entraineur_edit").material_select();
                             $("#ecusson_edit").val(data.ecusson);
+                            $("#id_equipe_clef").val(data.id_equipe);
                         }
                     }  
                 },
@@ -179,15 +178,23 @@
 
 
     $("#EquipeModalForm").submit(function () {
+
+        var id_equipe_clef = $("#id_equipe_clef").val();
         var nom_equipe_update = $("#equipe_edit").val();
         var categorie_update = $("#categorie_edit").val();
-        var entraineur_update = $("#entraineur_edit").val();
+        var entraineur_update = Array();
+        for (var i = 0; i < $("#entraineur_edit option:selected").length; i++) {
+            entraineur_update.push($("#entraineur_edit option:selected").eq(i).val());
+        }
+
         var ecusson_update = $("#ecusson_edit").val();
         $.ajax({
             url: "/Backoffice/UpdateEquipe",
             type: "POST",
-            data: { nom_equipe_update: nom_equipe_update, categorie_update: categorie_update, entraineur_update: entraineur_update, ecusson_update: ecusson_update },
+            data: JSON.stringify({ nom_equipe_update: nom_equipe_update, categorie_update: categorie_update, entraineur_update: entraineur_update, ecusson_update: ecusson_update, id_equipe_clef: id_equipe_clef }),
+            contentType: "application/json; charset=utf-8",
             dataType: "json",
+           
             success: function (data) {
                 if (data.ok) {
                     Materialize.toast("Les informations sur l'équipe ont été modifiées", 3000);
@@ -206,12 +213,6 @@
         return false;
     });
 
-
-    /*
-    $("#OpenUpload").click(function () {
-        $('#UploadModal').modal('open');
-    });
-    */
 
     $("#upload").click(function () {
         var fd = new FormData();
