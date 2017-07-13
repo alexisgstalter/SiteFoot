@@ -140,7 +140,9 @@
                     </div>
 
                     <div class="input-field">
-                        @Html.Action("GenerateListeEntraineurUpdate", "Backoffice", new { name = "GenerateListeEntraineurUpdate" })
+                        <select id="entraineur_edit" name="entraineur_edit" typeof="text" class="validate" multiple>
+                            @Html.Action("GenerateListeEntraineurUpdate", "Backoffice", new { name = "GenerateListeEntraineurUpdate" })
+                        </select>
                         <label>Entraîneur</label>
                     </div>
 
