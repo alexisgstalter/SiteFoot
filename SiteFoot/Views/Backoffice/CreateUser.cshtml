@@ -8,4 +8,103 @@
 <div id="user_container">
 
 </div>
+<center><button class="btn hoverable" id="add_modal">
+            <i class="material-icons" style="color: white!important">add</i>
+</button></center>
+<div id="modal_add_user" class="modal">
+    <div class="modal-content">
+        <h4>Ajouter un utilisateur</h4>
+        <div class="row">
+            <form class="col s12 modal-form-row" id="form_create_user">
+                <div class="input-field">
+                    <input id="login" name="login" type="text" class="validate">
+                    <label>Login</label>
+                </div>
+                <div class="input-field">
+                    <input id="password" name="password" type="password" class="validate">
+                    <label>Mot de passe</label>
+                </div>
+                <div class="input-field">
+                    <input id="confirm_password" name="confirm_password" type="password" class="validate">
+                    <label>Confirmer le mot de passe</label>
+                </div>
+                <div class="input-field">
+                    <select id="groupe" name="groupe" type="text" class="validate" multiple>
+                        @Html.Action("LoadGroupes", "Backoffice")
+                    </select>
+                    <label>Groupe</label>
+                </div>
+                <div class="input-field">
+                    <input id="nom" name="nom" type="text" class="validate">
+                    <label>Nom</label>
+                </div>
+                <div class="input-field">
+                    <input id="prenom" name="prenom" type="text" class="validate">
+                    <label>Prénom</label>
+                </div>
+                <div class="input-field">
+                    <input id="email" name="email" type="email" class="validate">
+                    <label>Email</label>
+                </div>
+                <div class="input-field">
+                    <input id="telephone" name="telephone" type="tel" class="validate">
+                    <label>Téléphone</label>
+                </div>
+                <button href="#!" class="btn hoverable" id="btn_add_user" type="submit">Créer</button>
+                <a href="#!" class="btn hoverable" id="btn_fermer">Fermer</a>
+            </form>
+        </div>
+    </div>
+    <div class="modal-footer">
+
+    </div>
+</div>
+<div id="modal_edit_user" class="modal">
+    <div class="modal-content">
+        <h4>Modifier un utilisateur</h4>
+        <div class="row">
+            <form class="col s12 modal-form-row" id="form_modif_user">
+                <div class="input-field">
+                    <input id="login_edit" name="login_edit" type="text" class="validate">
+                    <label>Login</label>
+                </div>
+                <div class="input-field">
+                    <input id="password_edit" name="password_edit" type="password" class="validate">
+                    <label>Mot de passe</label>
+                </div>
+                <div class="input-field">
+                    <input id="confirm_password_edit" name="confirm_password_edit" type="password" class="validate">
+                    <label>Confirmer le mot de passe</label>
+                </div>
+                <div class="input-field">
+                    <select id="groupe_edit" name="groupe_edit" type="text" class="validate" multiple>
+                        @Html.Action("LoadGroupes", "Backoffice")
+                    </select>
+                    <label>Groupe</label>
+                </div>
+                <div class="input-field">
+                    <input id="nom_edit" name="nom_edit" type="text" class="validate">
+                    <label>Nom</label>
+                </div>
+                <div class="input-field">
+                    <input id="prenom_edit" name="prenom_edit" type="text" class="validate">
+                    <label>Prénom</label>
+                </div>
+                <div class="input-field">
+                    <input id="email_edit" name="email_edit" type="email" class="validate">
+                    <label>Email</label>
+                </div>
+                <div class="input-field">
+                    <input id="telephone_edit" name="telephone_edit" type="tel" class="validate">
+                    <label>Téléphone</label>
+                </div>
+                <button href="#!" class="btn hoverable" id="btn_modif_user" type="submit">Créer</button>
+                <a href="#!" class="btn hoverable" id="btn_fermer">Fermer</a>
+            </form>
+        </div>
+    </div>
+    <div class="modal-footer">
+
+    </div>
+</div>
 @Scripts.Render(@"~\Scripts\Backoffice\CreateUser.js")

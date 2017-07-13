@@ -1,0 +1,64 @@
+﻿@{
+    ViewBag.Title = "gerer_annonces";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<center><h2>Gestion des annonces</h2></center>
+<br />
+<div id="annonces_container">
+
+</div>
+<div id="modal_modif_annonce" class="modal">
+    <div class="modal-content">
+        <h4>Modifier une annonce</h4>
+        <form class="row" id="form_modif_annonce">
+            <div class="col s12">
+                <div class="row">
+
+                    <div class="input-field">
+                        <input id="intitule_modif" name="intitule_modif" type="text" class="validate">
+                        <label>Titre</label>
+                    </div>
+                    <div class="input-field">
+                        <textarea id="texte_modif" name="texte_modif" type="text" class="validate"></textarea>
+                        <label>Texte</label>
+                    </div>
+                    <div id="img_container_modif"></div>
+                    <div class="input-field">
+                        <input id="image_modif" name="image_modif" type="file" class="validate" multiple>
+                        <label>ajout image</label>
+                    </div>
+                </div>
+
+            </div>
+            <button class="btn hoverable" id="btn_modifier" type="submit">Modifier</button>
+            <button class="btn hoverable" id="btn_supprimer" type="button">Supprimer</button>
+        </form>
+    </div>
+</div>
+<div id="modal_ajout_annonce" class="modal">
+    <div class="modal-content">
+        <h4>Modifier une annonce</h4>
+        <form class="row" id="form_ajout_annonce">
+            <div class="col s12">
+                <div class="row">
+                    <div class="input-field">
+                        <input id="intitule" name="intitule" type="text" class="validate">
+                        <label>Titre</label>
+                    </div>
+                    <div class="input-field">
+                        <textarea id="texte" name="texte" type="text" class="validate"></textarea>
+                        <label>Titre</label>
+                    </div>
+                    <div class="input-field">
+                        <input id="image" name="image" type="file" class="validate" multiple>
+                        <label>ajout image</label>
+                    </div>
+                </div>
+
+            </div>
+            <button class="btn hoverable" id="btn_modifier" type="submit">Modifier</button>
+            <button class="btn hoverable" id="btn_supprimer" type="button">Supprimer</button>
+        </form>
+    </div>
+</div>

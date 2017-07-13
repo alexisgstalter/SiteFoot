@@ -62,7 +62,35 @@
                 </li>
                 <li id="accueil_list">@Html.ActionLink("Accueil", "Index", "Home")</li>
                 <li id="about_list">@Html.ActionLink("A propos du FCS", "About", "Home")</li>
-                <li id="annonces_list">@Html.ActionLink("Annonces", "Annonces", "Home")</li>
+                @{
+                    if (Request.IsAuthenticated)
+                    {
+                        bool can_edit_annonce = false;
+                        foreach (SiteFoot.Models.Groupe g in groupe)
+                        {
+                            if (g.Droit_poster_annonce)
+                            {
+                                can_edit_annonce = true;
+                            }
+                        }
+                    }
+                }
+                <li id="annonces_list">@Html.ActionLink("Annonces", "Annonce", "Annonce")</li>
+                <li>
+                    <ul id="collapse_calendrier" class="collapsible collapsible-accordion">
+
+                        <li>
+                            <a class="collapsible-header waves-effect ">Calendrier</a>
+                            <div class="collapsible-body">
+                                <ul>
+                                    <li id="buvette_list">@Html.ActionLink("Buvette", "Buvette", "Calendrier")</li>
+                                    <li id="entrainement_list">@Html.ActionLink("Entrainement", "Entrainement", "Calendrier")</li>
+                                    <li id="formation_list">@Html.ActionLink("Formation Educateur", "FormationEducateur", "Calendrier")</li>
+                                </ul>
+                            </div>
+                        </li>
+                    </ul>
+                </li>
                 @if (Request.IsAuthenticated && user != null)
                 {
                     
@@ -157,8 +185,8 @@
                                 <label>Mot de passe</label>
                             </div>
                         </div>
-                        <button href="#!" class="btn" id="btn_connect" type="submit">Connexion</button>
-                        <a href="#!" class="btn" id="btn_fermer">Fermer</a>
+                        <button href="#!" class="btn hoverable" id="btn_connect" type="submit">Connexion</button>
+                        <a href="#!" class="btn hoverable" id="btn_fermer">Fermer</a>
                     </form>
                 </div>
             </div>
@@ -174,5 +202,5 @@
             </div>
         </footer>
 
-    </body>
+        <script src="https://nightly.datatables.net/js/jquery.dataTables.js"></script>    </body>
 </html>

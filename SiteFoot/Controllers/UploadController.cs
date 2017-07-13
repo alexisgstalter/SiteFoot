@@ -127,7 +127,32 @@ namespace SiteFoot.Controllers
             return RedirectToAction("SaisieEquipe", "Upload");
         }
 
+        public JsonResult SavePieceJointeAnnonce()
+        {
+            int id_annonce = int.Parse(Request.Form["id"]);
+            foreach (String upload in Request.Files)
+            {
+                var nomfichier = Path.GetFileName(Request.Files[upload].FileName);
+                var chemin = Path.Combine(@"\\hexane-01\d$\SiteFoot\Fichiers SiteFoot", nomfichier);
 
+                int i = 1;
+                while (System.IO.File.Exists(chemin))
+                {
+                    string extension = Path.GetExtension(Request.Files[upload].FileName);
+                    nomfichier = Path.GetFileName(Request.Files[upload].FileName).Replace(extension, "");
+                    nomfichier = nomfichier + "(" + i + ")" + extension;
+                    chemin = Path.Combine(@"\\hexane-01\d$\SiteFoot\Fichiers SiteFoot", nomfichier);
+                    i++;
+                }
+
+
+                Request.Files[upload].SaveAs(chemin);
+                AnnonceManager.SavePieceJointeAnnonce(id_annonce, nomfichier);
+            }
+
+
+            return Json(new { ok = true });
+        }
 
     }
 

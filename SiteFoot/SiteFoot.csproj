@@ -180,12 +180,14 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Controllers\AnnonceController.cs" />
     <Compile Include="Controllers\UploadController.cs" />
     <Compile Include="Controllers\BackofficeController.cs" />
     <Compile Include="Controllers\CalendrierController.cs" />
     <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ResultatsController.cs" />
+    <Compile Include="Façades\AnnonceManager.cs" />
     <Compile Include="Façades\BackofficeManager.cs" />
     <Compile Include="Façades\CalendrierManager.cs" />
     <Compile Include="Façades\GroupeManager.cs" />
@@ -203,6 +205,8 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\common.css" />
+    <Content Include="Content\dataTables.bootstrap.css" />
+    <Content Include="Content\datatables.css" />
     <Content Include="Content\fullcalendar.css" />
     <Content Include="Content\fullcalendar.min.css" />
     <Content Include="Content\fullcalendar.print.css" />
@@ -258,27 +262,29 @@
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <None Include="Properties\PublishProfiles\SiteFoot.pubxml" />
-    <None Include="Scripts\jquery-3.1.1.intellisense.js" />
     <Content Include="Scripts\Backoffice\CreateEquipe.js" />
     <Content Include="Scripts\Backoffice\CreateUser.js" />
     <Content Include="Scripts\Calendrier\buvette.js" />
     <Content Include="Scripts\Calendrier\entrainement.js" />
+    <Content Include="Scripts\datatables.js" />
     <Content Include="Scripts\fullcalendar.js" />
     <Content Include="Scripts\fullcalendar.min.js" />
     <Content Include="Scripts\fullcalendar\jquery.min.js" />
     <Content Include="Scripts\gcal.js" />
     <Content Include="Scripts\gcal.min.js" />
+    <Content Include="Scripts\Home\annonce.js" />
     <Content Include="Scripts\Home\common.js" />
     <None Include="Scripts\jquery-3.1.1.intellisense.js" />
+    <Content Include="Scripts\Home\gerer_annonces.js" />
     <Content Include="Scripts\jquery-3.1.1.js" />
     <Content Include="Scripts\jquery-3.1.1.min.js" />
     <Content Include="Scripts\jquery-3.1.1.slim.js" />
     <Content Include="Scripts\jquery-3.1.1.slim.min.js" />
-    <Content Include="Scripts\jquery-3.1.1.slim.min.map" />
-    <Content Include="Scripts\jquery-3.1.1.min.map" />
     <Content Include="Scripts\jQuery-autoComplete-master\auto-complete.jquery.json" />
     <Content Include="Scripts\jQuery-autoComplete-master\bower.json" />
     <Content Include="Scripts\jQuery-autoComplete-master\readme.md" />
+    <Content Include="Scripts\jquery-3.1.1.slim.min.map" />
+    <Content Include="Scripts\jquery-3.1.1.min.map" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\jQuery-autoComplete-master\demo.html" />
     <Content Include="Scripts\jQuery-autoComplete-master\img\at.png" />
@@ -443,6 +449,7 @@
     <Content Include="Views\Backoffice\CreateEquipe.cshtml" />
     <Content Include="Views\Calendrier\entrainement.cshtml" />
     <Content Include="Views\Backoffice\CreateUser.cshtml" />
+    <Content Include="Views\Home\gerer_annonces.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -52,5 +52,28 @@ namespace SiteFoot.Models
             get { return salt; }
             set { salt = value; }
         }
+
+        private string nom;
+
+        public string Nom
+        {
+          get { return nom; }
+          set { nom = value; }
+        }
+
+        private string prenom;
+
+        public string Prenom
+        {
+            get { return prenom; }
+            set { prenom = value; }
+        }
+        private string telephone;
+
+        public string Telephone
+        {
+            get { return telephone; }
+            set { telephone = value; }
+        }
     }
 }
