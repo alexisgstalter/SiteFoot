@@ -80,7 +80,7 @@ namespace SiteFoot.Façades
             String connectionString = ConfigurationManager.ConnectionStrings["SQLSiteFoot"].ToString(); //Récupération de la chaîne de connexion
             SqlConnection myConnection = new SqlConnection(connectionString); //Nouvelle connexion à la base de donnée
             myConnection.Open(); //On ouvre la connexion
-            SqlDataAdapter source = new SqlDataAdapter("select * from ResponsableBuvette", myConnection);
+            SqlDataAdapter source = new SqlDataAdapter("select * from Utilisateurs where id in (select id_utilisateur from GroupesUtilisateur Utilisateur where id_groupe in (select id from Groupe where nom = 'RESPONSABLE BUVETTE'))", myConnection);
             DataTable data = new DataTable();
             source.Fill(data);
             myConnection.Close();

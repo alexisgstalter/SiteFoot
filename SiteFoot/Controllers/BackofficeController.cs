@@ -202,10 +202,13 @@ namespace SiteFoot.Controllers
         {
             try
             {
-                String html = "<table class='striped bordered highlight centered'><tr><thead><th>ID</th><th>Login</th><th>Prénom</th><th>Nom</th><th>Email</th><th>Téléphone</th><th>Editer</th><th>Supprimer</th></tr></thead><tbody>";
+                String html = "<table class='striped bordered highlight centered'><thead><tr><th>ID</th><th>Login</th><th>Mot de passe</th><th>Groupes</th><th>Prénom</th><th>Nom</th><th>Email</th><th>Téléphone</th><th>Editer</th><th>Supprimer</th></tr></thead><tbody>";
                 DataTable utilisateurs = Utilisateur.getAll();
                 foreach (DataRow row in utilisateurs.Rows)
                 {
+                    User u = new User();
+                    u.Id = int.Parse(row["id"].ToString());
+                    String password = Utilisateur.GetClearPassword(u);
                     List<Groupe> grps = GroupeManager.GetById(int.Parse(row["id"].ToString()));
                     string groupes = "";
                     foreach (Groupe g in grps)
@@ -213,7 +216,7 @@ namespace SiteFoot.Controllers
                         groupes += g.Nom + ",";
                     }
                     groupes = groupes.Remove(groupes.LastIndexOf(','), 1);
-                    html += "<tr><td>" + row["id"].ToString() + "</td><td>" + row["login"].ToString() + "</td><td>" + row["prenom"].ToString() + "</td><td>" + row["nom"].ToString() + "</td><td>" + row["email"].ToString() + "</td><td>" + row["telephone"].ToString() + "</td><td><a><i class='material-icons dp48 edit'>mode_edit</i></td><td><i class='material-icons dp48 supp'>delete</i></td></tr>";
+                    html += "<tr><td>" + row["id"].ToString() + "</td><td>" + row["login"].ToString() + "</td><td>"+ password +"</td><td>"+ groupes +"</td><td>" + row["prenom"].ToString() + "</td><td>" + row["nom"].ToString() + "</td><td>" + row["email"].ToString() + "</td><td>" + row["telephone"].ToString() + "</td><td class='edit'><a><i class='material-icons dp48'>mode_edit</i></td><td class='supp'><i class='material-icons dp48'>delete</i></td></tr>";
                 }
                 html += "</tbody></table>";
                 return Json(new { ok = true, html = html });
@@ -222,6 +225,70 @@ namespace SiteFoot.Controllers
             {
                 return Json(new { ok = false, error = e.Message });
             }
+        }
+
+        public JsonResult SaveUser(String login, String password, int[] groupes, String email, String telephone, String nom, String prenom)
+        {
+            /*try
+            {*/
+                User u = new User();
+                u.Login = login;
+                u.Password = password;
+                u.Groupe = groupes.ToList();
+                u.Email = email;
+                u.Telephone = telephone;
+                u.Salt = Hash.GetNewSaltKey();
+                u.Nom = nom;
+                u.Prenom = prenom;
+
+                Utilisateur.Create(u);
+
+                return Json(new { ok = true });
+            /*}
+            catch (Exception e)
+            {
+                return Json(new { ok = false, error = e.Message });
+            }*/
+        }
+        public JsonResult UpdateUser(int id, String login, String password, int[] groupes, String email, String telephone, String nom, String prenom)
+        {
+            /*try
+            {*/
+            User u = new User();
+            u.Id = id;
+            u.Login = login;
+            u.Password = password;
+            u.Groupe = groupes.ToList();
+            u.Email = email;
+            u.Telephone = telephone;
+            u.Salt = Hash.GetNewSaltKey();
+            u.Nom = nom;
+            u.Prenom = prenom;
+
+            Utilisateur.Update(u);
+
+            return Json(new { ok = true });
+            /*}
+            catch (Exception e)
+            {
+                return Json(new { ok = false, error = e.Message });
+            }*/
+        }
+
+        public JsonResult DeleteUser(int id)
+        {
+            /*try
+            {*/
+
+
+            Utilisateur.Delete(id);
+
+            return Json(new { ok = true });
+            /*}
+            catch (Exception e)
+            {
+                return Json(new { ok = false, error = e.Message });
+            }*/
         }
     }
 

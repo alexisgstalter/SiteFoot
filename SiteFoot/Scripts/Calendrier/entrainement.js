@@ -257,6 +257,7 @@
             type: "POST",
             data: { title: title, start: start, end: end, id_terrain: id_terrain, id_equipe: id_equipe },
             dataType: "json",
+            contentType :"application/json;charset=utf-8",
             success: function (data) {
                 if (data.ok) {
                     Materialize.toast("l'entrainement a été créé", 3000);

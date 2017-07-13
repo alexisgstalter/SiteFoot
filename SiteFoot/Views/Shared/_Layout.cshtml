@@ -62,7 +62,7 @@
                 </li>
                 <li id="accueil_list">@Html.ActionLink("Accueil", "Index", "Home")</li>
                 <li id="about_list">@Html.ActionLink("A propos du FCS", "About", "Home")</li>
-                <li id="annonces_list">@Html.ActionLink("Annonces", "Annonces", "Home")</li>
+                <li id="annonces_list">@Html.ActionLink("Annonces", "Annonce", "Annonce")</li>
                 @if (Request.IsAuthenticated && user != null)
                 {
                     
@@ -157,8 +157,8 @@
                                 <label>Mot de passe</label>
                             </div>
                         </div>
-                        <button href="#!" class="btn" id="btn_connect" type="submit">Connexion</button>
-                        <a href="#!" class="btn" id="btn_fermer">Fermer</a>
+                        <button href="#!" class="btn hoverable" id="btn_connect" type="submit">Connexion</button>
+                        <a href="#!" class="btn hoverable" id="btn_fermer">Fermer</a>
                     </form>
                 </div>
             </div>
@@ -174,5 +174,5 @@
             </div>
         </footer>
 
-    </body>
+        <script src="https://nightly.datatables.net/js/jquery.dataTables.js"></script>    </body>
 </html>

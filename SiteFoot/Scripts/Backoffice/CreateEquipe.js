@@ -31,6 +31,8 @@
                     $.each($.fn.dataTable.fnTables(true), function (idx, singleTable) {
                         $(singleTable).dataTable().fnAdjustColumnSizing();
                     });
+                    $("select").material_select();
+
                 }
                 else {  //Il y eu une erreur côté serveur
                     alert(msg.error);
@@ -241,6 +243,5 @@
         });
         find();
     });
-
 
 })
