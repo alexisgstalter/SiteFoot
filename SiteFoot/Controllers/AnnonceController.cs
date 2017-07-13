@@ -39,7 +39,7 @@ namespace SiteFoot.Controllers
                 return Json(new { ok = false, error = e.Message });
             }
         }
-        public JsonResult GetGestionAnnonces(int offset)
+        public JsonResult GetGestionAnnonces()
         {
             try
             {

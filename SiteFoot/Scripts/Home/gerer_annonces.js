@@ -22,7 +22,7 @@
         processData: false,
         data: fd
     });*/
-
+    Load();
     function Load() {
         $("#annonces_container").empty();
         $.ajax({

@@ -70,6 +70,7 @@ namespace SiteFoot.Façades
                     groupe.Droit_entrainement_autre = Convert.ToBoolean(reader[5]);
                     groupe.Droit_gerer_formateur = Convert.ToBoolean(reader[6]);
                     groupe.Droit_formateur_autre = Convert.ToBoolean(reader[7]);
+                    groupe.Droit_poster_annonce = Convert.ToBoolean(reader[8]);
                     groupes.Add(groupe);
                 }
             }
