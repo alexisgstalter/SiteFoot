@@ -32,11 +32,10 @@ namespace SiteFoot.Controllers
         }
 
 
-
         public JsonResult LoadAllEquipe()
         {
-            /*try
-            {*/
+            try
+            {
                 bool valid = false;
                 
                 String html = "<table id='equipetable' class='highlight'>";
@@ -48,15 +47,13 @@ namespace SiteFoot.Controllers
                 bool hasResult = false;
                 DataTable liste_equipe = BackofficeManager.GetAllEquipe();
 
-                if (liste_equipe.Rows.Count > 0)
+                if (liste_equipe.Rows.Count > 0) 
                 {
                     hasResult = true;
                     for (int i = 0; i < liste_equipe.Rows.Count; i++)
                     {
-
                         String nom_entraîneur = BackofficeManager.GetAllEntraineursEquipe(int.Parse(liste_equipe.Rows[i]["id"].ToString()));
 
-                        
                         html = html + "<tr>";
                         html = html + "<td>" + liste_equipe.Rows[i]["nom_equipe"].ToString() + "</td><td>" + liste_equipe.Rows[i]["categorie"].ToString() + "</td><td>" + nom_entraîneur + "</td><td><img class='img-responsive' src='/Fichiers SiteFoot/" + liste_equipe.Rows[i]["ecusson"].ToString() + "' /></td><td data-id_ligne='" + liste_equipe.Rows[i]["id"].ToString() + "' class='edit_ligne'><i class='material-icons prefix'>mode_edit</i><td class='delete delete_ligne' data-value='" + liste_equipe.Rows[i]["id"].ToString() + "'><i class='material-icons prefix'>clear</i></td>";
                     }
@@ -65,32 +62,31 @@ namespace SiteFoot.Controllers
                 html += "</tbody></table>";
 
                 return Json(new { ok = true, html = html, hasResult = hasResult });
-            /*}
+            }
             catch (Exception e)
             {
                 return Json(new { ok = false, error = e.Message });
-            }*/ 
-            }
+            } 
+        }
 
         
-        public JsonResult SaveEquipe(String nom_equipe, String liste_categorie, int[] entraineur, String ecusson)
+        public JsonResult SaveEquipe(String nom_equipe, String liste_categorie, String ecusson, int[] entraineur)
         {
-           /* try
-            {*/
-     
-                if (nom_equipe == "" || liste_categorie == "" || entraineur.Length == 0 || ecusson == "")
+            try
+            {
+                if (nom_equipe == "" || liste_categorie == "" || entraineur.Length == 0)
                 {
                     throw new Exception("Veuillez renseigner tous les champs");
                 }
 
-                BackofficeManager.SaveEquipe(nom_equipe, liste_categorie, entraineur, ecusson);
-                return Json(new { ok = true });
+                BackofficeManager.SaveEquipe(nom_equipe, liste_categorie, ecusson, entraineur);
 
-            /*}
+                return Json(new { ok = true });
+            }
             catch (Exception e)
             {
                 return Json(new { ok = false, error = e.Message });
-            }*/
+            }
         }
 
 
@@ -115,7 +111,7 @@ namespace SiteFoot.Controllers
                 DataTable dataequipe = BackofficeManager.GetEventEquipeById(id);
                 if (dataequipe.Rows.Count > 0)
                 {
-                    return Json(new { ok = true, hasResult = true, nom_equipe = dataequipe.Rows[0]["nom_equipe"].ToString(), categorie = dataequipe.Rows[0]["categorie"].ToString(), ecusson = dataequipe.Rows[0]["ecusson"].ToString(), id_entraineur = dataequipe.Rows[0]["id_entraineur"].ToString() });
+                    return Json(new { ok = true, hasResult = true, nom_equipe = dataequipe.Rows[0]["nom_equipe"].ToString(), categorie = dataequipe.Rows[0]["categorie"].ToString(), ecusson = dataequipe.Rows[0]["ecusson"].ToString(), id_equipe = dataequipe.Rows[0]["id"].ToString() });
                 }
                 else
                 {
@@ -129,11 +125,11 @@ namespace SiteFoot.Controllers
         }
 
 
-        public JsonResult UpdateEquipe(String nom_equipe_update, String categorie_update, String entraineur_update, String ecusson_update)
+        public JsonResult UpdateEquipe(String nom_equipe_update, String categorie_update, int[] entraineur_update, String ecusson_update, int id_equipe_clef)
         {
             try
             {
-                BackofficeManager.UpdateEquipe(nom_equipe_update, categorie_update, entraineur_update, ecusson_update);
+                BackofficeManager.UpdateEquipe(entraineur_update, ecusson_update, id_equipe_clef);
                 return Json(new { ok = true });
             }
             catch (Exception e)
@@ -169,7 +165,7 @@ namespace SiteFoot.Controllers
             String html = "";
             if (ListeEntraineur.Rows.Count > 0)
             {
-                html = html + "<select id='entraineur_edit'>";
+                html = html + "<select id='entraineur_edit' multiple>";
                 for (int i = 0; i < ListeEntraineur.Rows.Count; i++)
                 {
                     html = html + "<option value='" + ListeEntraineur.Rows[i]["id"].ToString() + "'>" + ListeEntraineur.Rows[i]["nom"].ToString() + " " + ListeEntraineur.Rows[i]["prenom"].ToString() + "</option>";
@@ -178,6 +174,7 @@ namespace SiteFoot.Controllers
             }
             return Content(html);
         }
+
 
         public ActionResult LoadGroupes()
         {
@@ -190,6 +187,7 @@ namespace SiteFoot.Controllers
             return Content(html);
         }
 
+
         public String GenerateBlocEcusson()
         {
             String html = "";
@@ -197,6 +195,7 @@ namespace SiteFoot.Controllers
             html += "<div class='text-center'><button type='button' class='btn btn-primary' id='upload'/>Enregistrer ecusson</button></div><br>";
             return html;
         }
+
 
         public JsonResult GetUtilisateurs()
         {

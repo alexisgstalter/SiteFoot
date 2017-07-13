@@ -5,6 +5,8 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
+using System.Diagnostics;
+
 
 namespace SiteFoot.Façades
 {
@@ -40,7 +42,7 @@ namespace SiteFoot.Façades
             }
             if (res.Contains(","))
             {
-                res = res.Remove(res.LastIndexOf(','), 1);
+            res = res.Remove(res.LastIndexOf(','), 1);
             }
             return res;
         }
@@ -57,8 +59,8 @@ namespace SiteFoot.Façades
             myConnection.Close();
         }
 
-        
-        public static void SaveEquipe(String nom_equipe, String liste_categorie, int[] entraineur, String ecusson)
+
+        public static void SaveEquipe(String nom_equipe, String liste_categorie, String ecusson, int[] entraineur)
         {
             String connectionString = ConfigurationManager.ConnectionStrings["SQLSiteFoot"].ToString(); //Récupération de la chaîne de connexion
             SqlConnection myConnection = new SqlConnection(connectionString); //Nouvelle connexion à la base de donnée
@@ -73,7 +75,7 @@ namespace SiteFoot.Façades
                 cmd = new SqlCommand("insert into EntraineurParEquipe values (@id_equipe, @id_entraineur)", myConnection);
                 cmd.Parameters.Add("@id_equipe", SqlDbType.Int).Value = id_equipe;
                 cmd.Parameters.Add("@id_entraineur", SqlDbType.Int).Value = id_entraineur;
-            cmd.ExecuteNonQuery();
+                cmd.ExecuteNonQuery();
             }
             myConnection.Close();
         }
@@ -93,20 +95,32 @@ namespace SiteFoot.Façades
         }
 
 
-        public static void UpdateEquipe(String nom_equipe_update, String categorie_update, String entraineur_update, String ecusson_update)
+        public static void UpdateEquipe(int[] entraineur_update, String ecusson_update, int id_equipe_clef)
         {
+
             String connectionString = ConfigurationManager.ConnectionStrings["SQLSiteFoot"].ToString(); //Récupération de la chaîne de connexion
             SqlConnection myConnection = new SqlConnection(connectionString); //Nouvelle connexion à la base de donnée
             myConnection.Open(); //On ouvre la connexion
-            SqlCommand cmd = new SqlCommand("UPDATE Equipe set id_entraineur=@entraineur_update, ecusson=@ecusson_update where nom_equipe=@nom_equipe_update and categorie=@categorie_update", myConnection);
-            cmd.Parameters.Add("@nom_equipe_update", SqlDbType.VarChar).Value = nom_equipe_update;
-            cmd.Parameters.Add("@categorie_update", SqlDbType.VarChar).Value = categorie_update;
-            cmd.Parameters.Add("@entraineur_update", SqlDbType.VarChar).Value = entraineur_update;
+            SqlCommand cmd = new SqlCommand("UPDATE Equipe set ecusson=@ecusson_update where id=@id_equipe_clef", myConnection);
             cmd.Parameters.Add("@ecusson_update", SqlDbType.VarChar).Value = ecusson_update;
+            cmd.Parameters.Add("@id_equipe_clef", SqlDbType.Int).Value = id_equipe_clef;
             cmd.ExecuteNonQuery();
+            
+            cmd = new SqlCommand("DELETE FROM EntraineurParEquipe WHERE id_equipe=@id_equipe", myConnection);
+            cmd.Parameters.Add("@id_equipe", SqlDbType.Int).Value = id_equipe_clef;
+            cmd.ExecuteNonQuery();
+            
+            foreach (int id_entraineur in entraineur_update)
+            {
+                cmd = new SqlCommand("insert into EntraineurParEquipe values (@id_equipe, @id_entraineur)", myConnection);
+                cmd.Parameters.Add("@id_equipe", SqlDbType.Int).Value = id_equipe_clef;
+                cmd.Parameters.Add("@id_entraineur", SqlDbType.Int).Value = id_entraineur;
+                cmd.ExecuteNonQuery();
+            }
+            
             myConnection.Close();
         }
-
+        
 
         public static DataTable GetInfoEntraineur(int id)
         {

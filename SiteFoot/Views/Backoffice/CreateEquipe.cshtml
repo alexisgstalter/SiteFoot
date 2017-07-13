@@ -48,29 +48,6 @@
         </div>
         <br />
 
-        
-        <!--<div class="input-field">
-            <i class="material-icons prefix">explicit</i>
-            <input id="entraineur" type="text" class="validate">
-            <label>Entraîneur</label>
-        </div>
-
-        <div class="file-field input-field">
-            <div class="btn hoverable">
-                <span>Ecusson de l'équipe</span>
-                <input type="file" accept="image/jpeg">
-            </div>
-            <div class="file-path-wrapper">
-                <input id="ecusson" class="file-path validate" type="text">
-            </div>
-        </div>
-
-        
-        <div>
-            <button id="OpenUpload" type="button" class="btn btn-danger">Ecusson de l'équipe</button>
-        </div>-->
-
-
         <div class="input-field">
             @Html.Action("GenerateBlocEcusson", "Backoffice", new { name = "GenerateBlocEcusson" })
         </div>
@@ -83,7 +60,6 @@
     <br />
     <div class="container" id="requested_equipe"></div>
 </div>
-
 
 
 
@@ -124,7 +100,6 @@
 
 
 
-
 <div id="EquipeModal" class="modal">
     <div class="modal-content">
         <form class="row" id="EquipeModalForm">
@@ -132,6 +107,7 @@
                 <h4 class="modal-title" id="myModalLabel">Modification équipe</h4>
             </div>
             <div class="modal-body">
+                <input id="id_equipe_clef" name="id_equipe_clef" type="hidden">
                 <div class="control-group">
                     <label class="control-label" for="equipe_edit">Nom équipe :</label>
                     <div class="controls">

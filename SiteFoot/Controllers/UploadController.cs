@@ -82,18 +82,13 @@ namespace SiteFoot.Controllers
 
 
 
-
-
-
         public ActionResult SaveEcussonEquipe()
         {
             string nom_equipe = Request.Form["nom_equipe"];
             string liste_categorie = Request.Form["liste_categorie"];
-            string entraineur = Request.Form["entraineur"];
 
             List<String> chemins = new List<string>();
             List<String> nom_fichier = new List<string>();
-
 
             foreach (String upload in Request.Files)
             {
@@ -128,8 +123,6 @@ namespace SiteFoot.Controllers
                 name_fichier += name + ";";
             }
             name_fichier = name_fichier.Remove(name_fichier.LastIndexOf(";"));
-
-            //BackofficeManager.SaveEcussonEquipeFoot(name_fichier, nom_equipe, liste_categorie);
 
             return RedirectToAction("SaisieEquipe", "Upload");
         }
