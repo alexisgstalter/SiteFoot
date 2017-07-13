@@ -35,7 +35,7 @@ namespace SiteFoot.Controllers
                 {
                     //On teste si fichier est sélectionné
                     if (file == null)
-                    {
+                    { 
                         ViewBag.Message = "Sélectionner votre fichier à intégrer";
                     }
                     //On teste si le fichier n'est pas vide
