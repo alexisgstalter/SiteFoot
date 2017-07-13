@@ -71,6 +71,12 @@ namespace SiteFoot.Models
             get { return droit_formateur_autre; }
             set { droit_formateur_autre = value; }
         }
-        
+        private bool droit_poster_annonce;
+
+        public bool Droit_poster_annonce
+        {
+            get { return droit_poster_annonce; }
+            set { droit_poster_annonce = value; }
+        }
     }
 }
