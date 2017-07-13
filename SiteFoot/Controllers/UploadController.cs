@@ -33,7 +33,7 @@ namespace SiteFoot.Controllers
                 //On vérifie si l'état du modèle est valide 
                 if (ModelState.IsValid)
                 {
-                    //On teste si fichier est sélectionné
+                    //On teste si fichier est sélectionné 
                     if (file == null)
                     {
                         ViewBag.Message = "Sélectionner votre fichier à intégrer";
