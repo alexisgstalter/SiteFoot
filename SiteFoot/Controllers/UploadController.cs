@@ -35,7 +35,7 @@ namespace SiteFoot.Controllers
                 {
                     //On teste si fichier est sélectionné
                     if (file == null)
-                    { 
+                    {
                         ViewBag.Message = "Sélectionner votre fichier à intégrer";
                     }
                     //On teste si le fichier n'est pas vide
@@ -127,9 +127,9 @@ namespace SiteFoot.Controllers
             return RedirectToAction("SaisieEquipe", "Upload");
         }
 
-        public JsonResult SavePieceJointeAnnonce()
+        public ActionResult SavePieceJointeAnnonce()
         {
-            int id_annonce = int.Parse(Request.Form["id"]);
+            int id_annonce = int.Parse(Request.Form["id_annonce"]);
             foreach (String upload in Request.Files)
             {
                 var nomfichier = Path.GetFileName(Request.Files[upload].FileName);

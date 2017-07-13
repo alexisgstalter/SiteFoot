@@ -1,4 +1,5 @@
 ﻿using SiteFoot.Façades;
+using SiteFoot.Models;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -30,7 +31,17 @@ namespace SiteFoot.Controllers
 
                 foreach (DataRow row in annonces.Rows)
                 {
-                    html += "<li><div class='card-panel'><center><h2>" + row["titre"].ToString() + "</h2></center><br><section>" + row["texte"].ToString() + "</section></div></li>";
+                    html += "<li><div class='card-panel'><center><h2>" + row["titre"].ToString() + "</h2></center><br><blockquote>Auteur: "+ row["prenom"].ToString() + " " + row["nom"].ToString() +"</blockquote><section>" + row["texte"].ToString() + "</section><br>";
+
+                    DataTable img = AnnonceManager.GetPiecesJointes(int.Parse(row["id"].ToString()));
+
+                    foreach (DataRow i in img.Rows)
+                    {
+                        html += "<img class='responsive-img' src='/Fichiers SiteFoot/" + i["chemin"].ToString() + "'/>";
+                    }
+
+                    html += "<blockquote> Date : "+ row["date"].ToString() +"</blockquote></div></li>";
+
                 }
                 return Json(new { ok = true, html = html });
             }
@@ -52,6 +63,39 @@ namespace SiteFoot.Controllers
                 }
                 html += "</tbody></table>";
                 return Json(new { ok = true, html = html });
+            }
+            catch (Exception e)
+            {
+                return Json(new { ok = false, error = e.Message });
+            }
+        }
+
+        public JsonResult GetAnnonceById(int id_annonce)
+        {
+            try
+            {
+                DataTable annonce = AnnonceManager.GetAnnonceById(id_annonce);
+                DataTable piecesjointes = AnnonceManager.GetPiecesJointes(id_annonce);
+                string html = "";
+                foreach (DataRow row in piecesjointes.Rows)
+                {
+                    html += "<div class='card-panel'><a>" + row["chemin"].ToString() + "</a><button class='btn supp_pj' type='button'>X</button></div>";
+                }
+                return Json(new { ok = true, titre = annonce.Rows[0]["titre"].ToString(), texte = annonce.Rows[0]["texte"].ToString(), html = html });
+            }
+            catch (Exception e)
+            {
+                return Json(new { ok = false, error = e.Message });
+            }
+        }
+        public JsonResult SaveGestionAnnonces(String titre, String texte)
+        {
+            try
+            {
+                User u = (User)Session["CurrentUser"];
+                DateTime date = DateTime.Now;
+                int id_annonce = AnnonceManager.SaveAnnonce(titre, texte, u.Id, date);
+                return Json(new { ok = true, id = id_annonce });
             }
             catch (Exception e)
             {

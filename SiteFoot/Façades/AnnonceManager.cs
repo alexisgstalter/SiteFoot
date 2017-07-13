@@ -21,6 +21,18 @@ namespace SiteFoot.Façades
             myConnection.Close();
             return data;
         }
+        public static DataTable GetAnnonceById(int id_annonce)
+        {
+            String connectionString = ConfigurationManager.ConnectionStrings["SQLSiteFoot"].ToString(); //Récupération de la chaîne de connexion
+            SqlConnection myConnection = new SqlConnection(connectionString); //Nouvelle connexion à la base de donnée
+            myConnection.Open(); //On ouvre la connexion
+            SqlDataAdapter source = new SqlDataAdapter("select titre, texte from Annonce where id=@id", myConnection);
+            source.SelectCommand.Parameters.Add("@id", SqlDbType.Int).Value = id_annonce;
+            DataTable data = new DataTable();
+            source.Fill(data);
+            myConnection.Close();
+            return data;
+        }
         public static DataTable GetPiecesJointes(int id_annonce)
         {
             String connectionString = ConfigurationManager.ConnectionStrings["SQLSiteFoot"].ToString(); //Récupération de la chaîne de connexion
@@ -38,7 +50,7 @@ namespace SiteFoot.Façades
             String connectionString = ConfigurationManager.ConnectionStrings["SQLSiteFoot"].ToString(); //Récupération de la chaîne de connexion
             SqlConnection myConnection = new SqlConnection(connectionString); //Nouvelle connexion à la base de donnée
             myConnection.Open(); //On ouvre la connexion
-            SqlDataAdapter source = new SqlDataAdapter("select a.* from (select b.titre, b.texte, b.date,b.id,row_number() over (order by b.id) as 'num', e.prenom, e.nom from annonce b left join banqueimage c on b.id=c.id_annonce left join imageannonce d on c.id_image = d.id left join utilisateurs e on b.id_auteur=e.id) a where a.num between @offset+1 and @offset+5  order by date desc", myConnection);
+            SqlDataAdapter source = new SqlDataAdapter("select a.* from (select b.titre, b.texte, b.date,b.id,row_number() over (order by b.id) as 'num', e.prenom, e.nom from annonce b left join utilisateurs e on b.id_auteur=e.id) a where a.num between @offset and @offset+4  order by date desc", myConnection);
             source.SelectCommand.Parameters.Add("@offset", SqlDbType.Int).Value = offset;
             DataTable data = new DataTable();
             source.Fill(data);
@@ -50,7 +62,7 @@ namespace SiteFoot.Façades
             String connectionString = ConfigurationManager.ConnectionStrings["SQLSiteFoot"].ToString(); //Récupération de la chaîne de connexion
             SqlConnection myConnection = new SqlConnection(connectionString); //Nouvelle connexion à la base de donnée
             myConnection.Open(); //On ouvre la connexion
-            SqlDataAdapter source = new SqlDataAdapter("select a.* from (select b.titre, b.texte, b.date,b.id,row_number() over (order by b.id) as 'num', e.prenom, e.nom from annonce b left join banqueimage c on b.id=c.id_annonce left join imageannonce d on c.id_image = d.id left join utilisateurs e on b.id_auteur=e.id) a where a.num between @offset+1 and @offset+5 and (titre like '%' + @terme + '%' or texte like '%' + @terme + '%' or date like '%' + @terme + '%' or prenom + ' ' + nom like '%' + @terme + '%') order by date desc", myConnection);
+            SqlDataAdapter source = new SqlDataAdapter("select a.* from (select b.titre, b.texte, b.date,b.id,row_number() over (order by b.id) as 'num', e.prenom, e.nom from annonce b left join utilisateurs e on b.id_auteur=e.id) a where a.num between @offset and @offset+4 and (titre like '%' + @terme + '%' or texte like '%' + @terme + '%' or date like '%' + @terme + '%' or prenom + ' ' + nom like '%' + @terme + '%') order by date desc", myConnection);
             source.SelectCommand.Parameters.Add("@offset", SqlDbType.Int).Value = offset;
             DataTable data = new DataTable();
             source.Fill(data);
