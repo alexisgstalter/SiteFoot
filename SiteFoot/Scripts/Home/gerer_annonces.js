@@ -22,6 +22,7 @@
         processData: false,
         data: fd
     });*/
+    var current_id;
     Load();
     function Load() {
         $("#annonces_container").empty();
@@ -36,6 +37,7 @@
                 if (data.ok) {
                     $("#annonces_container").append(data.html);
                     $("table").dataTable();
+                    $("select").material_select();
                 }
                 else {
                     Materialize.toast(data.error, 3000);
@@ -47,4 +49,83 @@
             }
         });
     }
+    $("#add_modal").click(function () {
+        $("#modal_ajout_annonce").modal('open');
+    });
+    $("#form_ajout_annonce").submit(function () {
+        var titre = $("#intitule").val();
+        var texte = $("#texte").val();
+        $.ajax({
+            url: "/Annonce/SaveGestionAnnonces",
+            type: "POST",
+            data: JSON.stringify({titre : titre, texte : texte}),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+
+            success: function (data) {
+                if (data.ok) {
+                    var fd = new FormData();
+                    var compteur = 0;
+                    var id = data.id;
+
+
+                    var piece = $(this);
+                    var ins = document.getElementById('image').files.length;
+                    for (var x = 0; x < ins; x++) {
+                        fd.append("fileToUpload" + compteur, document.getElementById('image').files[x]);
+                        compteur++;
+                    }
+
+                    fd.append("id_annonce", id);
+
+                    var ajaxRequest = $.ajax({
+                        type: "POST",
+                        url: "/Upload/SavePieceJointeAnnonce",
+                        async: false,
+                        contentType: false,
+                        processData: false,
+                        data: fd,
+                        success: function () {
+                            Materialize.toast("Annonce crée", 3000);
+                        }
+                    });
+                }
+                else {
+                    Materialize.toast(data.error, 3000);
+                }
+            },
+            error: function (xhr, status, error) {
+                var err = eval("(" + xhr.responseText + ")");
+                alert(err.Message);
+            }
+        });
+        return false;
+    });
+    $(document).on('click', '.edit', function () {
+        $("#img_container_modif").empty();
+        current_id = $(this).data('id');
+        $.ajax({
+            url: "/Annonce/GetAnnonceById",
+            type: "POST",
+            data: JSON.stringify({id_annonce : current_id}),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+
+            success: function (data) {
+                if (data.ok) {
+                    $("#img_container_modif").append(data.html);
+                    $("#intitule_modif").val(data.titre);
+                    $("#texte_modif").val(data.texte);
+                    $("#modal_modif_annonce").modal('open');
+                }
+                else {
+                    Materialize.toast(data.error, 3000);
+                }
+            },
+            error: function (xhr, status, error) {
+                var err = eval("(" + xhr.responseText + ")");
+                alert(err.Message);
+            }
+        });
+    });
 })
