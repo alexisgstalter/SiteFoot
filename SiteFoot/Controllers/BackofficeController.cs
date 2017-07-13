@@ -165,12 +165,10 @@ namespace SiteFoot.Controllers
             String html = "";
             if (ListeEntraineur.Rows.Count > 0)
             {
-                html = html + "<select id='entraineur_edit' multiple>";
                 for (int i = 0; i < ListeEntraineur.Rows.Count; i++)
                 {
                     html = html + "<option value='" + ListeEntraineur.Rows[i]["id"].ToString() + "'>" + ListeEntraineur.Rows[i]["nom"].ToString() + " " + ListeEntraineur.Rows[i]["prenom"].ToString() + "</option>";
                 }
-                html = html + "</select>";
             }
             return Content(html);
         }

@@ -80,7 +80,7 @@ namespace SiteFoot.Controllers
             return RedirectToAction("CreateEquipe");
         }
 
-
+         
 
         public ActionResult SaveEcussonEquipe()
         {
