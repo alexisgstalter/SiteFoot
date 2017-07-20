@@ -189,7 +189,7 @@ namespace SiteFoot.Controllers
         public String GenerateBlocEcusson()
         {
             String html = "";
-            html += "<div class='input-group has-feedback'><span class='input-group-addon'>Ecussion de l'équipe</span><input id='pj' class='form-control piece_jointe' type='file' multiple /></div></br>";
+            html += "<div class='input-group has-feedback'><span class='input-group-addon'>Ecusson de l'équipe</span><input id='pj' class='form-control piece_jointe' type='file' multiple /></div></br>";
             html += "<div class='text-center'><button type='button' class='btn btn-primary' id='upload'/>Enregistrer ecusson</button></div><br>";
             return html;
         }
