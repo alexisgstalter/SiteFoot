@@ -5,6 +5,7 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
+using System.Diagnostics;
 
 namespace SiteFoot.Façades
 {
@@ -26,7 +27,7 @@ namespace SiteFoot.Façades
             String connectionString = ConfigurationManager.ConnectionStrings["SQLSiteFoot"].ToString(); //Récupération de la chaîne de connexion
             SqlConnection myConnection = new SqlConnection(connectionString); //Nouvelle connexion à la base de donnée
             myConnection.Open(); //On ouvre la connexion
-            SqlDataAdapter source = new SqlDataAdapter("select titre, texte from Annonce where id=@id", myConnection);
+            SqlDataAdapter source = new SqlDataAdapter("select titre, texte, id from Annonce where id=@id", myConnection);
             source.SelectCommand.Parameters.Add("@id", SqlDbType.Int).Value = id_annonce;
             DataTable data = new DataTable();
             source.Fill(data);
@@ -45,6 +46,7 @@ namespace SiteFoot.Façades
             myConnection.Close();
             return data;
         }
+
         public static DataTable GetAnnoncesScroll(int offset)
         {
             String connectionString = ConfigurationManager.ConnectionStrings["SQLSiteFoot"].ToString(); //Récupération de la chaîne de connexion
@@ -99,5 +101,60 @@ namespace SiteFoot.Façades
             source.ExecuteNonQuery();
             myConnection.Close();
         }
+
+        public static void RemoveAnnonce(String id)
+        {
+            String requete = "DELETE FROM Annonce WHERE id=@id";
+            String connectionString = ConfigurationManager.ConnectionStrings["SQLSiteFoot"].ToString(); //Récupération de la chaîne de connexion
+            SqlConnection myConnection = new SqlConnection(connectionString); //Nouvelle connexion à la base de donnée
+            myConnection.Open(); //On ouvre la connexion
+            SqlCommand command = new SqlCommand(requete, myConnection);
+            command.Parameters.AddWithValue("@id", id);
+            command.ExecuteNonQuery();
+            myConnection.Close();
+        }
+
+        public static void UpdateAnnonce(int id_annonce_clef, String intitule_modif, String texte_modif)
+        {
+            String connectionString = ConfigurationManager.ConnectionStrings["SQLSiteFoot"].ToString(); //Récupération de la chaîne de connexion
+            SqlConnection myConnection = new SqlConnection(connectionString); //Nouvelle connexion à la base de donnée
+            myConnection.Open(); //On ouvre la connexion
+            SqlCommand cmd = new SqlCommand("UPDATE Annonce set titre=@titre, texte=@texte where id=@id", myConnection);
+            cmd.Parameters.Add("@id", SqlDbType.Int).Value = id_annonce_clef;
+            cmd.Parameters.Add("@titre", SqlDbType.VarChar).Value = intitule_modif;
+            cmd.Parameters.Add("@texte", SqlDbType.VarChar).Value = texte_modif;
+            cmd.ExecuteNonQuery();
+            myConnection.Close();
+        }
+
+
+        public static String GetPJ(int id_annonce)
+        {
+            String connectionString = ConfigurationManager.ConnectionStrings["SQLSiteFoot"].ToString(); //Récupération de la chaîne de connexion
+            SqlConnection myConnection = new SqlConnection(connectionString); //Nouvelle connexion à la base de donnée
+            myConnection.Open(); //On ouvre la connexion
+            SqlCommand cmd = new SqlCommand("select * from ImageAnnonce where id in (select id_image from BanqueImage where id_annonce=@id_annonce)", myConnection);
+            cmd.Parameters.Add("@id_annonce", SqlDbType.Int).Value = id_annonce;
+            string res = cmd.ExecuteScalar().ToString();
+            myConnection.Close();
+            return res;
+        }
+
+
+        public static void DeletePJAnnonce(int id_annonce, int id_image, String chemin)
+        {
+            String requete = "DELETE from BanqueImage WHERE id_annonce=@id_annonce and id_image=@id_image";
+            String connectionString = ConfigurationManager.ConnectionStrings["SQLSiteFoot"].ToString(); //Récupération de la chaîne de connexion
+            SqlConnection myConnection = new SqlConnection(connectionString); //Nouvelle connexion à la base de donnée
+            myConnection.Open(); //On ouvre la connexion
+            SqlCommand command = new SqlCommand(requete, myConnection);
+            command.Parameters.AddWithValue("@id_annonce", id_annonce);
+            command.Parameters.AddWithValue("@id_image", id_image);
+            command.ExecuteNonQuery();
+            myConnection.Close();
+
+        }
+
+
     }
 }

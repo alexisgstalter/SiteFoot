@@ -127,6 +127,8 @@ namespace SiteFoot.Controllers
             return RedirectToAction("SaisieEquipe", "Upload");
         }
 
+
+
         public ActionResult SavePieceJointeAnnonce()
         {
             int id_annonce = int.Parse(Request.Form["id_annonce"]);
@@ -144,12 +146,9 @@ namespace SiteFoot.Controllers
                     chemin = Path.Combine(@"\\hexane-01\d$\SiteFoot\Fichiers SiteFoot", nomfichier);
                     i++;
                 }
-
-
                 Request.Files[upload].SaveAs(chemin);
                 AnnonceManager.SavePieceJointeAnnonce(id_annonce, nomfichier);
             }
-
 
             return Json(new { ok = true });
         }
