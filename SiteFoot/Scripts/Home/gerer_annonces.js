@@ -91,6 +91,8 @@
                         data: fd,
                         success: function () {
                             Materialize.toast("Annonce crée", 3000);
+                            $("#modal_ajout_annonce").modal('close');
+                            Load();
                         }
                     });
                 }
