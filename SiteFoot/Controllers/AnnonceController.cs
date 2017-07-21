@@ -151,7 +151,36 @@ namespace SiteFoot.Controllers
                 return Json(new { ok = false, error = e.Message });
             }
         }
-         
+
+
+        public JsonResult GetAnnoncesByTerme(int offset, String term)
+        {
+            try
+            {
+                DataTable annonces = AnnonceManager.GetAnnoncesScrollByTerms(offset,term);
+                string html = "";
+
+                foreach (DataRow row in annonces.Rows)
+                {
+                    html += "<li><div class='card-panel'><center><h2>" + row["titre"].ToString() + "</h2></center><br><blockquote>Auteur: " + row["prenom"].ToString() + " " + row["nom"].ToString() + "</blockquote><section>" + row["texte"].ToString() + "</section><br>";
+
+                    DataTable img = AnnonceManager.GetPiecesJointes(int.Parse(row["id"].ToString()));
+
+                    foreach (DataRow i in img.Rows)
+                    {
+                        html += "<img class='responsive-img' src='/Fichiers SiteFoot/" + i["chemin"].ToString() + "'/>";
+                    }
+
+                    html += "<blockquote> Date : " + row["date"].ToString() + "</blockquote></div></li>";
+                }
+                return Json(new { ok = true, html = html });
+            }
+            catch (Exception e)
+            {
+                return Json(new { ok = false, error = e.Message });
+            }
+        }
+
 
     }
 
