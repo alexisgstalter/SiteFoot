@@ -153,11 +153,21 @@ namespace SiteFoot.Controllers
         }
 
 
+
         public JsonResult GetAnnoncesByTerme(int offset, String term)
         {
             try
             {
-                DataTable annonces = AnnonceManager.GetAnnoncesScrollByTerms(offset,term);
+                //Compte le nombre d'enregistrement pour la recherche avec l'offset
+                int nb_annonce = 0;
+                DataTable Nombre_enregistrement = AnnonceManager.GetNombreAnnonce();
+                if (Nombre_enregistrement.Rows.Count > 0)
+                {
+                    nb_annonce = int.Parse(Nombre_enregistrement.Rows[0]["nb_annonce"].ToString());
+                }
+                
+                
+                DataTable annonces = AnnonceManager.GetAnnoncesScrollByTerms(offset,term,nb_annonce);
                 string html = "";
 
                 foreach (DataRow row in annonces.Rows)

@@ -60,15 +60,29 @@ namespace SiteFoot.Façades
             return data;
         }
 
-        public static DataTable GetAnnoncesScrollByTerms(int offset, String term)
+
+        public static DataTable GetNombreAnnonce()
         {
             String connectionString = ConfigurationManager.ConnectionStrings["SQLSiteFoot"].ToString(); //Récupération de la chaîne de connexion
             SqlConnection myConnection = new SqlConnection(connectionString); //Nouvelle connexion à la base de donnée
             myConnection.Open(); //On ouvre la connexion
-            //SqlDataAdapter source = new SqlDataAdapter("select a.* from (select b.titre, b.texte, b.date,b.id,row_number() over (order by b.id) as 'num', e.prenom, e.nom from annonce b left join utilisateurs e on b.id_auteur=e.id) a where a.num between '0' and '4' and (titre like '%milan%' or texte like '%milan%' or date like '%milan%' or prenom + ' ' + nom like '%milan%') order by date desc", myConnection);
-            SqlDataAdapter source = new SqlDataAdapter("select a.* from (select b.titre, b.texte, b.date,b.id,row_number() over (order by b.id) as 'num', e.prenom, e.nom from annonce b left join utilisateurs e on b.id_auteur=e.id) a where a.num between @offset and @offset+4 and (titre like '%' + @term + '%' or texte like '%' + @term + '%' or date like '%' + @term + '%' or prenom + ' ' + nom like '%' + @term + '%') order by date desc", myConnection);
+            SqlDataAdapter source = new SqlDataAdapter("SELECT Count(*) as 'nb_annonce' from annonce", myConnection);
+            DataTable data = new DataTable();
+            source.Fill(data);
+            myConnection.Close();
+            return data;
+        }
+
+
+        public static DataTable GetAnnoncesScrollByTerms(int offset, String term, int nb_annonce)
+        {
+            String connectionString = ConfigurationManager.ConnectionStrings["SQLSiteFoot"].ToString(); //Récupération de la chaîne de connexion
+            SqlConnection myConnection = new SqlConnection(connectionString); //Nouvelle connexion à la base de donnée
+            myConnection.Open(); //On ouvre la connexion
+            SqlDataAdapter source = new SqlDataAdapter("select a.* from (select b.titre, b.texte, b.date,b.id,row_number() over (order by b.id) as 'num', e.prenom, e.nom from annonce b left join utilisateurs e on b.id_auteur=e.id) a where a.num between @offset and @offset+@nb_annonce and (titre like '%' + @term + '%' or texte like '%' + @term + '%' or date like '%' + @term + '%' or prenom + ' ' + nom like '%' + @term + '%') order by date desc", myConnection);
             source.SelectCommand.Parameters.Add("@offset", SqlDbType.Int).Value = offset;
             source.SelectCommand.Parameters.Add("@term", SqlDbType.VarChar).Value = term;
+            source.SelectCommand.Parameters.Add("@nb_annonce", SqlDbType.Int).Value = nb_annonce;
             DataTable data = new DataTable();
             source.Fill(data);
             myConnection.Close();
