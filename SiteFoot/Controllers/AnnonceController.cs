@@ -158,7 +158,7 @@ namespace SiteFoot.Controllers
         {
             try
             {
-                //Compte le nombre d'enregistrement pour la recherche avec l'offset
+                //TEST Compte le nombre d'enregistrement pour la recherche avec l'offset
                 int nb_annonce = 0;
                 DataTable Nombre_enregistrement = AnnonceManager.GetNombreAnnonce();
                 if (Nombre_enregistrement.Rows.Count > 0)
