@@ -56,7 +56,7 @@ namespace SiteFoot.Façades
             source.Fill(data);
             myConnection.Close();
             return data;
-        }
+        } 
         public static DataTable GetAnnoncesScrollByTerms(int offset, String term)
         {
             String connectionString = ConfigurationManager.ConnectionStrings["SQLSiteFoot"].ToString(); //Récupération de la chaîne de connexion
