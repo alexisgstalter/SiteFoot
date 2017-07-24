@@ -14,13 +14,14 @@
         <i class="material-icons" style="color: white!important">add</i>
     </button>
 </center>
+
 <div id="modal_modif_annonce" class="modal">
     <div class="modal-content">
         <h4>Modifier une annonce</h4>
         <form class="row" id="form_modif_annonce">
+            <input id="id_annonce_clef" name="id_annonce_clef" type="hidden">
             <div class="col s12">
                 <div class="row">
-
                     <div class="input-field">
                         <input id="intitule_modif" name="intitule_modif" type="text" class="validate">
                         <label>Titre</label>
@@ -37,10 +38,11 @@
                 </div>
 
             </div>
-            <button class="btn hoverable" id="btn_modifier" type="submit">Modifier</button>
+            <button href="#!" class="btn hoverable" id="btn_modifier" type="submit">Modifier</button>
         </form>
     </div>
 </div>
+
 <div id="modal_ajout_annonce" class="modal">
     <div class="modal-content">
         <h4>Ajouter une annonce</h4>

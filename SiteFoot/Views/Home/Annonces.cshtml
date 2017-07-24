@@ -1,7 +1,18 @@
 ﻿@{
     ViewBag.Title = "Contact";
 }
-<ul id="posts">
 
-</ul>
+<div class="row">
+    <form class="container" id="recherche_terme">
+        <div class="input-field">
+            <i class="material-icons prefix">search</i>
+            <input id="terme" type="text" class="validate">
+            <label>Rechercher un terme</label>
+        </div>
+        <center><button href="#!" class="btn hoverable" id="btn_rechercher" type="submit">Rechercher</button></center>
+    </form>
+    <br /><br />
+    <ul id="posts"></ul>
+</div>
+
 @Scripts.Render(@"~/Scripts/Home/annonce.js")

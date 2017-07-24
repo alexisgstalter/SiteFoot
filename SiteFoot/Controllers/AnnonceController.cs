@@ -6,6 +6,12 @@ using System.Data;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using System.Diagnostics;
+using System.IO;
+
+
 
 namespace SiteFoot.Controllers
 {
@@ -79,7 +85,7 @@ namespace SiteFoot.Controllers
                 string html = "";
                 foreach (DataRow row in piecesjointes.Rows)
                 {
-                    html += "<div class='card-panel'><a>" + row["chemin"].ToString() + "</a><button class='btn supp_pj' type='button'>X</button></div>";
+                    html += "<div class='card-panel'><a>" + row["chemin"].ToString() + "</a><a class='btn supp_pj' data-num_annonce='" + id_annonce + "' data-num_image='" + row["id"] + "' data-chemin='" + row["chemin"] + "'>X</button></div>";
                 }
                 return Json(new { ok = true, titre = annonce.Rows[0]["titre"].ToString(), texte = annonce.Rows[0]["texte"].ToString(), html = html });
             }
@@ -102,6 +108,90 @@ namespace SiteFoot.Controllers
                 return Json(new { ok = false, error = e.Message });
             }
         }
+
+
+        public JsonResult DeleteAnnonce(String id)
+        {
+            try
+            {
+                AnnonceManager.RemoveAnnonce(id);
+                return Json(new { ok = true });
+            }
+            catch (Exception ex)
+            {
+                return Json(new { ok = false, error = ex.Message });
+            }
+        }
+
+
+        public JsonResult UpdateAnnonce(int id_annonce_clef, String intitule_modif, String texte_modif)
+        {
+            try
+            {
+                AnnonceManager.UpdateAnnonce(id_annonce_clef, intitule_modif, texte_modif);
+                return Json(new { ok = true });
+            }
+            catch (Exception e)
+            {
+                return Json(new { ok = false, error = e.Message });
+            }
+        }
+
+        
+        public JsonResult DeletePieceJointe(int id_annonce, int id_image, String chemin)
+        {
+            try
+            {
+                AnnonceManager.DeletePJAnnonce(id_annonce, id_image, chemin);
+                System.IO.File.Delete(@"\\hexane-01\d$\SiteFoot\Fichiers SiteFoot\" + chemin);
+                return Json(new { ok = true });
+            }
+            catch (Exception e)
+            {
+                return Json(new { ok = false, error = e.Message });
+            }
+        }
+
+
+         
+        public JsonResult GetAnnoncesByTerme(int offset, String term)
+        {
+            try
+            {
+                //TEST Compte le nombre d'enregistrement pour la recherche avec l'offset
+                int nb_annonce = 0;
+                DataTable Nombre_enregistrement = AnnonceManager.GetNombreAnnonce();
+                if (Nombre_enregistrement.Rows.Count > 0)
+                {
+                    nb_annonce = int.Parse(Nombre_enregistrement.Rows[0]["nb_annonce"].ToString());
+                }
+                
+                
+                DataTable annonces = AnnonceManager.GetAnnoncesScrollByTerms(offset,term,nb_annonce);
+                string html = "";
+
+                foreach (DataRow row in annonces.Rows)
+                {
+                    html += "<li><div class='card-panel'><center><h2>" + row["titre"].ToString() + "</h2></center><br><blockquote>Auteur: " + row["prenom"].ToString() + " " + row["nom"].ToString() + "</blockquote><section>" + row["texte"].ToString() + "</section><br>";
+
+                    DataTable img = AnnonceManager.GetPiecesJointes(int.Parse(row["id"].ToString()));
+
+                    foreach (DataRow i in img.Rows)
+                    {
+                        html += "<img class='responsive-img' src='/Fichiers SiteFoot/" + i["chemin"].ToString() + "'/>";
+                    }
+
+                    html += "<blockquote> Date : " + row["date"].ToString() + "</blockquote></div></li>";
+                }
+                return Json(new { ok = true, html = html });
+            }
+            catch (Exception e)
+            {
+                return Json(new { ok = false, error = e.Message });
+            }
+        }
+
+
     }
 
 }
