@@ -156,7 +156,7 @@ namespace SiteFoot.Controllers
          
         public JsonResult GetAnnoncesByTerme(int offset, String term)
         {
-            try
+            try 
             {
                 //TEST Compte le nombre d'enregistrement pour la recherche avec l'offset
                 int nb_annonce = 0;
