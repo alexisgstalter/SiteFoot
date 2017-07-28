@@ -15,7 +15,7 @@ namespace SiteFoot.Façades
             String connectionString = ConfigurationManager.ConnectionStrings["SQLSiteFoot"].ToString(); //Récupération de la chaîne de connexion
             SqlConnection myConnection = new SqlConnection(connectionString); //Nouvelle connexion à la base de donnée
             myConnection.Open(); //On ouvre la connexion
-            SqlDataAdapter source = new SqlDataAdapter("select a.id, b.prenom + ' ' + b.nom as 'title', a.start, a.fin as 'end', a.allDay from Buvette a, Responsablebuvette b where a.id_responsable = b.id and start > @date_debut and fin < @date_fin", myConnection);
+            SqlDataAdapter source = new SqlDataAdapter("select a.id, b.prenom + ' ' + b.nom as 'title', a.start, a.fin as 'end', a.allDay from Buvette a, Utilisateurs b where a.id_responsable = b.id and start > @date_debut and fin < @date_fin", myConnection);
             source.SelectCommand.Parameters.Add("@date_debut", SqlDbType.DateTime).Value = DateTime.Parse(date_debut);
             source.SelectCommand.Parameters.Add("@date_fin", SqlDbType.DateTime).Value = DateTime.Parse(date_fin);
             DataTable data = new DataTable();
