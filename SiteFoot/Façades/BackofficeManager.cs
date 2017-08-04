@@ -177,5 +177,47 @@ namespace SiteFoot.Façades
             myConnection.Close();
         }
 
+        public static void SaveJoueur(int id_equipe, String prenom, String nom, String adresse, String telephone, String email)
+        {
+            String connectionString = ConfigurationManager.ConnectionStrings["SQLSiteFoot"].ToString(); //Récupération de la chaîne de connexion
+            SqlConnection myConnection = new SqlConnection(connectionString); //Nouvelle connexion à la base de donnée
+            myConnection.Open(); //On ouvre la connexion
+            SqlCommand cmd = new SqlCommand("INSERT INTO MembreEquipe (nom, prenom, adresse, telephone, email, id_equipe) values(@nom, @prenom, @adresse, @telephone, @email, @id_equipe)", myConnection);
+            cmd.Parameters.Add("@id_equipe", SqlDbType.Int).Value = id_equipe;
+            cmd.Parameters.Add("@prenom", SqlDbType.VarChar).Value = prenom;
+            cmd.Parameters.Add("@nom", SqlDbType.VarChar).Value = nom;
+            cmd.Parameters.Add("@adresse", SqlDbType.VarChar).Value = adresse;
+            cmd.Parameters.Add("@telephone", SqlDbType.VarChar).Value = telephone;
+            cmd.Parameters.Add("@email", SqlDbType.VarChar).Value = email;
+            cmd.ExecuteNonQuery();
+            myConnection.Close();
+        }
+        public static void UpdateJoueur(int id, int id_equipe, String prenom, String nom, String adresse, String telephone, String email)
+        {
+            String connectionString = ConfigurationManager.ConnectionStrings["SQLSiteFoot"].ToString(); //Récupération de la chaîne de connexion
+            SqlConnection myConnection = new SqlConnection(connectionString); //Nouvelle connexion à la base de donnée
+            myConnection.Open(); //On ouvre la connexion
+            SqlCommand cmd = new SqlCommand("update MembreEquipe set  nom=@nom, prenom=@prenom, adresse=@adresse, telephone=@telephone, email=@email, id_equipe=@id_equipe where id=@id", myConnection);
+            cmd.Parameters.Add("@id_equipe", SqlDbType.Int).Value = id_equipe;
+            cmd.Parameters.Add("@prenom", SqlDbType.VarChar).Value = prenom;
+            cmd.Parameters.Add("@nom", SqlDbType.VarChar).Value = nom;
+            cmd.Parameters.Add("@adresse", SqlDbType.VarChar).Value = adresse;
+            cmd.Parameters.Add("@telephone", SqlDbType.VarChar).Value = telephone;
+            cmd.Parameters.Add("@email", SqlDbType.VarChar).Value = email;
+            cmd.Parameters.Add("@id", SqlDbType.Int).Value = id;
+            cmd.ExecuteNonQuery();
+            myConnection.Close();
+        }
+        public static void DeleteJoueur(int id)
+        {
+            String connectionString = ConfigurationManager.ConnectionStrings["SQLSiteFoot"].ToString(); //Récupération de la chaîne de connexion
+            SqlConnection myConnection = new SqlConnection(connectionString); //Nouvelle connexion à la base de donnée
+            myConnection.Open(); //On ouvre la connexion
+            SqlCommand cmd = new SqlCommand("delete from MembreEquipe where id=@id", myConnection);
+
+            cmd.Parameters.Add("@id", SqlDbType.Int).Value = id;
+            cmd.ExecuteNonQuery();
+            myConnection.Close();
+        }
     }
 }

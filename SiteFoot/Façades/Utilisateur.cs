@@ -180,6 +180,9 @@ namespace SiteFoot.Façades
                 user.Email = (string)reader[3];
 
                 user.Salt = (string)reader[4];
+                user.Telephone = (string)reader[5];
+                user.Nom = (string)reader[6];
+                user.Prenom = (string)reader[7];
                 reader.Close();
                 SqlCommand command2 = new SqlCommand("select id from Groupe where id in (select id from GroupesUtilisateur where id_utilisateur=@id)", myConnection);
                 command2.Parameters.AddWithValue("@id", id);
@@ -329,6 +332,9 @@ namespace SiteFoot.Façades
                 user.Email = (string)reader[3];
 
                 user.Salt = (string)reader[4];
+                user.Telephone = (string)reader[5];
+                user.Nom = (string)reader[6];
+                user.Prenom = (string)reader[7];
                 reader.Close();
                 SqlCommand command2 = new SqlCommand("select id from Groupe where id in (select id_groupe from GroupesUtilisateur where id_utilisateur=@id)", myConnection);
                 command2.Parameters.AddWithValue("@id", u.Id);

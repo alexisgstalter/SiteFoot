@@ -28,8 +28,7 @@
         case '/Backoffice/CreateEquipe':
             break;
     }
-    $("li.active").css("background-color", "#6a1b9a");
-    $("a.active").css("background-color", "#4a148c ");
+
     $('.modal').modal();
     $(".button-collapse").sideNav({
         closeOnClick: true
@@ -60,7 +59,7 @@
                     if (msg.isGranted) {    //L'utilisateur est connecté
                         //$('#loginModal .modal-content').unblock();
                         location.replace("/");
-                        
+
                     }
                     else {  //L'utilisateur n'est pas connecté
                         Materialize.toast('Identifiants incorrects', 4000)
@@ -77,5 +76,22 @@
         });
         /*}*/
     };
-})
+});
+function LoadingScreen() {
+    $.blockUI.defaults.css = {
+        padding: 0,
+        margin: 0,
+        width: '30%',
+        top: '40%',
+        left: '35%',
+        textAlign: 'center',
+        cursor: 'wait'
+    };
+    $.blockUI.defaults.baseZ = 5000;
+    $.blockUI({ message: '<div class="progress"><div class="indeterminate" style="width: 70%"></div></div>' });
+}
+
+function EndLoadingScreen() {
+    $.unblockUI();
+}
 

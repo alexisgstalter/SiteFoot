@@ -161,6 +161,18 @@ namespace SiteFoot.Façades
             return data;
         }
 
+        public static DataTable GetAllEducateurs()
+        {
+            String connectionString = ConfigurationManager.ConnectionStrings["SQLSiteFoot"].ToString(); //Récupération de la chaîne de connexion
+            SqlConnection myConnection = new SqlConnection(connectionString); //Nouvelle connexion à la base de donnée
+            myConnection.Open(); //On ouvre la connexion
+            SqlDataAdapter source = new SqlDataAdapter("select * from Utilisateurs where id in (select id_utilisateur from GroupesUtilisateur where id_groupe in (select id from Groupe where nom ='EDUCATEUR'))", myConnection);
+            DataTable data = new DataTable();
+            source.Fill(data);
+            myConnection.Close();
+            return data;
+        }
+
         public static DataTable GetAllEquipes()
         {
             String connectionString = ConfigurationManager.ConnectionStrings["SQLSiteFoot"].ToString(); //Récupération de la chaîne de connexion
@@ -273,6 +285,90 @@ namespace SiteFoot.Façades
             cmd.Parameters.Add("@id", SqlDbType.Int).Value = id;
             cmd.ExecuteNonQuery();
             myConnection.Close();
+        }
+
+        public static void DeleteEntrainementByEquieAndDate(int id_equipe, DateTime date_debut, DateTime j_plus_un) // on va en fait supprimer une seule journée, mais il faut la date en J+1 pour supprimer de minuit à minuit
+        {
+            String connectionString = ConfigurationManager.ConnectionStrings["SQLSiteFoot"].ToString(); //Récupération de la chaîne de connexion
+            SqlConnection myConnection = new SqlConnection(connectionString); //Nouvelle connexion à la base de donnée
+            myConnection.Open(); //On ouvre la connexion
+            SqlCommand cmd = new SqlCommand("delete from Entrainement where id_equipe=@id_equipe and start >= @date_debut and fin <= @date_fin", myConnection);
+            cmd.Parameters.Add("@id_equipe", SqlDbType.Int).Value = id_equipe;
+            cmd.Parameters.Add("@date_debut", SqlDbType.DateTime).Value = date_debut;
+            cmd.Parameters.Add("@date_fin", SqlDbType.DateTime).Value = j_plus_un;
+
+            cmd.ExecuteNonQuery();
+            myConnection.Close();
+        }
+
+        public static DataTable GetFormations(int id_educateur, DateTime start, DateTime end)
+        {
+            String connectionString = ConfigurationManager.ConnectionStrings["SQLSiteFoot"].ToString(); //Récupération de la chaîne de connexion
+            SqlConnection myConnection = new SqlConnection(connectionString); //Nouvelle connexion à la base de donnée
+            myConnection.Open(); //On ouvre la connexion
+            string query = "select a.id, b.prenom + ' ' + b.nom as 'title', start, fin as 'end'  from Formation a, Utilisateurs b where a.id_educateur=b.id ";
+            if (id_educateur != 0)
+            {
+                query += "and a.id_educateur=@id_educateur";
+            }
+            SqlDataAdapter source = new SqlDataAdapter(query, myConnection);
+            source.SelectCommand.Parameters.Add("@id_educateur", SqlDbType.Int).Value = id_educateur;
+            DataTable data = new DataTable();
+            source.Fill(data);
+            myConnection.Close();
+            return data;
+        }
+
+        public static DataTable GetFormationById(int id_formation)
+        {
+            String connectionString = ConfigurationManager.ConnectionStrings["SQLSiteFoot"].ToString(); //Récupération de la chaîne de connexion
+            SqlConnection myConnection = new SqlConnection(connectionString); //Nouvelle connexion à la base de donnée
+            myConnection.Open(); //On ouvre la connexion
+            string query = "select * from Formation where id=@id_formation";
+
+            SqlDataAdapter source = new SqlDataAdapter(query, myConnection);
+            source.SelectCommand.Parameters.Add("@id_formation", SqlDbType.Int).Value = id_formation;
+            DataTable data = new DataTable();
+            source.Fill(data);
+            myConnection.Close();
+            return data;
+        }
+
+        public static void AddFormation(String title, DateTime start, DateTime end, int id_educateur)
+        {
+            String connectionString = ConfigurationManager.ConnectionStrings["SQLSiteFoot"].ToString(); //Récupération de la chaîne de connexion
+            SqlConnection myConnection = new SqlConnection(connectionString); //Nouvelle connexion à la base de donnée
+            myConnection.Open(); //On ouvre la connexion
+            SqlCommand cmd = new SqlCommand("insert into Formation (title, start, fin, id_educateur) values (@title, @start, @end, @id_educateur)", myConnection);
+            cmd.Parameters.AddWithValue("@title", title);
+            cmd.Parameters.AddWithValue("@start", start);
+            cmd.Parameters.AddWithValue("@end", end);
+            cmd.Parameters.AddWithValue("@id_educateur", id_educateur);
+            cmd.ExecuteNonQuery();
+        }
+
+        public static void UpdateFormation(int id, String title, DateTime start, DateTime end, int id_educateur)
+        {
+            String connectionString = ConfigurationManager.ConnectionStrings["SQLSiteFoot"].ToString(); //Récupération de la chaîne de connexion
+            SqlConnection myConnection = new SqlConnection(connectionString); //Nouvelle connexion à la base de donnée
+            myConnection.Open(); //On ouvre la connexion
+            SqlCommand cmd = new SqlCommand("update Formation set title=@title, start=@start, fin = @end, id_educateur=@id_educateur where id=@id", myConnection);
+            cmd.Parameters.AddWithValue("@title", title);
+            cmd.Parameters.AddWithValue("@start", start);
+            cmd.Parameters.AddWithValue("@end", end);
+            cmd.Parameters.AddWithValue("@id_educateur", id_educateur);
+            cmd.Parameters.AddWithValue("@id", id);
+            cmd.ExecuteNonQuery();
+        }
+
+        public static void DeleteFormation(int id)
+        {
+            String connectionString = ConfigurationManager.ConnectionStrings["SQLSiteFoot"].ToString(); //Récupération de la chaîne de connexion
+            SqlConnection myConnection = new SqlConnection(connectionString); //Nouvelle connexion à la base de donnée
+            myConnection.Open(); //On ouvre la connexion
+            SqlCommand cmd = new SqlCommand("delete from Formation where id=@id", myConnection);
+            cmd.Parameters.AddWithValue("@id", id);
+            cmd.ExecuteNonQuery();
         }
     }
 }

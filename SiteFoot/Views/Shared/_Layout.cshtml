@@ -6,10 +6,10 @@
         user = (SiteFoot.Models.User)HttpContext.Current.Session["CurrentUser"];
         groupe = (List<SiteFoot.Models.Groupe>)HttpContext.Current.Session["CurrentGroupe"];
 
-        if (user != null)
+        if (groupe != null)
         {
-            user = SiteFoot.Façades.Utilisateur.GetByName(user);
-            HttpContext.Current.Session["CurrentUser"] = user;
+            groupe = SiteFoot.Façades.GroupeManager.GetById(user.Id);
+            HttpContext.Current.Session["CurrentGroupe"] = groupe;
         }
     }
 
@@ -27,7 +27,6 @@
         @Scripts.Render("~/bundles/jquery")
         @Scripts.Render("~/bundles/jqueryval")
         @Scripts.Render("~/bundles/fullcalendar")
-        @Scripts.Render(@"~\Scripts\Home\common.js")
         @Styles.Render("~/bundles/materialise")
         @Styles.Render("~/Content/css")
     </head>
@@ -35,7 +34,7 @@
         <header>
             <nav class="top-nav">
                 
-                <div class="nav-wrapper" style="background-color : #6a1b9a">
+                <div class="nav-wrapper">
                     <ul class="left">
                         <li><button id="collapse" data-activates="nav-mobile" class="button-collapse top-nav full hide-on-large-only btn btn-flat">Menu</button></li>
                     </ul>
@@ -49,11 +48,11 @@
                 </div>
                 
             </nav>
-            <ul id="nav-mobile" class="side-nav fixed">
+            <ul id="nav-mobile" class="side-nav fixed" style="transform: translateX(0%);">
                 <li class="logo active">
                     <center>
                         <div class="background">
-                            <a id="logo-container" href="/" class="brand-logo">
+                            <a id="logo-container" href="/" class="brand-logo" style="width : 100%!important; height : 100%!important">
                                 <img src="~/Content/images/FC_Sélestat.jpg" />
                             </a>
                         </div>
@@ -83,7 +82,7 @@
                                         <a class="collapsible-header waves-effect ">Annonces</a>
                                         <div class="collapsible-body">
                                             <ul>
-                                                <li id="annonces_list">@Html.ActionLink("Annonces", "Annonce", "Annonce")</li>
+                                                <li id="annonces_list" style="opacity : 0.5">@Html.ActionLink("Annonces", "Annonce", "Annonce")</li>
                                                 <li id="annonces_list">@Html.ActionLink("Gerer les annonces", "GestionAnnonce", "Annonce")</li>
                                             </ul>
                                         </div>
@@ -103,12 +102,26 @@
 
                     }
                 }
+                <li>
+                    <ul id="collapse_resultats" class="collapsible collapsible-accordion">
+
+                        <li>
+                            <a class="collapsible-header waves-effect ">Résultats</a>
+                            <div class="collapsible-body">
+                                <ul>
+                                    <li id="matchs_list">@Html.ActionLink("Matchs", "Match", "Resultats")</li>
+                                    <li id="championnats_list"><a href="https://lafa.fff.fr/">Championnats</a></li>
+                                </ul>
+                            </div>
+                        </li>
+                    </ul>
+                </li>
                 @if (Request.IsAuthenticated && user != null)
                 {
-                    
+
                     <li>
                         <ul id="collapse_calendrier" class="collapsible collapsible-accordion">
-                             
+
                             <li>
                                 <a class="collapsible-header waves-effect ">Calendrier</a>
                                 <div class="collapsible-body">
@@ -121,15 +134,16 @@
                             </li>
                         </ul>
                     </li>
+
                     <li>
                         <ul id="collapse_calendrier" class="collapsible collapsible-accordion">
 
                             <li>
-                                <a class="collapsible-header waves-effect ">Résultats</a>
+                                <a class="collapsible-header waves-effect ">Coordonnées</a>
                                 <div class="collapsible-body">
                                     <ul>
-                                        <li id="matchs_list">@Html.ActionLink("Matchs", "Match", "Resultats")</li>
-                                        <li id="championnats_list">@Html.ActionLink("Championnats", "Championnat", "Resultats")</li>
+                                        <li id="matchs_list">@Html.ActionLink("Coordonnées des Entraineurs", "CoordonneesEntraineurs", "Coordonnees")</li>
+                                        <li id="matchs_list">@Html.ActionLink("Coordonnées des Joueurs", "CoordonneesJoueurs", "Coordonnees")</li>
                                     </ul>
                                 </div>
                             </li>
@@ -146,7 +160,10 @@
                                         <div class="collapsible-body">
                                             <ul>
                                                 <li id="creation_equipe_list">@Html.ActionLink("Gèrer les Utilisateurs", "CreateUser", "Backoffice")</li>
+                                                <li id="gestiondesgroupes">@Html.ActionLink("Gèrer les joueurs", "GestionDesJoueurs", "Backoffice")</li>
                                                 <li id="creation_equipe_list">@Html.ActionLink("Création Equipe", "CreateEquipe", "Backoffice")</li>
+                                                <li id="parametrageentrainement">@Html.ActionLink("Paramètrer les entrainements", "ParametrageEntrainement", "Backoffice")</li>
+                                                <li id="gestiondesgroupes">@Html.ActionLink("Gestion des groupes", "GestionDesGroupes", "Backoffice")</li>
                                             </ul>
                                         </div>
                                     </li>
@@ -174,14 +191,14 @@
                     </li>
                     <li><a onclick="$('#modal_connect').modal('open');">Connexion</a></li>
                 }
-                
+
             </ul>
         </header>
-        <div id="body" class="row">
-            <div class="col s9 offset-s3">
+        <main id="body" class="row">
+            <div class="">
                 @RenderBody()
             </div>
-        </div>
+        </main>
         <div id="modal_connect" class="modal">
             <div class="modal-content">
                 <h4>Connexion</h4>
@@ -213,6 +230,5 @@
                 </div>
             </div>
         </footer>
-
         <script src="https://nightly.datatables.net/js/jquery.dataTables.js"></script>    </body>
 </html>

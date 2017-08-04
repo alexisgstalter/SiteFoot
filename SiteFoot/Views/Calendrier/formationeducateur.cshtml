@@ -2,7 +2,180 @@
 @{
     ViewBag.Title = "formation_educateur";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    var u = (SiteFoot.Models.User)HttpContext.Current.Session["CurrentUser"];
+    var groupes = (List<SiteFoot.Models.Groupe>)HttpContext.Current.Session["CurrentGroupe"];
 }
 
-<h2>formation_educateur</h2>
+<div class="row">
+    <form class="container" id="find_entrainement" style="color : #6a1b9a ">
+        @{
+            bool droit_admin_formation = false;
+            if (Request.IsAuthenticated && u != null)
+            {
+                
+                foreach (SiteFoot.Models.Groupe grp in groupes)
+                {
+                    if (grp.Droit_formateur_autre)
+                    {
+                        droit_admin_formation = true;
+                    }
+                }
+                if (droit_admin_formation)
+                {
+                    <div class="input-field">
+                        <select id="select_educateur" name="select_educateur" type="text" class="validate">
+                            <option value='0'>Choisir un Educateur</option>
+                            @Html.Action("LoadListEducateur", "Calendrier")
 
+                        </select>
+                        <label>Educateur</label>
+                    </div>
+                    <p> La recherche est enclenchée dès qu'un paramètre est changé</p>
+                }
+                else
+                {
+                    <div class="input-field col s12">
+                        <select id="select_educateur" name="select_educateur" type="text" class="validate">
+                            @{
+                                string text = u.Prenom + " " + u.Nom;
+                                <option value="@u.Id">@text</option>
+                            }
+
+                        </select>
+                        <label>Educateur</label>
+                    </div>
+                }
+            }
+}
+        
+    </form>
+    <br />
+    @{
+        if (droit_admin_formation)
+        {
+            <center><button type="button" class="btn hoverable" id="add_modal">Ajouter une Formation</button></center>
+            <br />
+        }
+    }
+
+    <div id="calendrier_formation" class="" style="color : #6a1b9a"></div>
+
+</div>
+<div id="modal_modif_formation" class="modal">
+    <div class="modal-content">
+        <h4>Détail</h4>
+        <form class="row" id="form_modif_event">
+            <div class="col s12">
+                <div class="row">
+
+                    <div class="input-field col s12">
+                        <input id="intitule_modif" name="intitule_modif" type="text" class="validate">
+                        <label>Titre</label>
+
+                    </div>
+                    @{
+                        if (droit_admin_formation)
+                        {
+                            <div class="input-field col s12">
+                                <select id="educateur_modif" name="educateur_modif" type="text" class="validate">
+                                    @Html.Action("LoadListEducateur", "Calendrier")
+
+                                </select>
+                                <label>Educateur</label>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="input-field col s12">
+                                <select id="educateur_modif" name="educateur_modif" type="text" class="validate">
+                                    @{
+                                         string text = u.Prenom + " " + u.Nom;
+                                        <option value="@u.Id">@text</option>
+                                    }
+
+                                </select>
+                                <label>Educateur</label>
+                            </div>
+                        }
+                    }
+
+
+                </div>
+
+            </div>
+            <div class="col s12">
+                <div class="row">
+                    <div class="input-field col s6">
+                        <input id="debut_modif" name="debut_modif" type="text" class="validate">
+                        <label>Heure de début</label>
+                    </div>
+                    <div class="input-field col s6">
+                        <input id="fin_modif" name="fin_modif" type="text" class="validate">
+                        <label>Heure de fin</label>
+                    </div>
+                </div>
+            </div>
+            <button class="btn hoverable" id="btn_modifier" type="submit">Modifier</button>
+            <button class="btn hoverable" id="btn_supprimer" type="button">Supprimer</button>
+        </form>
+    </div>
+</div>
+<div id="modal_ajout_formation" class="modal">
+    <div class="modal-content">
+        <h4>Ajouter une formation</h4>
+        <form class="row" id="form_ajout_event">
+            <div class="col s12">
+                <div class="row">
+
+                    <div class="input-field col s12">
+                        <input id="intitule" name="intitule" type="text" class="validate">
+                        <label>Titre</label>
+
+                    </div>
+                    @{
+                        if (droit_admin_formation)
+                        {
+                            <div class="input-field col s12">
+                                <select id="educateur" name="educateur" type="text" class="validate">
+                                    @Html.Action("LoadListEducateur", "Calendrier")
+
+                                </select>
+                                <label>Educateur</label>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="input-field col s12">
+                                <select id="educateur" name="educateur" type="text" class="validate">
+                                    @{
+                                        string text = u.Prenom + " " + u.Nom;
+                                            <option value="@u.Id">@text</option>
+                                    }
+
+                                </select>
+                                <label>Educateur</label>
+                            </div>
+                        }
+                    }
+
+
+                </div>
+
+            </div>
+            <div class="col s12">
+                <div class="row">
+                    <div class="input-field col s6">
+                        <input id="debut" name="debut" type="text" class="validate">
+                        <label>Heure de début</label>
+                    </div>
+                    <div class="input-field col s6">
+                        <input id="fin" name="fin" type="text" class="validate">
+                        <label>Heure de fin</label>
+                    </div>
+                </div>
+            </div>
+            <button class="btn hoverable" id="btn_ajouter" type="submit">Ajouter</button>
+        </form>
+    </div>
+</div>
+@Scripts.Render(@"~\Scripts\Calendrier\formationeducateur.js")

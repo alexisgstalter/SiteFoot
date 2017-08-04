@@ -1,0 +1,168 @@
+﻿@{
+    ViewBag.Title = "GestionDesGroupes";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<center><h2>Gestion des groupes</h2></center>
+<br />
+<blockquote>Il est possible ici de créer des groupes et d'en modifier les permissions. Le site est livré avec tout un ensemble de groupes disposants de permissions, il est impossible de supprimer ses groupes natifs car celà nuierait au bon fonctionnement du site. Il est cependant possible de modifier les permissions de ces groupes</blockquote>
+<br />
+<div id="groupes_container"></div>
+<center>
+    <button class="btn hoverable" id="add_modal">
+        <i class="material-icons" style="color: white!important">add</i>
+    </button>
+</center>
+<div id="modal_ajout_groupe" class="modal">
+    <div class="modal-content">
+        <h4>Ajouter un groupe</h4>
+        <form class="row" id="form_ajout_event">
+            <div class="col s12">
+                <div class="row">
+                    <div class="input-field col s6">
+                        <input id="nom_ajout" name="nom_ajout" type="text" class="validate">
+                        <label>Nom</label>
+                    </div>
+                </div>
+                <label>Droit de gèrer la buvette</label>
+                <div class="switch">
+                    <label>
+                        Non
+                        <input type="checkbox" id="droit_gerer_buvette">
+                        <span class="lever"></span>
+                        Oui
+                    </label>
+                </div>
+                <br />
+                <label>Droit de gèrer ses propres entrainements</label>
+                <div class="switch">
+                    <label>
+                        Non
+                        <input type="checkbox" id="droit_gerer_entrainement">
+                        <span class="lever"></span>
+                        Oui
+                    </label>
+                </div>
+                <br />
+                <label>Droit de gèrer les entrainements des autres</label>
+                <div class="switch">
+                    <label>
+                        Non
+                        <input type="checkbox" id="droit_entrainement_autres">
+                        <span class="lever"></span>
+                        Oui
+                    </label>
+                </div>
+                <br />
+                <label>Droit de consulter sa propre formation</label>
+                <div class="switch">
+                    <label>
+                        Non
+                        <input type="checkbox" id="droit_gerer_formation">
+                        <span class="lever"></span>
+                        Oui
+                    </label>
+                </div>
+                <br />
+                <label>Droit de gèrer les formations (consultation et ajout)</label>
+                <div class="switch">
+                    <label>
+                        Non
+                        <input type="checkbox" id="droit_formation_autres">
+                        <span class="lever"></span>
+                        Oui
+                    </label>
+                </div>
+                <br />
+                <label>Droit de publier des annonces</label>
+                <div class="switch">
+                    <label>
+                        Non
+                        <input type="checkbox" id="droit_poster_annonce">
+                        <span class="lever"></span>
+                        Oui
+                    </label>
+                </div>
+                <br />
+            </div>
+            <button href="#!" class="btn hoverable" id="btn_ajouter" type="submit">Ajouter</button>
+        </form>
+    </div>
+</div>
+<div id="modal_modif_groupe" class="modal">
+    <div class="modal-content">
+        <h4>Ajouter un groupe</h4>
+        <form class="row" id="form_modif_event">
+            <div class="col s12">
+                <div class="row">
+                    <div class="input-field col s6">
+                        <input id="nom_modif" name="nom_modif" type="text" class="validate" disabled>
+                        <label class="active">Nom</label>
+                    </div>
+                </div>
+                <label>Droit de gèrer la buvette</label>
+                <div class="switch">
+                    <label>
+                        Non
+                        <input type="checkbox" id="droit_gerer_buvette_modif">
+                        <span class="lever"></span>
+                        Oui
+                    </label>
+                </div>
+                <br />
+                <label>Droit de gèrer ses propres entrainements</label>
+                <div class="switch">
+                    <label>
+                        Non
+                        <input type="checkbox" id="droit_gerer_entrainement_modif">
+                        <span class="lever"></span>
+                        Oui
+                    </label>
+                </div>
+                <br />
+                <label>Droit de gèrer les entrainements des autres</label>
+                <div class="switch">
+                    <label>
+                        Non
+                        <input type="checkbox" id="droit_entrainement_autres_modif">
+                        <span class="lever"></span>
+                        Oui
+                    </label>
+                </div>
+                <br />
+                <label>Droit de consulter sa propre formation</label>
+                <div class="switch">
+                    <label>
+                        Non
+                        <input type="checkbox" id="droit_gerer_formation_modif">
+                        <span class="lever"></span>
+                        Oui
+                    </label>
+                </div>
+                <br />
+                <label>Droit de gèrer les formations (consultation et ajout)</label>
+                <div class="switch">
+                    <label>
+                        Non
+                        <input type="checkbox" id="droit_formation_autres_modif">
+                        <span class="lever"></span>
+                        Oui
+                    </label>
+                </div>
+                <br />
+                <label>Droit de publier des annonces</label>
+                <div class="switch">
+                    <label>
+                        Non
+                        <input type="checkbox" id="droit_poster_annonce_modif">
+                        <span class="lever"></span>
+                        Oui
+                    </label>
+                </div>
+                <br />
+            </div>
+            <button href="#!" class="btn hoverable" id="btn_modif" type="submit">Modifier</button>
+        </form>
+    </div>
+</div>
+@Scripts.Render("~/Scripts/Backoffice/GestionDesGroupes.js")

@@ -1,17 +1,56 @@
 ﻿
+#nav-mobile, .top-nav{
+    background-color : rgba(106,27,154,0.7)!important;
+    color : white!important;
+}
+.collapsible-body {
+    background-color : rgba(106,27,154,0)!important;opacity:1;filter : alpha(opacity=0);
+}
+.side-nav li > a{
+    color : white!important;
+}
+body{
+    background-image : url('/Images/background.jpg');
+    background-attachment : fixed;
+    background-size : 100% 100%;
+}
+.spec_render{
+    display : flex;
+    flex-direction : row;
+    justify-content : space-between;
+}
+.spec_render > div{
+    width : 49%;
+}
+@media (min-width: 991px) {
+  main, footer {
+    padding-left: 320px;
+  }
+  header{
+      padding-left: 300px!important;
+  }
+}
 #toast-container {
     top: auto !important;
     right: auto !important;
     bottom: 10%;
     left: 50%;
 }
+h {
+    text-align : center!important;
+}
+
+.lever{
+    background-color : rgba(106,27,154,0.38)!important;
+}
+blockquote {
+    border-left-color : #6a1b9a!important;
+}
 
 #nav-mobile>li:hover {
-    background-color: #6a1b9a;
+    background-color: rgba(106,27,154,0.5)!important;
 }
-li > a:hover{
-    color: white;
-}
+
 .error {
     color: #4a148c;
 }
@@ -31,7 +70,7 @@ form {
 .waves-effect.waves-brown .waves-ripple {
     /* The alpha value allows the text and background color
     of the button to still show through. */
-    background-color: #6a1b9a;
+    background-color: rgba(106,27,154,0.8)!important;
 }
 .fc-content{
     background-color : #6a1b9a;
@@ -48,8 +87,8 @@ form {
     color : white;
 }
 
-.active>a{
-    background : #6a1b9a!important;
+li.active{
+    background : rgba(106,27,154,0.2)!important;
     color : white!important;
 }
 i{

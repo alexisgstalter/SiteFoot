@@ -181,6 +181,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AnnonceController.cs" />
+    <Compile Include="Controllers\CoordonneesController.cs" />
     <Compile Include="Controllers\UploadController.cs" />
     <Compile Include="Controllers\BackofficeController.cs" />
     <Compile Include="Controllers\CalendrierController.cs" />
@@ -190,6 +191,7 @@
     <Compile Include="Façades\AnnonceManager.cs" />
     <Compile Include="Façades\BackofficeManager.cs" />
     <Compile Include="Façades\CalendrierManager.cs" />
+    <Compile Include="Façades\CoordonneesManager.cs" />
     <Compile Include="Façades\GroupeManager.cs" />
     <Compile Include="Façades\Hash.cs" />
     <Compile Include="Façades\Utilisateur.cs" />
@@ -262,10 +264,17 @@
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <None Include="Properties\PublishProfiles\SiteFoot.pubxml" />
+    <Content Include="Images\background.jpg" />
     <Content Include="Scripts\Backoffice\CreateEquipe.js" />
     <Content Include="Scripts\Backoffice\CreateUser.js" />
+    <Content Include="Scripts\Backoffice\GestionDesGroupes.js" />
+    <Content Include="Scripts\Backoffice\GestionDesJoueurs.js" />
+    <Content Include="Scripts\Backoffice\ParametrageEntrainement.js" />
+    <Content Include="Scripts\BlockUI.js" />
     <Content Include="Scripts\Calendrier\buvette.js" />
     <Content Include="Scripts\Calendrier\entrainement.js" />
+    <Content Include="Scripts\Calendrier\formationeducateur.js" />
+    <Content Include="Scripts\Coordonnees\CoordonneesJoueurs.js" />
     <Content Include="Scripts\datatables.js" />
     <Content Include="Scripts\fullcalendar.js" />
     <Content Include="Scripts\fullcalendar.min.js" />
@@ -450,6 +459,11 @@
     <Content Include="Views\Calendrier\entrainement.cshtml" />
     <Content Include="Views\Backoffice\CreateUser.cshtml" />
     <Content Include="Views\Home\gerer_annonces.cshtml" />
+    <Content Include="Views\Backoffice\ParametrageEntrainement.cshtml" />
+    <Content Include="Views\Backoffice\GestionDesGroupes.cshtml" />
+    <Content Include="Views\Coordonnees\CoordonneesEntraineurs.cshtml" />
+    <Content Include="Views\Coordonnees\CoordonneesJoueurs.cshtml" />
+    <Content Include="Views\Backoffice\GestionDesJoueurs.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

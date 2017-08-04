@@ -5,14 +5,7 @@
         format: 'd/m/Y H:i',
         step : 15
     });
-    $("#membre").autoComplete({
-        source: function (term, response) {
-            xhr = $.getJSON('/Calendrier/AutocompleteMembre', { partial_name: term }, function (data) { response(data); });
-        },
-        onSelect: function (e, term, item) {
-            $("#calendrier_entrainement").fullCalendar('refetchEvents');
-        }
-    });
+
     $("select").change(function () {
         $("#calendrier_entrainement").fullCalendar('refetchEvents');
     });
@@ -257,7 +250,6 @@
             type: "POST",
             data: { title: title, start: start, end: end, id_terrain: id_terrain, id_equipe: id_equipe },
             dataType: "json",
-            contentType :"application/json;charset=utf-8",
             success: function (data) {
                 if (data.ok) {
                     Materialize.toast("l'entrainement a été créé", 3000);

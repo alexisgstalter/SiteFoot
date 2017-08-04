@@ -226,8 +226,8 @@ namespace SiteFoot.Controllers
 
         public JsonResult SaveUser(String login, String password, int[] groupes, String email, String telephone, String nom, String prenom)
         {
-            /*try
-            {*/
+            try
+            {
                 User u = new User();
                 u.Login = login;
                 u.Password = password;
@@ -241,16 +241,16 @@ namespace SiteFoot.Controllers
                 Utilisateur.Create(u);
 
                 return Json(new { ok = true });
-            /*}
+            }
             catch (Exception e)
             {
                 return Json(new { ok = false, error = e.Message });
-            }*/
+            }
         }
         public JsonResult UpdateUser(int id, String login, String password, int[] groupes, String email, String telephone, String nom, String prenom)
         {
-            /*try
-            {*/
+            try
+            {
             User u = new User();
             u.Id = id;
             u.Login = login;
@@ -265,27 +265,237 @@ namespace SiteFoot.Controllers
             Utilisateur.Update(u);
 
             return Json(new { ok = true });
-            /*}
+            }
             catch (Exception e)
             {
                 return Json(new { ok = false, error = e.Message });
-            }*/
+            }
         }
 
         public JsonResult DeleteUser(int id)
         {
-            /*try
-            {*/
+            try
+            {
 
 
             Utilisateur.Delete(id);
 
             return Json(new { ok = true });
-            /*}
+            }
             catch (Exception e)
             {
                 return Json(new { ok = false, error = e.Message });
-            }*/
+            }
+        }
+
+        public ActionResult ParametrageEntrainement()
+        {
+            return View();
+        }
+        public JsonResult SaveConfigEntrainement(int[] equipes, int terrain, DateTime date_debut, DateTime date_fin, String[] jour_semaine, String heure_debut, String heure_fin, String intitule)
+        {
+            List<String> days_of_week = jour_semaine.ToList();
+            var culture = new System.Globalization.CultureInfo("fr-FR");
+            DateTime temp = date_debut;
+            try
+            {
+                foreach (int equipe in equipes)
+                {
+                    date_debut = temp;
+                    while (date_debut != date_fin)
+                    {
+                        if (days_of_week.Contains(culture.DateTimeFormat.GetDayName(date_debut.DayOfWeek)))
+                        {
+                            CalendrierManager.SaveEntrainement(intitule, DateTime.Parse(date_debut.ToString("dd/MM/yyyy") + " " + heure_debut + ":00"), DateTime.Parse(date_debut.ToString("dd/MM/yyyy") + " " + heure_fin + ":00"), terrain, equipe);
+                        }
+                        date_debut = date_debut.AddDays(1);
+                    }
+                }
+                return Json(new { ok = true });
+            }
+            catch (Exception e)
+            {
+                return Json(new { ok = false, error = e.Message });
+            }
+        }
+
+        public JsonResult DeleteConfigEntrainement(int[] equipes, DateTime date_debut, DateTime date_fin, String[] jour_semaine)
+        {
+            List<String> days_of_week = jour_semaine.ToList();
+            var culture = new System.Globalization.CultureInfo("fr-FR");
+            DateTime temp = date_debut;
+            try
+            {
+                foreach (int equipe in equipes)
+                {
+                    date_debut = temp;
+                    while (date_debut != date_fin)
+                    {
+                        if (days_of_week.Contains(culture.DateTimeFormat.GetDayName(date_debut.DayOfWeek)))
+                        {
+                            CalendrierManager.DeleteEntrainementByEquieAndDate(equipe, date_debut, date_debut.AddDays(1));
+                        }
+                        date_debut = date_debut.AddDays(1);
+                    }
+                }
+                return Json(new { ok = true });
+            }
+            catch (Exception e)
+            {
+                return Json(new { ok = false, error = e.Message });
+            }
+        }
+        public ActionResult GestionDesGroupes()
+        {
+            return View();
+        }
+        public JsonResult GetAllGroupes()
+        {
+            try
+            {
+                DataTable groupes = GroupeManager.getAll();
+                String html = "<table class='table bordered striped'><thead><th>Nom</th><th>Droit buvette</th><th>Droit entrainement</th><th>Droit sur l'entrainement des autres</th><th>Droit éducateur</th><th>Droit sur les autres éducateurs</th><th>Droit de publication d'annonces</th><th>Editer</th><th>Supprimer</th></thead><tbody>";
+
+                foreach (DataRow row in groupes.Rows)
+                {
+                    html += "<tr><td>" + row["nom"].ToString() + "</td><td>" + row["droit_gerer_buvette"].ToString() + "</td><td>" + row["droit_gerer_entrainement"].ToString() + "</td><td>" + row["droit_entrainement_autres"].ToString() + "</td><td>" + row["droit_gerer_formateur"].ToString() + "</td><td>" + row["droit_formateur_autres"].ToString() + "</td><td>" + row["droit_poster_annonce"].ToString() + "</td><td data-value='" + row["id"].ToString() + "' class='edit'><i class='material-icons prefix'>mode_edit</i></td>";
+                    if (row["estGroupeImportant"].ToString() == "1")
+                    {
+                        html += "<td></td></tr>";
+                    }
+                    else
+                    {
+                        html += "<td class='supp' data-value='" + row["id"].ToString() + "'><i class='material-icons prefix'>clear</i></td></tr>";
+                    }
+                }
+
+                html += "</tbody></table>";
+
+                return Json(new { ok = true, html = html });
+            }
+            catch (Exception e)
+            {
+                return Json(new { ok = false, error = e.Message });
+            }
+        }
+
+        public JsonResult SaveGroupe(String nom, bool droit_gerer_buvette, bool droit_gerer_entrainement, bool droit_entrainement_autres, bool droit_gerer_formateur, bool droit_formateur_autres, bool droit_poster_annonce)
+        {
+            try
+            {
+                Groupe g = new Groupe();
+                g.Droit_poster_annonce = droit_poster_annonce;
+                g.Droit_gerer_buvette = droit_gerer_buvette;
+                g.Droit_formateur_autre = droit_formateur_autres;
+                g.Droit_gerer_formateur = droit_gerer_formateur;
+                g.Droit_gerer_entrainement = droit_gerer_entrainement;
+                g.Droit_entrainement_autre = droit_entrainement_autres;
+                g.Nom = nom;
+                g.Code_Groupe = nom;
+                GroupeManager.Create(g);
+                return Json(new { ok = true });
+            }
+            catch (Exception e)
+            {
+                return Json(new { ok = false, error = e.Message });
+            }
+        }
+
+        public JsonResult DeleteGroupe(int id)
+        {
+            try
+            {
+                GroupeManager.Delete(id);
+                return Json(new { ok = true });
+            }
+            catch (Exception e)
+            {
+                return Json(new { ok = false, error = e.Message });
+            }
+        }
+        public JsonResult UpdateGroupe(int id, String nom, bool droit_gerer_buvette, bool droit_gerer_entrainement, bool droit_entrainement_autres, bool droit_gerer_formateur, bool droit_formateur_autres, bool droit_poster_annonce)
+        {
+            try
+            {
+                Groupe g = new Groupe();
+                g.Id = id;
+                g.Droit_poster_annonce = droit_poster_annonce;
+                g.Droit_gerer_buvette = droit_gerer_buvette;
+                g.Droit_formateur_autre = droit_formateur_autres;
+                g.Droit_gerer_formateur = droit_gerer_formateur;
+                g.Droit_gerer_entrainement = droit_gerer_entrainement;
+                g.Droit_entrainement_autre = droit_entrainement_autres;
+                g.Nom = nom;
+                g.Code_Groupe = nom;
+                GroupeManager.Update(g);
+                return Json(new { ok = true });
+            }
+            catch (Exception e)
+            {
+                return Json(new { ok = false, error = e.Message });
+            }
+        }
+        public ActionResult GestionDesJoueurs()
+        {
+            return View();
+        }
+        public JsonResult GetJoueurs()
+        {
+            try
+            {
+                DataTable joueurs = CoordonneesManager.GetAllJoueurs();
+                String html = "<table class='table bordered highlight'><thead><th>Prénom</th><th>Nom</th><th>Adresse</th><th>Telephone</th><th>E-mail</th><th>Equipe</th><th>Editer</th><th>Supprimer</th></thead><tbody>";
+                
+                foreach (DataRow row in joueurs.Rows)
+                {
+                    DataTable equipe = CoordonneesManager.GetEquipeByIDMembre(int.Parse(row["id"].ToString()));
+                    html += "<tr><td>" + row["prenom"].ToString() + "</td><td>" + row["nom"].ToString() + "</td><td>" + row["adresse"].ToString() + "</td><td>" + row["telephone"].ToString() + "</td><td>" + row["email"].ToString() + "</td><td><img class='img-responsive' src='/Fichiers SiteFoot/" + equipe.Rows[0]["ecusson"].ToString() + "'/>  " + equipe.Rows[0]["nom_equipe"].ToString() + "</td><td class='edit' data-value='" + row["id"].ToString() + "'><a><i class='material-icons dp48'>mode_edit</i></td><td class='supp' data-value='" + row["id"].ToString() + "'><i class='material-icons dp48'>delete</i></td></tr>";
+
+                }
+                html += "</tbody></table>";
+                return Json(new { ok = true, html = html });
+            }
+            catch (Exception e)
+            {
+                return Json(new { ok = false, error = e.Message });
+            }
+        }
+
+        public JsonResult SaveJoueur(int id_equipe, String prenom, String nom, String adresse, String telephone, String email)
+        {
+            try
+            {
+                BackofficeManager.SaveJoueur(id_equipe, prenom, nom, adresse, telephone, email);
+                return Json(new { ok = true });
+            }
+            catch (Exception e)
+            {
+                return Json(new { ok = false, error = e.Message });
+            }
+        }
+        public JsonResult UpdateJoueur(int id, int id_equipe, String prenom, String nom, String adresse, String telephone, String email)
+        {
+            try
+            {
+                BackofficeManager.UpdateJoueur(id, id_equipe, prenom, nom, adresse, telephone, email);
+                return Json(new { ok = true });
+            }
+            catch (Exception e)
+            {
+                return Json(new { ok = false, error = e.Message });
+            }
+        }
+        public JsonResult DeleteJoueur(int id)
+        {
+            try
+            {
+                BackofficeManager.DeleteJoueur(id);
+                return Json(new { ok = true });
+            }
+            catch (Exception e)
+            {
+                return Json(new { ok = false, error = e.Message });
+            }
         }
     }
 
