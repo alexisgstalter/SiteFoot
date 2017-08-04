@@ -3,6 +3,9 @@
     background-color : rgba(106,27,154,0.7)!important;
     color : white!important;
 }
+#sidenav-overlay {
+z-index: 1;
+}
 .collapsible-body {
     background-color : rgba(106,27,154,0)!important;opacity:1;filter : alpha(opacity=0);
 }
