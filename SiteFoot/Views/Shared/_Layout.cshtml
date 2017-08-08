@@ -32,22 +32,12 @@
     </head>
     <body>
         <header>
-            <nav class="top-nav">
+
                 
-                <div class="nav-wrapper">
-                    <ul class="left">
-                        <li><button id="collapse" data-activates="nav-mobile" class="button-collapse top-nav full hide-on-large-only btn btn-flat">Menu</button></li>
-                    </ul>
-                        
-                    @if (Request.IsAuthenticated && user != null)
-                    {
-                        <ul class="right">
-                            <li>Vous êtes connecté en temps que @user.Login</li>
-                        </ul>
-                    }
-                </div>
-                
-            </nav>
+
+
+            <button id="collapse" data-activates="nav-mobile" class="button-collapse top-nav full hide-on-large-only btn btn-flat" style="position:fixed;top:0px;left:0px;width:100%;"><div class="left"><i class="material-icons" style="color : white!important;">menu</i></div></button>
+
             <ul id="nav-mobile" class="side-nav fixed" style="transform: translateX(0%);">
                 <li class="logo">
                     <center>
@@ -59,6 +49,12 @@
                     </center>
 
                 </li>
+                @if (Request.IsAuthenticated && user != null)
+                {
+                    
+                    <li><center>Bienvenue @user.Login !</center></li>
+                    
+                }
                 <li id="accueil_list">@Html.ActionLink("Accueil", "Index", "Home")</li>
                 <li id="about_list">@Html.ActionLink("A propos du FCS", "About", "Home")</li>
                 @{

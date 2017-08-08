@@ -45,7 +45,7 @@ namespace SiteFoot.Controllers
                 String html = "";
                 if (matchs.Rows.Count > 0)
                 {
-                    html = "<table class='table bordered highlight responsive-table'><thead><tr><th>Equipe</th><th>Adversaire</th><th>Score</th><th>Date</th>";
+                    html = "<table class='table bordered highlight'><thead><tr><th>Equipe</th><th>Adversaire</th><th>Score</th><th>Date</th>";
                     User u = (User)Session["CurrentUser"];
                     List<Groupe> grps = new List<Groupe>();
                     if (u != null)

@@ -1,4 +1,15 @@
 ﻿
+footer {
+   position:fixed;
+   bottom:0px;
+   height:5%;
+   width:100%;
+       background-color : rgba(106,27,154,0.7)!important;
+    color : white!important;
+}
+.side-nav{
+    height : 95%!important;
+}
 .picker__day--selected, .picker__day--selected:hover, .picker--focused .picker__day--selected{
     background-color : rgb(106,27,154)!important;
 }
@@ -15,6 +26,7 @@ img.icon{
 #nav-mobile, .top-nav{
     background-color : rgba(106,27,154,0.7)!important;
     color : white!important;
+    
 }
 td th {
     text-align : center!important;
@@ -51,7 +63,7 @@ option{
   main, footer {
     padding-left: 320px;
   }
-  header{
+  header, footer{
       padding-left: 300px!important;
   }
 }
