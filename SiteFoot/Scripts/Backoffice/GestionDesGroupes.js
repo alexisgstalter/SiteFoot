@@ -12,7 +12,9 @@
             success: function (data) {
                 if (data.ok) {
                     $("#groupes_container").append(data.html);
-                    $(".table").dataTable();
+                    $(".table").dataTable({
+                        scrollX : true
+                    });
                     $("select").material_select();
                 }
                 else {
@@ -33,6 +35,12 @@
     });
 
     $("#form_ajout_event").validate({
+        errorPlacement: function (error, element) {
+            error.insertAfter(element.parent("div"));
+        },
+        onfocusout: function (element) {
+            this.element(element);
+        },
         rules: {
             nom_ajout: {
                 required : true
@@ -55,12 +63,13 @@
         var droit_formateur_autres = $("#droit_formation_autres").is(":checked");
         var droit_entrainement_autres = $("#droit_entrainement_autres").is(":checked");
         var droit_poster_annonce = $("#droit_poster_annonce").is(":checked");
+        var droit_gerer_match = $("#droit_gerer_match").is(":checked");
         var nom = $("#nom_ajout").val();
 
         $.ajax({
             url: "SaveGroupe",
             type: "POST",
-            data: JSON.stringify({ nom : nom, droit_gerer_buvette : droit_gerer_buvette, droit_gerer_entrainement : droit_gerer_entrainement, droit_entrainement_autres : droit_entrainement_autres, droit_gerer_formateur : droit_gerer_formateur, droit_formateur_autres : droit_formateur_autres, droit_poster_annonce : droit_poster_annonce }),
+            data: JSON.stringify({ nom : nom, droit_gerer_buvette : droit_gerer_buvette, droit_gerer_entrainement : droit_gerer_entrainement, droit_entrainement_autres : droit_entrainement_autres, droit_gerer_formateur : droit_gerer_formateur, droit_formateur_autres : droit_formateur_autres, droit_poster_annonce : droit_poster_annonce, droit_gere_match : droit_gerer_match }),
             dataType: "json",
             contentType: "application/json; charset=utf-8",
             success: function (data) {
@@ -145,6 +154,12 @@
         else {
             $("#droit_poster_annonce_modif").prop("checked", false);
         }
+        if ($(this).parent("tr").find("td").eq(7).text() == "1") {
+            $("#droit_gerer_match_modif").prop("checked", true);
+        }
+        else {
+            $("#droit_gerer_match_modif").prop("checked", false);
+        }
         Materialize.updateTextFields();
         $("#modal_modif_groupe").modal('open');
     });
@@ -156,12 +171,13 @@
         var droit_formateur_autres = $("#droit_formation_autres_modif").is(":checked");
         var droit_entrainement_autres = $("#droit_entrainement_autres_modif").is(":checked");
         var droit_poster_annonce = $("#droit_poster_annonce_modif").is(":checked");
+        var droit_gerer_match = $("#droit_gerer_match_modif").is(":checked");
         var nom = $("#nom_modif").val();
 
         $.ajax({
             url: "UpdateGroupe",
             type: "POST",
-            data: JSON.stringify({ id : current_id, nom: nom, droit_gerer_buvette: droit_gerer_buvette, droit_gerer_entrainement: droit_gerer_entrainement, droit_entrainement_autres: droit_entrainement_autres, droit_gerer_formateur: droit_gerer_formateur, droit_formateur_autres: droit_formateur_autres, droit_poster_annonce: droit_poster_annonce }),
+            data: JSON.stringify({ id : current_id, nom: nom, droit_gerer_buvette: droit_gerer_buvette, droit_gerer_entrainement: droit_gerer_entrainement, droit_entrainement_autres: droit_entrainement_autres, droit_gerer_formateur: droit_gerer_formateur, droit_formateur_autres: droit_formateur_autres, droit_poster_annonce: droit_poster_annonce, droit_gerer_match : droit_gerer_match }),
             dataType: "json",
             contentType: "application/json; charset=utf-8",
             success: function (data) {

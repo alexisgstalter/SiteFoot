@@ -200,7 +200,7 @@ namespace SiteFoot.Controllers
                 DataTable equipes = CalendrierManager.GetAllEquipes();
                 foreach (DataRow t in equipes.Rows)
                 {
-                    html += "<option value=" + t["id"].ToString() + ">" + t["nom_equipe"].ToString() + "</option>";
+                    html += "<option value=" + t["id"].ToString() + ">" + t["nom_equipe"].ToString() + " - " + t["categorie"].ToString() + "</option>";
                 }
                 return Content(html);
             }

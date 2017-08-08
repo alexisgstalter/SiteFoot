@@ -1,7 +1,26 @@
 ﻿
+.picker__day--selected, .picker__day--selected:hover, .picker--focused .picker__day--selected{
+    background-color : rgb(106,27,154)!important;
+}
+.picker__nav--prev:hover, .picker__nav--next:hover{
+    background-color : rgba(106,27,154, 0.5)!important;
+}
+.picker__day.picker__day--today{
+    color : rgb(106,27,154)!important;
+}
+img.icon{
+    max-width : 50px!important;
+    max-height : 50px!important;
+}
 #nav-mobile, .top-nav{
     background-color : rgba(106,27,154,0.7)!important;
     color : white!important;
+}
+td th {
+    text-align : center!important;
+}
+.picker__holder{
+    z-index : 999!important;
 }
 #sidenav-overlay {
 z-index: 1;
@@ -21,6 +40,9 @@ body{
     display : flex;
     flex-direction : row;
     justify-content : space-between;
+}
+option{
+    color : rgb(106,27,154);
 }
 .spec_render > div{
     width : 49%;
@@ -42,7 +64,18 @@ body{
 h {
     text-align : center!important;
 }
-
+.picker__date-display{
+    background-color : rgb(106,27,154)!important;
+}
+.clockpicker-canvas-bg {
+    fill : rgb(106,27,154)!important;
+}
+.clockpicker-canvas line{
+    stroke : rgb(106,27,154)!important;
+}
+.clockpicker-canvas-bearing{
+    fill : rgb(106,27,154)!important;
+}
 .lever{
     background-color : rgba(106,27,154,0.38)!important;
 }

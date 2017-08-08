@@ -1,5 +1,5 @@
 ﻿$(document).ready(function () {
-    var offset = 0;
+    var offset = 1;
     var win = $(window);
     $.ajax({
         url: '/Annonce/GetAnnonces',
@@ -32,26 +32,12 @@
                 }
             });
 
-            $.ajax({
-                url: '/Annonce/GetAnnoncesByTerme',
-                dataType: 'json',
-                type: "POST",
-                contentType: "application/json;charset=utf-8",
-                data: JSON.stringify({ offset: offset }),
-                success: function (data) {
-                    if (data.ok) {
-                        $('#posts').append(data.html);
-                        offset += 5;
-                    }
-                }
-            });
-
         }
     });
 
 
     $("#recherche_terme").submit(function () {
-        var offset = 0;
+        var offset = 1;
         
         var terme_recherhe = $("#terme").val();
         $('#posts').empty();

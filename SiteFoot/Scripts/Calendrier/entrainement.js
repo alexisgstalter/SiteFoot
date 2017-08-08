@@ -5,7 +5,14 @@
         format: 'd/m/Y H:i',
         step : 15
     });
-
+    $("#membre").autoComplete({
+        source: function (term, response) {
+            xhr = $.getJSON('/Calendrier/AutocompleteMembre', { partial_name: term }, function (data) { response(data); });
+        },
+        onSelect: function (e, term, item) {
+            $("#calendrier_entrainement").fullCalendar('refetchEvents');
+        }
+    });
     $("select").change(function () {
         $("#calendrier_entrainement").fullCalendar('refetchEvents');
     });

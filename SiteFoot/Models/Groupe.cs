@@ -78,5 +78,13 @@ namespace SiteFoot.Models
             get { return droit_poster_annonce; }
             set { droit_poster_annonce = value; }
         }
+
+        private bool droit_gerer_match;
+
+        public bool Droit_gerer_match
+        {
+            get { return droit_gerer_match; }
+            set { droit_gerer_match = value; }
+        }
     }
 }

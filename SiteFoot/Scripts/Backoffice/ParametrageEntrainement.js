@@ -8,6 +8,11 @@
     });
 
     $("#date_debut, #date_fin").pickadate({
+        monthsFull: ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'],
+        weekdaysShort: ['Dim', 'Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam'],
+        today: 'aujourd\'hui',
+        clear: 'effacer',
+        formatSubmit: 'dd/mm/yyyy',
         autoclose: true,
         format : "dd/mm/yyyy"
     });

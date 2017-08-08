@@ -55,7 +55,7 @@ namespace SiteFoot.Controllers
                         String nom_entraîneur = BackofficeManager.GetAllEntraineursEquipe(int.Parse(liste_equipe.Rows[i]["id"].ToString()));
 
                         html = html + "<tr>";
-                        html = html + "<td>" + liste_equipe.Rows[i]["nom_equipe"].ToString() + "</td><td>" + liste_equipe.Rows[i]["categorie"].ToString() + "</td><td>" + nom_entraîneur + "</td><td><img class='img-responsive' src='/Fichiers SiteFoot/" + liste_equipe.Rows[i]["ecusson"].ToString() + "' /></td><td data-id_ligne='" + liste_equipe.Rows[i]["id"].ToString() + "' class='edit_ligne'><i class='material-icons prefix'>mode_edit</i><td class='delete delete_ligne' data-value='" + liste_equipe.Rows[i]["id"].ToString() + "'><i class='material-icons prefix'>clear</i></td>";
+                        html = html + "<td>" + liste_equipe.Rows[i]["nom_equipe"].ToString() + "</td><td>" + liste_equipe.Rows[i]["categorie"].ToString() + "</td><td>" + nom_entraîneur + "</td><td><img class='img-responsive icon' src='/Fichiers SiteFoot/" + liste_equipe.Rows[i]["ecusson"].ToString() + "' /></td><td data-id_ligne='" + liste_equipe.Rows[i]["id"].ToString() + "' class='edit_ligne'><i class='material-icons prefix'>mode_edit</i><td class='delete delete_ligne' data-value='" + liste_equipe.Rows[i]["id"].ToString() + "'><i class='material-icons prefix'>clear</i></td>";
                     }
                     html = html + "</tr>";
                 }
@@ -354,11 +354,11 @@ namespace SiteFoot.Controllers
             try
             {
                 DataTable groupes = GroupeManager.getAll();
-                String html = "<table class='table bordered striped'><thead><th>Nom</th><th>Droit buvette</th><th>Droit entrainement</th><th>Droit sur l'entrainement des autres</th><th>Droit éducateur</th><th>Droit sur les autres éducateurs</th><th>Droit de publication d'annonces</th><th>Editer</th><th>Supprimer</th></thead><tbody>";
+                String html = "<table class='table bordered striped'><thead><th>Nom</th><th>Droit buvette</th><th>Droit entrainement</th><th>Droit sur l'entrainement des autres</th><th>Droit éducateur</th><th>Droit sur les autres éducateurs</th><th>Droit de publication d'annonces</th><th>Droit de gèrer les matchs</th><th>Editer</th><th>Supprimer</th></thead><tbody>";
 
                 foreach (DataRow row in groupes.Rows)
                 {
-                    html += "<tr><td>" + row["nom"].ToString() + "</td><td>" + row["droit_gerer_buvette"].ToString() + "</td><td>" + row["droit_gerer_entrainement"].ToString() + "</td><td>" + row["droit_entrainement_autres"].ToString() + "</td><td>" + row["droit_gerer_formateur"].ToString() + "</td><td>" + row["droit_formateur_autres"].ToString() + "</td><td>" + row["droit_poster_annonce"].ToString() + "</td><td data-value='" + row["id"].ToString() + "' class='edit'><i class='material-icons prefix'>mode_edit</i></td>";
+                    html += "<tr><td>" + row["nom"].ToString() + "</td><td>" + row["droit_gerer_buvette"].ToString() + "</td><td>" + row["droit_gerer_entrainement"].ToString() + "</td><td>" + row["droit_entrainement_autres"].ToString() + "</td><td>" + row["droit_gerer_formateur"].ToString() + "</td><td>" + row["droit_formateur_autres"].ToString() + "</td><td>" + row["droit_poster_annonce"].ToString() + "</td><td>" + row["droit_gerer_match"].ToString() + "</td><td data-value='" + row["id"].ToString() + "' class='edit'><i class='material-icons prefix'>mode_edit</i></td>";
                     if (row["estGroupeImportant"].ToString() == "1")
                     {
                         html += "<td></td></tr>";
@@ -379,7 +379,7 @@ namespace SiteFoot.Controllers
             }
         }
 
-        public JsonResult SaveGroupe(String nom, bool droit_gerer_buvette, bool droit_gerer_entrainement, bool droit_entrainement_autres, bool droit_gerer_formateur, bool droit_formateur_autres, bool droit_poster_annonce)
+        public JsonResult SaveGroupe(String nom, bool droit_gerer_buvette, bool droit_gerer_entrainement, bool droit_entrainement_autres, bool droit_gerer_formateur, bool droit_formateur_autres, bool droit_poster_annonce, bool droit_gerer_match)
         {
             try
             {
@@ -390,6 +390,7 @@ namespace SiteFoot.Controllers
                 g.Droit_gerer_formateur = droit_gerer_formateur;
                 g.Droit_gerer_entrainement = droit_gerer_entrainement;
                 g.Droit_entrainement_autre = droit_entrainement_autres;
+                g.Droit_gerer_match = droit_gerer_match;
                 g.Nom = nom;
                 g.Code_Groupe = nom;
                 GroupeManager.Create(g);
@@ -413,7 +414,7 @@ namespace SiteFoot.Controllers
                 return Json(new { ok = false, error = e.Message });
             }
         }
-        public JsonResult UpdateGroupe(int id, String nom, bool droit_gerer_buvette, bool droit_gerer_entrainement, bool droit_entrainement_autres, bool droit_gerer_formateur, bool droit_formateur_autres, bool droit_poster_annonce)
+        public JsonResult UpdateGroupe(int id, String nom, bool droit_gerer_buvette, bool droit_gerer_entrainement, bool droit_entrainement_autres, bool droit_gerer_formateur, bool droit_formateur_autres, bool droit_poster_annonce, bool droit_gerer_match)
         {
             try
             {
@@ -425,6 +426,7 @@ namespace SiteFoot.Controllers
                 g.Droit_gerer_formateur = droit_gerer_formateur;
                 g.Droit_gerer_entrainement = droit_gerer_entrainement;
                 g.Droit_entrainement_autre = droit_entrainement_autres;
+                g.Droit_gerer_match = droit_gerer_match;
                 g.Nom = nom;
                 g.Code_Groupe = nom;
                 GroupeManager.Update(g);
@@ -449,7 +451,7 @@ namespace SiteFoot.Controllers
                 foreach (DataRow row in joueurs.Rows)
                 {
                     DataTable equipe = CoordonneesManager.GetEquipeByIDMembre(int.Parse(row["id"].ToString()));
-                    html += "<tr><td>" + row["prenom"].ToString() + "</td><td>" + row["nom"].ToString() + "</td><td>" + row["adresse"].ToString() + "</td><td>" + row["telephone"].ToString() + "</td><td>" + row["email"].ToString() + "</td><td><img class='img-responsive' src='/Fichiers SiteFoot/" + equipe.Rows[0]["ecusson"].ToString() + "'/>  " + equipe.Rows[0]["nom_equipe"].ToString() + "</td><td class='edit' data-value='" + row["id"].ToString() + "'><a><i class='material-icons dp48'>mode_edit</i></td><td class='supp' data-value='" + row["id"].ToString() + "'><i class='material-icons dp48'>delete</i></td></tr>";
+                    html += "<tr><td>" + row["prenom"].ToString() + "</td><td>" + row["nom"].ToString() + "</td><td>" + row["adresse"].ToString() + "</td><td>" + row["telephone"].ToString() + "</td><td>" + row["email"].ToString() + "</td><td><img class='img-responsive icon' src='/Fichiers SiteFoot/" + equipe.Rows[0]["ecusson"].ToString() + "'/>  " + equipe.Rows[0]["nom_equipe"].ToString() + "</td><td class='edit' data-value='" + row["id"].ToString() + "'><a><i class='material-icons dp48'>mode_edit</i></td><td class='supp' data-value='" + row["id"].ToString() + "'><i class='material-icons dp48'>delete</i></td></tr>";
 
                 }
                 html += "</tbody></table>";

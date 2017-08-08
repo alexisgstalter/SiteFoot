@@ -194,6 +194,7 @@
     <Compile Include="Façades\CoordonneesManager.cs" />
     <Compile Include="Façades\GroupeManager.cs" />
     <Compile Include="Façades\Hash.cs" />
+    <Compile Include="Façades\ResultatManager.cs" />
     <Compile Include="Façades\Utilisateur.cs" />
     <Compile Include="Filters\CustomAuthorizeAttribute.cs" />
     <Compile Include="Filters\InitializeSimpleMembershipAttribute.cs" />
@@ -420,6 +421,7 @@
     <Content Include="Scripts\moment-with-locales.min.js" />
     <Content Include="Scripts\moment.js" />
     <Content Include="Scripts\moment.min.js" />
+    <Content Include="Scripts\Resultats\Matchs.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
