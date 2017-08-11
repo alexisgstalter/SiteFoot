@@ -29,6 +29,9 @@
     $("#add_modal").click(function () {
         $("#modal_ajout_membre").modal('open');
     });
+    $.validator.addMethod("mdp", function (value, element) {
+        return value == $("#password").val();
+    }, "Le mot de passe doit être identique");
     $("#form_ajout_membre").validate({
         errorPlacement: function (error, element) {
             error.insertAfter(element.parent("div"));
@@ -36,7 +39,26 @@
         onfocusout: function (element) {
             this.element(element);
         },
+        login: {
+            required: true
+        },
+        password: {
+            required: true
+        },
+        confirm_password: {
+            required: true,
+            mdp: true
+        },
         rules: {
+            login: {
+                required: "veuillez renseigner ce champs"
+            },
+            password: {
+                required: "veuillez renseigner ce champs"
+            },
+            confirm_password: {
+                required: "veuillez renseigner ce champs"
+            },
             nom_ajout: {
                 required: true
             },
@@ -63,6 +85,9 @@
             return false;
         }
     });
+    $.validator.addMethod("mdp_edit", function (value, element) {
+        return value == $("#password_edit").val();
+    }, "Le mot de passe doit être identique");
     $("#form_modif_membre").validate({
         errorPlacement: function (error, element) {
             error.insertAfter(element.parent("div"));
@@ -71,6 +96,16 @@
             this.element(element);
         },
         rules: {
+            login_edit: {
+                required: true
+            },
+            password_edit: {
+                required: true
+            },
+            confirm_password_edit: {
+                required: true,
+                mdp_edit: true
+            },
             nom_modif: {
                 required: true
             },
@@ -90,6 +125,15 @@
             },
             telephone_modif: {
                 required: "veuillez renseigner ce champs"
+            },
+            login_edit: {
+                required: "veuillez renseigner ce champs"
+            },
+            password_edit: {
+                required: "veuillez renseigner ce champs"
+            },
+            confirm_password_edit: {
+                required: "veuillez renseigner ce champs"
             }
         },
         submitHandler: function (form) {
@@ -104,10 +148,12 @@
         var adresse = $("#adresse_ajout").val();
         var telephone = $("#telephone_ajout").val();
         var email = $("#email_ajout").val();
+        var login = $("#login").val();
+        var passwprd = $("#password").val();
         $.ajax({
             url: "SaveJoueur",
             type: "POST",
-            data: JSON.stringify({id_equipe : id_equipe, nom : nom, prenom : prenom, adresse : adresse, telephone : telephone, email : email}),
+            data: JSON.stringify({id_equipe : id_equipe, nom : nom, prenom : prenom, adresse : adresse, telephone : telephone, email : email, login : login, password : passwprd}),
             dataType: "json",
             contentType: "application/json; charset=utf-8",
             success: function (data) {
@@ -133,10 +179,12 @@
         var adresse = $("#adresse_modif").val();
         var telephone = $("#telephone_modif").val();
         var email = $("#email_modif").val();
+        var login = $("#login_edit").val();
+        var password = $("#password_edit").val();
         $.ajax({
             url: "UpdateJoueur",
             type: "POST",
-            data: JSON.stringify({id : current_id, id_equipe: id_equipe, nom: nom, prenom: prenom, adresse: adresse, telephone: telephone, email: email }),
+            data: JSON.stringify({id : current_id, id_equipe: id_equipe, nom: nom, prenom: prenom, adresse: adresse, telephone: telephone, email: email, login : login, password : password }),
             dataType: "json",
             contentType: "application/json; charset=utf-8",
             success: function (data) {
@@ -188,11 +236,13 @@
             }
         });
         $("select").material_select();
-        $("#prenom_modif").val($(this).parent("tr").find("td").eq(0).text());
-        $("#nom_modif").val($(this).parent("tr").find("td").eq(1).text());
-        $("#adresse_modif").val($(this).parent("tr").find("td").eq(2).text());
-        $("#telephone_modif").val($(this).parent("tr").find("td").eq(3).text());
-        $("#email_modif").val($(this).parent("tr").find("td").eq(4).text());
+        $("#login_edit").val($(this).parent("tr").find("td").eq(0).text());
+        $("#password_edit").val($(this).parent("tr").find("td").eq(1).text());
+        $("#prenom_modif").val($(this).parent("tr").find("td").eq(2).text());
+        $("#nom_modif").val($(this).parent("tr").find("td").eq(3).text());
+        $("#adresse_modif").val($(this).parent("tr").find("td").eq(4).text());
+        $("#telephone_modif").val($(this).parent("tr").find("td").eq(5).text());
+        $("#email_modif").val($(this).parent("tr").find("td").eq(6).text());
         Materialize.updateTextFields();
         $("#modal_modif_membre").modal('open');
     });

@@ -55,7 +55,7 @@ namespace SiteFoot.Controllers
                         String nom_entraîneur = BackofficeManager.GetAllEntraineursEquipe(int.Parse(liste_equipe.Rows[i]["id"].ToString()));
 
                         html = html + "<tr>";
-                        html = html + "<td>" + liste_equipe.Rows[i]["nom_equipe"].ToString() + "</td><td>" + liste_equipe.Rows[i]["categorie"].ToString() + "</td><td>" + nom_entraîneur + "</td><td><img class='img-responsive icon' src='/Fichiers SiteFoot/" + liste_equipe.Rows[i]["ecusson"].ToString() + "' /></td><td data-id_ligne='" + liste_equipe.Rows[i]["id"].ToString() + "' class='edit_ligne'><i class='material-icons prefix'>mode_edit</i><td class='delete delete_ligne' data-value='" + liste_equipe.Rows[i]["id"].ToString() + "'><i class='material-icons prefix'>clear</i></td>";
+                        html = html + "<td>" + liste_equipe.Rows[i]["nom_equipe"].ToString() + "</td><td>" + liste_equipe.Rows[i]["categorie"].ToString() + "</td><td>" + nom_entraîneur + "</td><td><img class='responsive-img icon' src='/Fichiers SiteFoot/" + liste_equipe.Rows[i]["ecusson"].ToString() + "' /></td><td data-id_ligne='" + liste_equipe.Rows[i]["id"].ToString() + "' class='edit_ligne'><i class='material-icons prefix'>mode_edit</i><td class='delete delete_ligne' data-value='" + liste_equipe.Rows[i]["id"].ToString() + "'><i class='material-icons prefix'>clear</i></td>";
                     }
                     html = html + "</tr>";
                 }
@@ -212,7 +212,10 @@ namespace SiteFoot.Controllers
                     {
                         groupes += g.Nom + ",";
                     }
-                    groupes = groupes.Remove(groupes.LastIndexOf(','), 1);
+                    if (groupes.Contains(','))
+                    {
+                        groupes = groupes.Remove(groupes.LastIndexOf(','), 1);
+                    }
                     html += "<tr><td>" + row["id"].ToString() + "</td><td>" + row["login"].ToString() + "</td><td>"+ password +"</td><td>"+ groupes +"</td><td>" + row["prenom"].ToString() + "</td><td>" + row["nom"].ToString() + "</td><td>" + row["email"].ToString() + "</td><td>" + row["telephone"].ToString() + "</td><td class='edit'><a><i class='material-icons dp48'>mode_edit</i></td><td class='supp'><i class='material-icons dp48'>delete</i></td></tr>";
                 }
                 html += "</tbody></table>";
@@ -224,7 +227,7 @@ namespace SiteFoot.Controllers
             }
         }
 
-        public JsonResult SaveUser(String login, String password, int[] groupes, String email, String telephone, String nom, String prenom)
+        public JsonResult SaveUser(String login, String password, int[] groupes, String email, String telephone, String nom, String prenom, String adresse)
         {
             try
             {
@@ -237,6 +240,7 @@ namespace SiteFoot.Controllers
                 u.Salt = Hash.GetNewSaltKey();
                 u.Nom = nom;
                 u.Prenom = prenom;
+                u.Adresse = adresse;
 
                 Utilisateur.Create(u);
 
@@ -247,7 +251,7 @@ namespace SiteFoot.Controllers
                 return Json(new { ok = false, error = e.Message });
             }
         }
-        public JsonResult UpdateUser(int id, String login, String password, int[] groupes, String email, String telephone, String nom, String prenom)
+        public JsonResult UpdateUser(int id, String login, String password, int[] groupes, String email, String telephone, String nom, String prenom, String adresse)
         {
             try
             {
@@ -261,6 +265,7 @@ namespace SiteFoot.Controllers
             u.Salt = Hash.GetNewSaltKey();
             u.Nom = nom;
             u.Prenom = prenom;
+            u.Adresse = adresse;
 
             Utilisateur.Update(u);
 
@@ -446,12 +451,12 @@ namespace SiteFoot.Controllers
             try
             {
                 DataTable joueurs = CoordonneesManager.GetAllJoueurs();
-                String html = "<table class='table bordered highlight'><thead><th>Prénom</th><th>Nom</th><th>Adresse</th><th>Telephone</th><th>E-mail</th><th>Equipe</th><th>Editer</th><th>Supprimer</th></thead><tbody>";
+                String html = "<table class='table bordered highlight'><thead><th>Login</th><th>Mot de passe</th><th>Prénom</th><th>Nom</th><th>Adresse</th><th>Telephone</th><th>E-mail</th><th>Equipe</th><th>Editer</th><th>Supprimer</th></thead><tbody>";
                 
                 foreach (DataRow row in joueurs.Rows)
                 {
                     DataTable equipe = CoordonneesManager.GetEquipeByIDMembre(int.Parse(row["id"].ToString()));
-                    html += "<tr><td>" + row["prenom"].ToString() + "</td><td>" + row["nom"].ToString() + "</td><td>" + row["adresse"].ToString() + "</td><td>" + row["telephone"].ToString() + "</td><td>" + row["email"].ToString() + "</td><td><img class='img-responsive icon' src='/Fichiers SiteFoot/" + equipe.Rows[0]["ecusson"].ToString() + "'/>  " + equipe.Rows[0]["nom_equipe"].ToString() + "</td><td class='edit' data-value='" + row["id"].ToString() + "'><a><i class='material-icons dp48'>mode_edit</i></td><td class='supp' data-value='" + row["id"].ToString() + "'><i class='material-icons dp48'>delete</i></td></tr>";
+                    html += "<tr><td>" + row["login"].ToString() + "</td><td>" + row["clear_password"].ToString() + "</td><td>" + row["prenom"].ToString() + "</td><td>" + row["nom"].ToString() + "</td><td>" + row["adresse"].ToString() + "</td><td>" + row["telephone"].ToString() + "</td><td>" + row["email"].ToString() + "</td><td><img class='responsive-img icon' src='/Fichiers SiteFoot/" + equipe.Rows[0]["ecusson"].ToString() + "'/>  " + equipe.Rows[0]["nom_equipe"].ToString() + "</td><td class='edit' data-value='" + row["id"].ToString() + "'><a><i class='material-icons dp48'>mode_edit</i></td><td class='supp' data-value='" + row["id"].ToString() + "'><i class='material-icons dp48'>delete</i></td></tr>";
 
                 }
                 html += "</tbody></table>";
@@ -463,11 +468,11 @@ namespace SiteFoot.Controllers
             }
         }
 
-        public JsonResult SaveJoueur(int id_equipe, String prenom, String nom, String adresse, String telephone, String email)
+        public JsonResult SaveJoueur(int id_equipe, String prenom, String nom, String adresse, String telephone, String email, String login, String password)
         {
             try
             {
-                BackofficeManager.SaveJoueur(id_equipe, prenom, nom, adresse, telephone, email);
+                BackofficeManager.SaveJoueur(id_equipe, prenom, nom, adresse, telephone, email, login, password);
                 return Json(new { ok = true });
             }
             catch (Exception e)
@@ -475,11 +480,11 @@ namespace SiteFoot.Controllers
                 return Json(new { ok = false, error = e.Message });
             }
         }
-        public JsonResult UpdateJoueur(int id, int id_equipe, String prenom, String nom, String adresse, String telephone, String email)
+        public JsonResult UpdateJoueur(int id, int id_equipe, String prenom, String nom, String adresse, String telephone, String email, String login, String password)
         {
             try
             {
-                BackofficeManager.UpdateJoueur(id, id_equipe, prenom, nom, adresse, telephone, email);
+                BackofficeManager.UpdateJoueur(id, id_equipe, prenom, nom, adresse, telephone, email, login, password);
                 return Json(new { ok = true });
             }
             catch (Exception e)

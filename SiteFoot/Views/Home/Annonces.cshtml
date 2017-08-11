@@ -1,6 +1,9 @@
 ﻿@{
     ViewBag.Title = "Contact";
 }
+@Scripts.Render(@"~/Scripts/Home/annonce.js")
+<center><h2>Actualités</h2></center>
+<br />
 
 <div class="row">
     <form class="container" id="recherche_terme">
@@ -15,4 +18,3 @@
     <ul id="posts"></ul>
 </div>
 
-@Scripts.Render(@"~/Scripts/Home/annonce.js")

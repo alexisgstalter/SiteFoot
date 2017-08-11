@@ -3,4 +3,25 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Championnat</h2>
+<center><h2>Championnats</h2></center>
+<br />
+<div class="container">
+    <div class="input-field">
+        <i class="material-icons prefix">reorder</i>
+        <select id="liste_options">
+            <option value="https://lafa.fff.fr/recherche-clubs/?scl=255&tab=resultats">Résultats</option>
+            <option value="https://lafa.fff.fr/recherche-clubs/?scl=255&tab=resultats&subtab=agenda">Agenda</option>
+            <option value="https://lafa.fff.fr/recherche-clubs/?scl=255&tab=resultats&subtab=ranking">Classements</option>
+            <option value="https://lafa.fff.fr/recherche-clubs/?scl=255&tab=resultats&subtab=calendar">Calendriers</option>
+        </select>
+        <label>Vous désirez consulter : </label>
+        <br />
+        <button href="#!" class="btn hoverable" id="btn_chercher" type="button">Chercher</button>
+    </div>
+</div>
+<script>
+    $("#btn_chercher").click(function () {
+        window.open($("#liste_options").val());
+        return false;
+    });
+</script>

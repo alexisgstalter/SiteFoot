@@ -116,7 +116,7 @@ namespace SiteFoot.Façades
             }
             if(nom_membre != "" && nom_membre != null)
             {
-                query += "and b.id in (select id_equipe from MembreEquipe where prenom + ' ' + nom =@id_membre) ";
+                query += "and b.id in (select id_equipe from Utilisateurs where prenom + ' ' + nom =@id_membre) ";
             }
             if (id_terrain != 0)
             {
@@ -192,7 +192,7 @@ namespace SiteFoot.Façades
             String connectionString = ConfigurationManager.ConnectionStrings["SQLSiteFoot"].ToString(); //Récupération de la chaîne de connexion
             SqlConnection myConnection = new SqlConnection(connectionString); //Nouvelle connexion à la base de donnée
             myConnection.Open(); //On ouvre la connexion
-            SqlCommand command = new SqlCommand("SELECT prenom + ' ' + nom FROM MembreEquipe where prenom + ' ' + nom LIKE '%' + @nom + '%'", myConnection);
+            SqlCommand command = new SqlCommand("SELECT prenom + ' ' + nom FROM Utilisateurs where prenom + ' ' + nom LIKE '%' + @nom + '%' and id_equipe is not null ", myConnection);
             command.Parameters.Add("@nom", SqlDbType.VarChar).Value = partial_name;
             SqlDataReader reader = command.ExecuteReader();
 

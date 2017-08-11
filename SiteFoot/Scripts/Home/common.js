@@ -5,7 +5,12 @@
 
     switch (window.location.pathname) {
         case '/':
-            $('#accueil_list').addClass('active');
+            $('#annonces_list').addClass('active');
+            $("#collapse_annonce").collapsible('open', 0);
+            break;
+        case '/Annonce/GestionAnnonce':
+            $('#annonces_gerer').addClass('active');
+            $("#collapse_annonce").collapsible('open', 0);
             break;
         case '/Calendrier/Buvette':
             $('#buvette_list').addClass('active');
@@ -16,19 +21,53 @@
             $("#collapse_calendrier").collapsible('open', 0);
             break;
         case '/Calendrier/FormationEducateur':
-            $('#educateur_list').addClass('active');
+            $('#formation_list').addClass('active');
             $("#collapse_calendrier").collapsible('open', 0);
-            break;
-        case '/Home/About':
-            $("#about_list").addClass('active');
             break;
         case '/Home/Annonces':
             $('#annonces_list').addClass('active');
             break;
+        case '/Resultats/Championnat':
+            $('#championnats_list').addClass('active');
+            $("#collapse_resultats").collapsible('open', 0);
+            break;
+        case '/Resultats/Match':
+            $('#matchs_list').addClass('active');
+            $("#collapse_resultats").collapsible('open', 0);
+            break;
+        case '/Messagerie/BoiteDeReception':
+            $('#boite_recep').addClass('active');
+            $("#collapse_messagerie").collapsible('open', 0);
+            break;
+        case '/Coordonnees/CoordonneesEntraineurs':
+            $('#coordonnees_entraineurs').addClass('active');
+            $("#collapse_coordonnees").collapsible('open', 0);
+            break;
+        case '/Coordonnees/CoordonneesJoueurs':
+            $('#coordonnees_joueurs').addClass('active');
+            $("#collapse_coordonnees").collapsible('open', 0);
+            break;
+        case '/Backoffice/CreateUser':
+            $('#creation_equipe_list').addClass('active');
+            $("#collapse_admin").collapsible('open', 0);
+            break;
+        case '/Backoffice/GestionDesJoueurs':
+            $('#gestiondesjoueurs').addClass('active');
+            $("#collapse_admin").collapsible('open', 0);
+            break;
         case '/Backoffice/CreateEquipe':
+            $('#creation_equipe_list').addClass('active');
+            $("#collapse_admin").collapsible('open', 0);
+            break;
+        case '/Backoffice/ParametrageEntrainement':
+            $('#parametrageentrainement').addClass('active');
+            $("#collapse_admin").collapsible('open', 0);
+            break;
+        case '/Backoffice/GestionDesGroupes':
+            $('#gestiondesgroupes').addClass('active');
+            $("#collapse_admin").collapsible('open', 0);
             break;
     }
-
     $('.modal').modal();
     $(".button-collapse").sideNav({
         closeOnClick: true

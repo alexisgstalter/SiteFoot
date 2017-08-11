@@ -1,14 +1,14 @@
 ﻿
-footer {
-   position:fixed;
-   bottom:0px;
-   height:5%;
-   width:100%;
-       background-color : rgba(106,27,154,0.7)!important;
-    color : white!important;
+.carousel{
+    max-height : 800px;
+    max-width : 800px;
 }
-.side-nav{
-    height : 95%!important;
+.carousel.carousel-slider {
+height: calc(100vh);
+}
+img{
+    max-height : 800px;
+    max-width : 800px;
 }
 .picker__day--selected, .picker__day--selected:hover, .picker--focused .picker__day--selected{
     background-color : rgb(106,27,154)!important;
@@ -44,7 +44,7 @@ z-index: 1;
     color : white!important;
 }
 body{
-    background-image : url('/Images/background.jpg');
+    background-image : url('/Images/backgroundMobile.jpg');
     background-attachment : fixed;
     background-size : 100% 100%;
 }
@@ -60,11 +60,21 @@ option{
     width : 49%;
 }
 @media (min-width: 991px) {
-  main, footer {
+  main {
     padding-left: 320px;
   }
-  header, footer{
+  header{
       padding-left: 300px!important;
+  }
+  body{
+        background-image : url('/Images/background.jpg');
+        background-attachment : fixed;
+        background-size : 100% 100%;
+    }
+  footer{
+      position : relative;
+      bottom : 0px;
+      left : 300px!important;
   }
 }
 #toast-container {

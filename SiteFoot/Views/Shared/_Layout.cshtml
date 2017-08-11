@@ -1,6 +1,6 @@
 ﻿@{
-    var user = new SiteFoot.Models.User();
-    var groupe = new List<SiteFoot.Models.Groupe>();
+    SiteFoot.Models.User user = new SiteFoot.Models.User();
+    List<SiteFoot.Models.Groupe> groupe = new List<SiteFoot.Models.Groupe>();
     if (Request.IsAuthenticated)
     {
         user = (SiteFoot.Models.User)HttpContext.Current.Session["CurrentUser"];
@@ -16,9 +16,9 @@
 }
 <!DOCTYPE html>
 <html lang="en">
-    <head>
+    <head style=" height : 100%!important;">
         <meta http-equiv="X-UA-Compatible" content="IE=edge" charset="utf-8" />
-        <title>@ViewBag.Title - My ASP.NET MVC Application</title>
+        <title>@ViewBag.Title</title>
         <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
         <meta name="viewport" content="width=device-width" />
@@ -38,25 +38,34 @@
 
             <button id="collapse" data-activates="nav-mobile" class="button-collapse top-nav full hide-on-large-only btn btn-flat" style="position:fixed;top:0px;left:0px;width:100%;"><div class="left"><i class="material-icons" style="color : white!important;">menu</i></div></button>
 
-            <ul id="nav-mobile" class="side-nav fixed" style="transform: translateX(0%);">
+            <ul id="nav-mobile" class="side-nav fixed z-depth-5" style="transform: translateX(0%);">
                 <li class="logo">
                     <center>
                         <div class="background">
-                            <a id="logo-container" href="/" class="brand-logo" style="width : 100%!important; height : 100%!important">
+                            <a id="logo-container" href="/Annonce/Annonce" class="brand-logo" style="width : 100%!important; height : 100%!important">
                                 <img src="~/Content/images/FC_Sélestat.jpg" />
                             </a>
                         </div>
                     </center>
 
                 </li>
+                <li class="logo">
+                    <center>
+                        <div class="background">
+                            <a class="btn-floating btn-large hoverable blue darken-3" href="https://www.facebook.com/FC-S%C3%A9lestat-nouvelle-page-491185594378157/" onclick="window.open(this.href); return false;"><i class="fa fa-facebook fa-3x" style="color : white!important; padding : initial"></i></a>
+                            <a class="btn-floating btn-large hoverable blue darken-1"><i class="fa fa-twitter fa-3x" style="color : white!important; padding : initial"></i></a>
+                        </div>
+                    </center>
+
+                </li>
+
                 @if (Request.IsAuthenticated && user != null)
                 {
-                    
+
                     <li><center>Bienvenue @user.Login !</center></li>
-                    
+
                 }
-                <li id="accueil_list">@Html.ActionLink("Accueil", "Index", "Home")</li>
-                <li id="about_list">@Html.ActionLink("A propos du FCS", "About", "Home")</li>
+                <li id="about_list"><a href="https://lafa.fff.fr/recherche-clubs/?scl=255&tab=staff" onclick="window.open(this.href); return false;">Contacts</a></li>
                 @{
 
                     if (Request.IsAuthenticated && groupe != null)
@@ -79,7 +88,7 @@
                                         <div class="collapsible-body">
                                             <ul>
                                                 <li id="annonces_list">@Html.ActionLink("Annonces", "Annonce", "Annonce")</li>
-                                                <li id="annonces_list">@Html.ActionLink("Gerer les annonces", "GestionAnnonce", "Annonce")</li>
+                                                <li id="annonces_gerer">@Html.ActionLink("Gerer les annonces", "GestionAnnonce", "Annonce")</li>
                                             </ul>
                                         </div>
                                     </li>
@@ -106,7 +115,7 @@
                             <div class="collapsible-body">
                                 <ul>
                                     <li id="matchs_list">@Html.ActionLink("Matchs", "Match", "Resultats")</li>
-                                    <li id="championnats_list"><a href="https://lafa.fff.fr/">Championnats</a></li>
+                                    <li id="championnats_list">@Html.ActionLink("Championnats", "Championnat", "Resultats")</li>
                                 </ul>
                             </div>
                         </li>
@@ -114,7 +123,19 @@
                 </li>
                 @if (Request.IsAuthenticated && user != null)
                 {
+                    <li>
+                        <ul id="collapse_messagerie" class="collapsible collapsible-accordion">
 
+                            <li>
+                                <a class="collapsible-header waves-effect ">Messagerie</a>
+                                <div class="collapsible-body">
+                                    <ul>
+                                        <li id="boite_recep">@Html.ActionLink("Boîte de réception", "BoiteDeReception", "Messagerie")</li>
+                                    </ul>
+                                </div>
+                            </li>
+                        </ul>
+                    </li>
                     <li>
                         <ul id="collapse_calendrier" class="collapsible collapsible-accordion">
 
@@ -132,14 +153,14 @@
                     </li>
 
                     <li>
-                        <ul id="collapse_calendrier" class="collapsible collapsible-accordion">
+                        <ul id="collapse_coordonnees" class="collapsible collapsible-accordion">
 
                             <li>
                                 <a class="collapsible-header waves-effect ">Coordonnées</a>
                                 <div class="collapsible-body">
                                     <ul>
-                                        <li id="matchs_list">@Html.ActionLink("Coordonnées des Entraineurs", "CoordonneesEntraineurs", "Coordonnees")</li>
-                                        <li id="matchs_list">@Html.ActionLink("Coordonnées des Joueurs", "CoordonneesJoueurs", "Coordonnees")</li>
+                                        <li id="coordonnees_entraineurs">@Html.ActionLink("Coordonnées des Entraineurs", "CoordonneesEntraineurs", "Coordonnees")</li>
+                                        <li id="coordonnees_joueurs">@Html.ActionLink("Coordonnées des Joueurs", "CoordonneesJoueurs", "Coordonnees")</li>
                                     </ul>
                                 </div>
                             </li>
@@ -150,13 +171,13 @@
                         if (grp.Nom == "ADMIN")
                         {
                             <li>
-                                <ul id="collapse_calendrier" class="collapsible collapsible-accordion">
+                                <ul id="collapse_admin" class="collapsible collapsible-accordion">
                                     <li>
-                                        <a class="collapsible-header waves-effect">BackOffice</a>
+                                        <a class="collapsible-header waves-effect">Administration</a>
                                         <div class="collapsible-body">
                                             <ul>
                                                 <li id="creation_equipe_list">@Html.ActionLink("Gèrer les Utilisateurs", "CreateUser", "Backoffice")</li>
-                                                <li id="gestiondesgroupes">@Html.ActionLink("Gèrer les joueurs", "GestionDesJoueurs", "Backoffice")</li>
+                                                <li id="gestiondesjoueurs">@Html.ActionLink("Gèrer les joueurs", "GestionDesJoueurs", "Backoffice")</li>
                                                 <li id="creation_equipe_list">@Html.ActionLink("Création Equipe", "CreateEquipe", "Backoffice")</li>
                                                 <li id="parametrageentrainement">@Html.ActionLink("Paramètrer les entrainements", "ParametrageEntrainement", "Backoffice")</li>
                                                 <li id="gestiondesgroupes">@Html.ActionLink("Gestion des groupes", "GestionDesGroupes", "Backoffice")</li>
@@ -188,12 +209,18 @@
                     <li><a onclick="$('#modal_connect').modal('open');">Connexion</a></li>
                 }
 
+                <li>
+                    <div class="content-wrapper">
+                        <div class="float-left">
+                            <p>&copy; @DateTime.Now.Year - Football Club Sélestat</p>
+                        </div>
+                    </div>
+                </li>
             </ul>
+
         </header>
         <main id="body" class="row">
-            <div class="">
                 @RenderBody()
-            </div>
         </main>
         <div id="modal_connect" class="modal">
             <div class="modal-content">
@@ -210,8 +237,15 @@
                                 <label>Mot de passe</label>
                             </div>
                         </div>
-                        <button href="#!" class="btn hoverable" id="btn_connect" type="submit">Connexion</button>
-                        <a href="#!" class="btn hoverable" id="btn_fermer">Fermer</a>
+                        <div class="row">
+                            <div class="col s6">
+                                <button href="#!" class="btn hoverable" id="btn_connect" type="submit">Connexion</button>
+                            </div>
+                            <div class="col s6">
+                                <button href="#!" class="btn hoverable" id="btn_fermer">Fermer</button>
+                            </div>
+                            
+                        </div>
                     </form>
                 </div>
             </div>
@@ -219,12 +253,10 @@
 
             </div>
         </div>
-        <footer>
-            <div class="content-wrapper">
-                <div class="float-left">
-                    <p>&copy; @DateTime.Now.Year - Football Club Sélestat</p>
-                </div>
-            </div>
-        </footer>
-        <script src="https://nightly.datatables.net/js/jquery.dataTables.js"></script>    </body>
+
+        <script src="https://nightly.datatables.net/js/jquery.dataTables.js"></script>    
+
+    </body>
+
 </html>
+

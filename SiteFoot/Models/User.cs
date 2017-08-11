@@ -75,5 +75,12 @@ namespace SiteFoot.Models
             get { return telephone; }
             set { telephone = value; }
         }
+        private string adresse;
+
+        public string Adresse
+        {
+            get { return adresse; }
+            set { adresse = value; }
+        }
     }
 }

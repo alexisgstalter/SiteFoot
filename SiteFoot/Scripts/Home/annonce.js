@@ -1,4 +1,5 @@
-﻿$(document).ready(function () {
+﻿$(function () {
+    $('.carousel.carousel-slider').carousel({ fullWidth: true });
     var offset = 1;
     var win = $(window);
     $.ajax({
@@ -10,6 +11,7 @@
         success: function (data) {
             $('#posts').append(data.html);
             offset += 5;
+            $('.carousel.carousel-slider').carousel({ fullWidth: true });
         }
     });
     // Each time the user scrolls
@@ -28,6 +30,7 @@
                     if (data.ok) {
                         $('#posts').append(data.html);
                         offset += 5;
+                        $('.carousel.carousel-slider').carousel({ fullWidth: true });
                     }
                 }
             });
@@ -50,6 +53,7 @@
             success: function (data) {
                 $('#posts').append(data.html);
                 offset += 5;
+                $('.carousel.carousel-slider').carousel({ fullWidth: true });
             }
         });
         return false;

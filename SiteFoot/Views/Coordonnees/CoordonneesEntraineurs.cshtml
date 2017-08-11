@@ -3,8 +3,11 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<center><h2>Coordonnées des entraineurs</h2></center>
-@Html.Action("GetCoordonneesEntraineurs", "Coordonnees")
+
+<div class="row">
+    <center><h2>Coordonnées des entraineurs</h2></center>
+    @Html.Action("GetCoordonneesEntraineurs", "Coordonnees")
+</div>
 <script>
     var i = 0;
     var prevDiv = null;

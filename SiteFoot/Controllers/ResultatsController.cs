@@ -67,7 +67,7 @@ namespace SiteFoot.Controllers
                     html += "</tr></thead><tbody>";
                     foreach (DataRow row in matchs.Rows)
                     {
-                        html += "<tr><td><img class='img-responsive icon' src='/Fichiers SiteFoot/" + row["ecusson_equipe"].ToString() + "'/> " + row["nom_equipe"].ToString() + " - " + row["categorie_equipe"].ToString() + "</td><td><img class='img-responsive icon' src='/Fichiers SiteFoot/" + row["ecusson_adversaire"].ToString() + "'/> " + row["nom"].ToString() + " - " + row["categorie_adversaire"].ToString() + "</td><td>" + row["score"].ToString() + "</td><td>" + row["date"].ToString().Split(' ')[0] + "</td>";
+                        html += "<tr><td><img class='responsive-img icon' src='/Fichiers SiteFoot/" + row["ecusson_equipe"].ToString() + "'/> " + row["nom_equipe"].ToString() + " - " + row["categorie_equipe"].ToString() + "</td><td><img class='img-responsive icon' src='/Fichiers SiteFoot/" + row["ecusson_adversaire"].ToString() + "'/> " + row["nom"].ToString() + " - " + row["categorie_adversaire"].ToString() + "</td><td>" + row["score"].ToString() + "</td><td>" + row["date"].ToString().Split(' ')[0] + "</td>";
                         if (can_manage_matchs)
                         {
                             html += "<td data-value='" + row["id"].ToString() + "' class='edit'><i class='material-icons prefix'>mode_edit</i></td><td data-value='" + row["id"].ToString() + "' class='supp'><i class='material-icons prefix'>clear</i></td>";
