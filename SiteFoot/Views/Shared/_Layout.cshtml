@@ -42,7 +42,7 @@
                 <li class="logo">
                     <center>
                         <div class="background">
-                            <a id="logo-container" href="/Annonce/Annonce" class="brand-logo" style="width : 100%!important; height : 100%!important">
+                            <a id="logo-container" href="/" class="brand-logo" style="width : 100%!important; height : 100%!important">
                                 <img src="~/Content/images/FC_Sélestat.jpg" />
                             </a>
                         </div>
@@ -65,7 +65,7 @@
                     <li><center>Bienvenue @user.Login !</center></li>
 
                 }
-                <li id="about_list"><a href="https://lafa.fff.fr/recherche-clubs/?scl=255&tab=staff" onclick="window.open(this.href); return false;">Contacts</a></li>
+                <li id="about_list"><a href="https://lafa.fff.fr/recherche-clubs/?scl=255&tab=staff" onclick="window.open(this.href); return false;"><i class="fa fa-map-marker fa-2x" aria-hidden="true" style="color:white!important;"></i>Contacts</a></li>
                 @{
 
                     if (Request.IsAuthenticated && groupe != null)
@@ -84,7 +84,7 @@
                                 <ul id="collapse_annonce" class="collapsible collapsible-accordion">
 
                                     <li>
-                                        <a class="collapsible-header waves-effect ">Annonces</a>
+                                        <a class="collapsible-header waves-effect "><i class="fa fa-newspaper-o fa-2x" aria-hidden="true" style="color : white!important"></i>Annonces</a>
                                         <div class="collapsible-body">
                                             <ul>
                                                 <li id="annonces_list">@Html.ActionLink("Annonces", "Annonce", "Annonce")</li>
@@ -97,13 +97,13 @@
                         }
                         else
                         {
-                            <li id="annonces_list">@Html.ActionLink("Annonces", "Annonce", "Annonce")</li>
+                            <li id="annonces_list"><a href="/Annonce/Annonce"><i class="fa fa-newspaper-o fa-2x" aria-hidden="true" style="color : white!important"></i>Annonces</a></li>
 
                         }
                     }
                     else
                     {
-                        <li id="annonces_list">@Html.ActionLink("Annonces", "Annonce", "Annonce")</li>
+                        <li id="annonces_list"><a href="/Annonce/Annonce"><i class="fa fa-newspaper-o fa-2x" aria-hidden="true" style="color : white!important"></i>Annonces</a></li>
 
                     }
                 }
@@ -111,7 +111,7 @@
                     <ul id="collapse_resultats" class="collapsible collapsible-accordion">
 
                         <li>
-                            <a class="collapsible-header waves-effect ">Résultats</a>
+                            <a class="collapsible-header waves-effect "><i class="fa fa-futbol-o" aria-hidden="true" style="color : white!important"></i>Résultats</a>
                             <div class="collapsible-body">
                                 <ul>
                                     <li id="matchs_list">@Html.ActionLink("Matchs", "Match", "Resultats")</li>
@@ -127,7 +127,7 @@
                         <ul id="collapse_messagerie" class="collapsible collapsible-accordion">
 
                             <li>
-                                <a class="collapsible-header waves-effect ">Messagerie</a>
+                                <a class="collapsible-header waves-effect "><i class="fa fa-envelope-o" aria-hidden="true" style="color : white!important"></i>Messagerie</a>
                                 <div class="collapsible-body">
                                     <ul>
                                         <li id="boite_recep">@Html.ActionLink("Boîte de réception", "BoiteDeReception", "Messagerie")</li>
@@ -140,7 +140,7 @@
                         <ul id="collapse_calendrier" class="collapsible collapsible-accordion">
 
                             <li>
-                                <a class="collapsible-header waves-effect ">Calendrier</a>
+                                <a class="collapsible-header waves-effect "><i class="fa fa-calendar fa-2x" aria-hidden="true" style="color : white!important"></i>Calendrier</a>
                                 <div class="collapsible-body">
                                     <ul>
                                         <li id="buvette_list">@Html.ActionLink("Buvette", "Buvette", "Calendrier")</li>
@@ -156,7 +156,7 @@
                         <ul id="collapse_coordonnees" class="collapsible collapsible-accordion">
 
                             <li>
-                                <a class="collapsible-header waves-effect ">Coordonnées</a>
+                                <a class="collapsible-header waves-effect "><i class="fa fa-list-alt fa-2x" aria-hidden="true" style="color:white!important;"></i>Coordonnées</a>
                                 <div class="collapsible-body">
                                     <ul>
                                         <li id="coordonnees_entraineurs">@Html.ActionLink("Coordonnées des Entraineurs", "CoordonneesEntraineurs", "Coordonnees")</li>
@@ -173,7 +173,7 @@
                             <li>
                                 <ul id="collapse_admin" class="collapsible collapsible-accordion">
                                     <li>
-                                        <a class="collapsible-header waves-effect">Administration</a>
+                                        <a class="collapsible-header waves-effect"><i class="fa fa-user-plus fa-2x" aria-hidden="true" style="color:white!important;"></i>Administration</a>
                                         <div class="collapsible-body">
                                             <ul>
                                                 <li id="creation_equipe_list">@Html.ActionLink("Gèrer les Utilisateurs", "CreateUser", "Backoffice")</li>
@@ -189,7 +189,7 @@
                         }
                     }
 
-                    <li>@Html.ActionLink("Déconnexion", "Deconnexion", "Home")</li>
+                    <li><a href="/Home/Deconnexion"><i class="fa fa-sign-out fa-2x" aria-hidden="true" style="color:white!important;"></i>Déconnexion</a></li>
                 }
                 else
                 {
@@ -197,7 +197,7 @@
                         <ul id="collapse_calendrier" class="collapsible collapsible-accordion">
 
                             <li>
-                                <a class="collapsible-header waves-effect ">Calendrier</a>
+                                <a class="collapsible-header waves-effect "><i class="fa fa-calendar fa-2x" aria-hidden="true" style="color : white!important"></i>Calendrier</a>
                                 <div class="collapsible-body">
                                     <ul>
                                         <li id="entrainement_list">@Html.ActionLink("Entrainement", "Entrainement", "Calendrier")</li>
@@ -206,7 +206,7 @@
                             </li>
                         </ul>
                     </li>
-                    <li><a onclick="$('#modal_connect').modal('open');">Connexion</a></li>
+                    <li><a onclick="$('#modal_connect').modal('open');"><i class="fa fa-sign-in fa-2x" aria-hidden="true" style="color : white!important"></i>Connexion</a></li>
                 }
 
                 <li>
