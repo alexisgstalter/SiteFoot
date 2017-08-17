@@ -1,0 +1,24 @@
+﻿@{
+    ViewBag.Title = "CoordonneesJoueurs";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<center><h2>Coordonnées des joueurs</h2></center>
+<br />
+
+<p>Recherche par : </p>
+
+<div class="input-field">
+    <select id="equipe" type="text" class="validate"><option value="0">Selectionner une équipe</option>@Html.Action("LoadListEquipes", "Calendrier")</select>
+    <label>Equipe</label>
+</div>
+<br />
+<p> Ou :</p>
+<div class="input-field">
+    <input id="membre" type="text" class="validate">
+    <label>Membre</label>
+</div>
+<br />
+<center><button type="button" class="btn hoverable" id="chercher">Chercher</button></center>
+<div id="membre_container"></div>
+@Scripts.Render("~/Scripts/Coordonnees/CoordonneesJoueurs.js")

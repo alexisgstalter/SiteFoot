@@ -6,6 +6,7 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
 using System.Diagnostics;
+using SiteFoot.Models;
 
 
 namespace SiteFoot.Façades
@@ -177,5 +178,65 @@ namespace SiteFoot.Façades
             myConnection.Close();
         }
 
+        public static void SaveJoueur(int id_equipe, String prenom, String nom, String adresse, String telephone, String email, String login, String password)
+        {
+            String saltkey = Hash.GetNewSaltKey(); //On récupère une clé de salage
+            String pwd = Utilisateur.GetNewPassword(password, saltkey); //On créé le mot de passe
+            String connectionString = ConfigurationManager.ConnectionStrings["SQLSiteFoot"].ToString(); //Récupération de la chaîne de connexion
+            SqlConnection myConnection = new SqlConnection(connectionString); //Nouvelle connexion à la base de donnée
+            myConnection.Open(); //On ouvre la connexion
+            SqlCommand cmd = new SqlCommand("INSERT INTO Utilisateurs (login, password, salt,nom, prenom, adresse, telephone, email, id_equipe) values(@login, @password, @salt,@nom, @prenom, @adresse, @telephone, @email, @id_equipe)", myConnection);
+            cmd.Parameters.Add("@id_equipe", SqlDbType.Int).Value = id_equipe;
+            cmd.Parameters.Add("@prenom", SqlDbType.VarChar).Value = prenom;
+            cmd.Parameters.Add("@nom", SqlDbType.VarChar).Value = nom;
+            cmd.Parameters.Add("@adresse", SqlDbType.VarChar).Value = adresse;
+            cmd.Parameters.Add("@telephone", SqlDbType.VarChar).Value = telephone;
+            cmd.Parameters.Add("@email", SqlDbType.VarChar).Value = email;
+            cmd.Parameters.Add("@password", SqlDbType.VarChar).Value = pwd;
+            cmd.Parameters.Add("@login", SqlDbType.VarChar).Value = login;
+            cmd.Parameters.Add("@salt", SqlDbType.VarChar).Value = saltkey;
+            cmd.ExecuteNonQuery();
+            myConnection.Close();
+            User u = new User();
+            u.Login = login;
+            u = Utilisateur.GetByName(u);
+            u.Password = password;
+            Utilisateur.AddNewClearPassword(u);
+        }
+        public static void UpdateJoueur(int id, int id_equipe, String prenom, String nom, String adresse, String telephone, String email, String login, String password)
+        {
+            User u = new User();
+            u.Id = id;
+            u.Password = password;
+            String saltkey = Utilisateur.GetSaltKeyById(u); //On récupère la clé de salage de l'utilisateur
+            String pwd = Utilisateur.GetNewPassword(password, saltkey); //On créé le mot de passe crypté
+            String connectionString = ConfigurationManager.ConnectionStrings["SQLSiteFoot"].ToString(); //Récupération de la chaîne de connexion
+            SqlConnection myConnection = new SqlConnection(connectionString); //Nouvelle connexion à la base de donnée
+            myConnection.Open(); //On ouvre la connexion
+            SqlCommand cmd = new SqlCommand("update Utilisateurs set  nom=@nom, prenom=@prenom, adresse=@adresse, telephone=@telephone, email=@email, id_equipe=@id_equipe, login=@login, password=@password where id=@id", myConnection);
+            cmd.Parameters.Add("@id_equipe", SqlDbType.Int).Value = id_equipe;
+            cmd.Parameters.Add("@prenom", SqlDbType.VarChar).Value = prenom;
+            cmd.Parameters.Add("@nom", SqlDbType.VarChar).Value = nom;
+            cmd.Parameters.Add("@adresse", SqlDbType.VarChar).Value = adresse;
+            cmd.Parameters.Add("@telephone", SqlDbType.VarChar).Value = telephone;
+            cmd.Parameters.Add("@email", SqlDbType.VarChar).Value = email;
+            cmd.Parameters.Add("@id", SqlDbType.Int).Value = id;
+            cmd.Parameters.Add("@password", SqlDbType.VarChar).Value = pwd;
+            cmd.Parameters.Add("@login", SqlDbType.VarChar).Value = login;
+            cmd.ExecuteNonQuery();
+            myConnection.Close();
+            Utilisateur.UpdateClearPassword(u);
+        }
+        public static void DeleteJoueur(int id)
+        {
+            String connectionString = ConfigurationManager.ConnectionStrings["SQLSiteFoot"].ToString(); //Récupération de la chaîne de connexion
+            SqlConnection myConnection = new SqlConnection(connectionString); //Nouvelle connexion à la base de donnée
+            myConnection.Open(); //On ouvre la connexion
+            SqlCommand cmd = new SqlCommand("delete from Utilisateurs where id=@id", myConnection);
+
+            cmd.Parameters.Add("@id", SqlDbType.Int).Value = id;
+            cmd.ExecuteNonQuery();
+            myConnection.Close();
+        }
     }
 }

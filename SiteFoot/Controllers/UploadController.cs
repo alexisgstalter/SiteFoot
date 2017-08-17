@@ -153,6 +153,41 @@ namespace SiteFoot.Controllers
             return Json(new { ok = true });
         }
 
+        public ActionResult SaveEcussonAdversaire()
+        {
+            if (Request.Files.Count == 0)
+            {
+                /*string numero_accord = Request.Form["num_accord"];
+                GestionRetourManager.DeletePieceJointeExpertise(numero_accord);*/
+            }
+            else
+            {
+                int id = int.Parse(Request.Form["id"]);
+                List<String> chemins = new List<string>();
+                foreach (String upload in Request.Files)
+                {
+                    var nomfichier = Path.GetFileName(Request.Files[upload].FileName);
+                    var chemin = Path.Combine(@"\\hexane-01\d$\SiteFoot\Fichiers SiteFoot", nomfichier);
+                    int i = 1;
+                    while (System.IO.File.Exists(chemin))
+                    {
+                        Debug.WriteLine("le fichier existe déjà");
+                        string extension = Path.GetExtension(Request.Files[upload].FileName);
+                        nomfichier = Path.GetFileName(Request.Files[upload].FileName).Replace(extension, "");
+                        nomfichier = nomfichier + "(" + i + ")" + extension;
+                        Debug.WriteLine(nomfichier);
+                        chemin = Path.Combine(@"\\hexane-01\d$\SiteFoot\Fichiers SiteFoot", nomfichier);
+                        i++;
+                    }
+                    chemins.Add(chemin);
+                    ResultatManager.SavePieceJointe(id, nomfichier);
+                    Request.Files[upload].SaveAs(chemin);
+                }
+            }
+
+            return RedirectToAction("Matchs", "Resultats");
+        }
+
     }
 
 }

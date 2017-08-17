@@ -1,17 +1,114 @@
 ﻿
+.carousel{
+    max-height : 800px;
+    max-width : 800px;
+}
+.carousel.carousel-slider {
+height: calc(100vh);
+}
+img{
+    max-height : 800px;
+    max-width : 800px;
+}
+.picker__day--selected, .picker__day--selected:hover, .picker--focused .picker__day--selected{
+    background-color : rgb(106,27,154)!important;
+}
+.picker__nav--prev:hover, .picker__nav--next:hover{
+    background-color : rgba(106,27,154, 0.5)!important;
+}
+.picker__day.picker__day--today{
+    color : rgb(106,27,154)!important;
+}
+img.icon{
+    max-width : 50px!important;
+    max-height : 50px!important;
+}
+#nav-mobile, .top-nav{
+    background-color : rgba(106,27,154,0.7)!important;
+    color : white!important;
+    
+}
+td th {
+    text-align : center!important;
+}
+.picker__holder{
+    z-index : 999!important;
+}
+#sidenav-overlay {
+z-index: 1;
+}
+.collapsible-body {
+    background-color : rgba(106,27,154,0)!important;opacity:1;filter : alpha(opacity=0);
+}
+.side-nav li > a{
+    color : white!important;
+}
+body{
+    background-image : url('/Images/backgroundMobile.jpg');
+    background-attachment : fixed;
+    background-size : 100% 100%;
+}
+.spec_render{
+    display : flex;
+    flex-direction : row;
+    justify-content : space-between;
+}
+option{
+    color : rgb(106,27,154);
+}
+.spec_render > div{
+    width : 49%;
+}
+@media (min-width: 991px) {
+  main {
+    padding-left: 320px;
+  }
+  header{
+      padding-left: 300px!important;
+  }
+  body{
+        background-image : url('/Images/background.jpg');
+        background-attachment : fixed;
+        background-size : 100% 100%;
+    }
+  footer{
+      position : relative;
+      bottom : 0px;
+      left : 300px!important;
+  }
+}
 #toast-container {
     top: auto !important;
     right: auto !important;
     bottom: 10%;
     left: 50%;
 }
+h {
+    text-align : center!important;
+}
+.picker__date-display{
+    background-color : rgb(106,27,154)!important;
+}
+.clockpicker-canvas-bg {
+    fill : rgb(106,27,154)!important;
+}
+.clockpicker-canvas line{
+    stroke : rgb(106,27,154)!important;
+}
+.clockpicker-canvas-bearing{
+    fill : rgb(106,27,154)!important;
+}
+.lever{
+    background-color : rgba(106,27,154,0.38)!important;
+}
+blockquote {
+    border-left-color : #6a1b9a!important;
+}
 
 #nav-mobile>li:hover {
-    background-color: #6a1b9a;
+    background-color: rgba(106,27,154,0.5)!important;
 }
-li > a:hover{
-    color: white;
-}
+
 .error {
     color: #4a148c;
 }
@@ -31,7 +128,7 @@ form {
 .waves-effect.waves-brown .waves-ripple {
     /* The alpha value allows the text and background color
     of the button to still show through. */
-    background-color: #6a1b9a;
+    background-color: rgba(106,27,154,0.8)!important;
 }
 .fc-content{
     background-color : #6a1b9a;
@@ -48,8 +145,8 @@ form {
     color : white;
 }
 
-.active>a{
-    background : #6a1b9a!important;
+li.active{
+    background : rgba(106,27,154,0.2)!important;
     color : white!important;
 }
 i{

@@ -1,6 +1,204 @@
 ﻿@{
     ViewBag.Title = "Match";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    var u = (SiteFoot.Models.User)HttpContext.Current.Session["CurrentUser"];
+    var groupes = (List<SiteFoot.Models.Groupe>)HttpContext.Current.Session["CurrentGroupe"];
 }
 
-<h2>Match</h2>
+<center><h2>Résultats des matchs amicaux</h2></center>
+
+<form class="container" id="find_match" style="color : #6a1b9a ">
+    <div class="row">
+        <div class="input-field col s6">
+            <input id="date_debut" name="date_debut" class="validate" type="text" />
+            <label>Entre le</label>
+        </div>
+        <div class="input-field col s6">
+            <input id="date_fin" name ="date_fin"class="validate" type="text" />
+            <label>Et le </label>
+        </div>
+    </div>
+
+    <div class="input-field">
+        <select id="equipe" name="equipe" type="text" class="validate">
+            <option value='0'>Choisir une Equipe</option>
+            @Html.Action("LoadListEquipes", "Calendrier")
+        </select>
+        <label>Equipe</label>
+    </div>
+    <div class="input-field">
+        <input id="adversaire" name="adversaire" class="validate" type="text" />
+        <label>Adversaire</label>
+    </div>
+    <br />
+    @{
+
+        if (Request.IsAuthenticated && u != null)
+        {
+            bool can_add_match = false;
+            foreach (SiteFoot.Models.Groupe grp in groupes)
+            {
+                if (grp.Droit_gerer_match)
+                {
+                    can_add_match = true;
+                }
+            }
+            if (can_add_match)
+            {
+                <div class="row"><div class="col s4"><center><button type="submit" class="btn hoverable" id="chercher">Rechercher</button></center></div><div class="col s4"><center><button type="button" class="btn hoverable" id="add_modal">Ajouter un Match</button></center></div><div class="col s4"><center><button type="button" class="btn hoverable" id="add_adv">Ajouter un Adversaire</button></center></div></div>
+            }
+            else
+            {
+                <center><button type="submit" class="btn hoverable" id="chercher">Rechercher</button></center>
+            }
+        }
+        else
+        {
+            <center><button type="submit" class="btn hoverable" id="chercher">Rechercher</button></center>
+        }
+}
+    <br />
+    <div id="resultats_matchs" class="" style="color : #6a1b9a"></div>
+</form>
+<div id="modal_ajout_adversaire" class="modal">
+    <div class="modal-content">
+        <h4>Ajouter/Supprimer un adversaire</h4>
+        <form class="row" id="form_ajout_adversaire">
+            <div class="col s12">
+                <div class="row">
+
+                    <div class="input-field">
+                        <input id="nom" name="nom" type="text" class="validate">
+                        <label>Nom</label>
+
+                    </div>
+                    <br />
+                    <div class="input-field">
+                        <i class="material-icons prefix">reorder</i>
+                        <select id="categorie" name="categorie" style="z-index : 999;">
+                            <option value="" disabled selected>Sélectionnez une catégorie</option>
+                            <option value="U6">U6</option>
+                            <option value="U7">U7</option>
+                            <option value="U8">U8</option>
+                            <option value="U9">U9</option>
+                            <option value="U10">U10</option>
+                            <option value="U11">U11</option>
+                            <option value="U12">U12</option>
+                            <option value="U13">U13</option>
+                            <option value="U14">U14</option>
+                            <option value="U15">U15</option>
+                            <option value="U16">U16</option>
+                            <option value="U17">U17</option>
+                            <option value="U18">U18</option>
+                            <option value="U19">U19</option>
+                            <option value="U20">U20</option>
+                            <option value="Pitchounettes">Pitchounettes</option>
+                            <option value="Poussines">Poussines</option>
+                            <option value="U6 - filles">U6</option>
+                            <option value="U7 - filles">U7</option>
+                            <option value="U8 - filles">U8</option>
+                            <option value="U9 - filles">U9</option>
+                            <option value="U10 - filles">U10 - filles</option>
+                            <option value="U11 - filles">U11 - filles</option>
+                            <option value="U12 - filles">U12 - filles</option>
+                            <option value="U13 - filles">U13 - filles</option>
+                            <option value="U14 - filles">U14 - filles</option>
+                            <option value="U15 - filles">U15 - filles</option>
+                            <option value="U16 - filles">U16 - filles</option>
+                            <option value="U17 - filles">U17 - filles</option>
+                            <option value="U18 - filles">U18 - filles</option>
+                            <option value="U19 - filles">U19 - filles</option>
+                            <option value="U20 - filles">U20 - filles</option>
+                            <option value="Seniors">Séniors</option>
+                            <option value="Veterans">Vétérans</option>
+                        </select>
+                        <label>Catégories</label>
+                    </div>
+                    <br />
+                    <button class="btn hoverable" id="btn_supprimer" type="button">Supprimer</button>
+                    <br />
+                    <div class="input-group has-feedback"><span class="input-group-addon">Ecusson de l'équipe</span><input id="pj" class="form-control piece_jointe valid" multiple="" aria-invalid="false" type="file"></div>
+                </div>
+            </div>
+            <button class="btn hoverable" id="btn_ajouter" type="submit">Ajouter</button>
+            
+        </form>
+    </div>
+</div>
+<div id="modal_ajout_match" class="modal">
+    <div class="modal-content">
+        <h4>Ajouter un match</h4>
+        <form class="row" id="form_ajout_match">
+            <div class="col s12">
+                <div class="row">
+                    <div class="input-field">
+                        <select id="equipe_ajout" name="equipe_ajout" type="text" class="validate">
+                            @Html.Action("LoadListEquipes", "Calendrier")
+                        </select>
+                        <label>Equipe</label>
+                    </div>
+                    <div class="input-field">
+                        <input id="adversaire_ajout" name="adversaire_ajout" type="text" class="validate">
+                        <label>Adversaire</label>
+
+                    </div>
+                    <div class="input-field">
+                        <input id="score_equipe_ajout" name="score_equipe_ajout" type="number" class="validate">
+                        <label>Score Equipe</label>
+                    </div>
+                    <div class="input-field">
+                        <input id="score_adversaire_ajout" name="score_adversaire_ajout" type="number" class="validate">
+                        <label>Score Adversaire</label>
+                    </div>
+                    <div class="input-field">
+                        <input id="date_ajout" name="date_ajout" type="text" class="validate">
+                        <label>Date de la rencontre</label>
+
+                    </div>
+                    <br />
+                </div>
+            </div>
+            <button class="btn hoverable" id="btn_ajouter" type="submit">Ajouter</button>
+
+        </form>
+    </div>
+</div>
+<div id="modal_modif_match" class="modal">
+    <div class="modal-content">
+        <h4>Modifier un match</h4>
+        <form class="row" id="form_modif_match">
+            <div class="col s12">
+                <div class="row">
+                    <div class="input-field">
+                        <select id="equipe_modif" name="equipe_modif" type="text" class="validate">
+                            @Html.Action("LoadListEquipes", "Calendrier")
+                        </select>
+                        <label>Equipe</label>
+                    </div>
+                    <div class="input-field">
+                        <input id="adversaire_modif" name="adversaire_modif" type="text" class="validate">
+                        <label>Adversaire</label>
+
+                    </div>
+                    <div class="input-field">
+                        <input id="score_equipe_modif" name="score_equipe_modif" type="number" class="validate">
+                        <label>Score Equipe</label>
+                    </div>
+                    <div class="input-field">
+                        <input id="score_adversaire_modif" name="score_adversaire_modif" type="number" class="validate">
+                        <label>Score Adversaire</label>
+                    </div>
+                    <div class="input-field">
+                        <input id="date_modif" name="date_modif" type="text" class="validate">
+                        <label>Date de la rencontre</label>
+
+                    </div>
+                    <br />
+                </div>
+            </div>
+            <button class="btn hoverable" id="btn_modifier" type="submit">Modifier</button>
+
+        </form>
+    </div>
+</div>
+@Scripts.Render("~/Scripts/Resultats/Matchs.js")

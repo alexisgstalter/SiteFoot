@@ -101,7 +101,7 @@ namespace SiteFoot.Façades
             String connectionString = ConfigurationManager.ConnectionStrings["SQLSiteFoot"].ToString(); //Récupération de la chaîne de connexion
             SqlConnection myConnection = new SqlConnection(connectionString); //Nouvelle connexion à la base de donnée
             myConnection.Open(); //On ouvre la connexion
-            String query = "INSERT INTO Utilisateurs (login,password,email,salt, telephone,nom, prenom) output INSERTED.ID VALUES (@login,@password,@email,@salt,@telephone,@nom,@prenom)";
+            String query = "INSERT INTO Utilisateurs (login,password,email,salt, telephone,nom, prenom, adresse) output INSERTED.ID VALUES (@login,@password,@email,@salt,@telephone,@nom,@prenom, @adresse)";
             SqlCommand command = new SqlCommand(query, myConnection);
             command.Parameters.AddWithValue("@login", u.Login);
             command.Parameters.AddWithValue("@password", pwd);
@@ -110,6 +110,7 @@ namespace SiteFoot.Façades
             command.Parameters.AddWithValue("@telephone", u.Telephone);
             command.Parameters.AddWithValue("@nom", u.Nom);
             command.Parameters.AddWithValue("@prenom", u.Prenom);
+            command.Parameters.AddWithValue("@adresse", u.Adresse);
             int id_user = (int)command.ExecuteScalar();
 
             foreach (int g in u.Groupe)
@@ -130,7 +131,7 @@ namespace SiteFoot.Façades
 
         }
 
-        private static void AddNewClearPassword(User u)
+        public static void AddNewClearPassword(User u)
         {
             String connectionString = ConfigurationManager.ConnectionStrings["SQLSiteFoot"].ToString(); //Récupération de la chaîne de connexion
             SqlConnection myConnection = new SqlConnection(connectionString); //Nouvelle connexion à la base de donnée
@@ -180,6 +181,9 @@ namespace SiteFoot.Façades
                 user.Email = (string)reader[3];
 
                 user.Salt = (string)reader[4];
+                user.Telephone = (string)reader[5];
+                user.Nom = (string)reader[6];
+                user.Prenom = (string)reader[7];
                 reader.Close();
                 SqlCommand command2 = new SqlCommand("select id from Groupe where id in (select id from GroupesUtilisateur where id_utilisateur=@id)", myConnection);
                 command2.Parameters.AddWithValue("@id", id);
@@ -238,7 +242,7 @@ namespace SiteFoot.Façades
             String connectionString = ConfigurationManager.ConnectionStrings["SQLSiteFoot"].ToString(); //Récupération de la chaîne de connexion
             SqlConnection myConnection = new SqlConnection(connectionString); //Nouvelle connexion à la base de donnée
             myConnection.Open(); //On ouvre la connexion
-            String query = "UPDATE Utilisateurs SET login=@login,password=@password,email=@email, nom=@nom, prenom=@prenom, telephone=@telephone WHERE id=@id";
+            String query = "UPDATE Utilisateurs SET login=@login,password=@password,email=@email, nom=@nom, prenom=@prenom, telephone=@telephone, adresse=@adresse WHERE id=@id";
             SqlCommand command = new SqlCommand(query, myConnection);
             command.Parameters.AddWithValue("@login", u.Login);
             command.Parameters.AddWithValue("@password", pwd);
@@ -247,6 +251,7 @@ namespace SiteFoot.Façades
             command.Parameters.AddWithValue("@nom", u.Nom);
             command.Parameters.AddWithValue("@prenom", u.Prenom);
             command.Parameters.AddWithValue("@telephone", u.Telephone);
+            command.Parameters.AddWithValue("@adresse", u.Adresse);
 
             command.ExecuteNonQuery();
 
@@ -329,6 +334,9 @@ namespace SiteFoot.Façades
                 user.Email = (string)reader[3];
 
                 user.Salt = (string)reader[4];
+                user.Telephone = (string)reader[5];
+                user.Nom = (string)reader[6];
+                user.Prenom = (string)reader[7];
                 reader.Close();
                 SqlCommand command2 = new SqlCommand("select id from Groupe where id in (select id_groupe from GroupesUtilisateur where id_utilisateur=@id)", myConnection);
                 command2.Parameters.AddWithValue("@id", u.Id);

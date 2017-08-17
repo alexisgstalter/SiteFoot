@@ -115,10 +115,11 @@
         var prenom = $("#prenom").val();
         var email = $("#email").val();
         var telephone = $("#telephone").val();
+        var adresse = $("#adresse").val();
         $.ajax({
             url: "SaveUser",
             type: "POST",
-            data: JSON.stringify({login : login, password : password, groupes : groupe, email : email, telephone : telephone, nom : nom, prenom : prenom}),
+            data: JSON.stringify({login : login, password : password, groupes : groupe, email : email, telephone : telephone, nom : nom, prenom : prenom, adresse : adresse}),
             dataType: "json",
             contentType: "application/json; charset=utf-8",
             success: function (data) {
@@ -261,10 +262,11 @@
         var prenom = $("#prenom_edit").val();
         var email = $("#email_edit").val();
         var telephone = $("#telephone_edit").val();
+        var adresse = $("#adresse_edit").val();
         $.ajax({
             url: "UpdateUser",
             type: "POST",
-            data: JSON.stringify({id: current_id, login: login, password: password, groupes: groupe, email: email, telephone: telephone, nom: nom, prenom: prenom }),
+            data: JSON.stringify({id: current_id, login: login, password: password, groupes: groupe, email: email, telephone: telephone, nom: nom, prenom: prenom, adresse : adresse }),
             dataType: "json",
             contentType: "application/json; charset=utf-8",
             success: function (data) {

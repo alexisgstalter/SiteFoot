@@ -200,7 +200,7 @@ namespace SiteFoot.Controllers
                 DataTable equipes = CalendrierManager.GetAllEquipes();
                 foreach (DataRow t in equipes.Rows)
                 {
-                    html += "<option value=" + t["id"].ToString() + ">" + t["nom_equipe"].ToString() + "</option>";
+                    html += "<option value=" + t["id"].ToString() + ">" + t["nom_equipe"].ToString() + " - " + t["categorie"].ToString() + "</option>";
                 }
                 return Content(html);
             }
@@ -364,6 +364,106 @@ namespace SiteFoot.Controllers
             {
 
                 CalendrierManager.DeleteEntrainement(id);
+                return Json(new { ok = true });
+
+            }
+            catch (Exception e)
+            {
+                return Json(new { ok = false, error = e.Message });
+            }
+        }
+
+        public ActionResult LoadListEducateur()
+        {
+            try
+            {
+                string html = "";
+                DataTable educateurs = CalendrierManager.GetAllEducateurs();
+                foreach (DataRow t in educateurs.Rows)
+                {
+                    html += "<option value=" + t["id"].ToString() + ">" + t["prenom"].ToString() + " " + t["nom"].ToString() + "</option>";
+                }
+                return Content(html);
+            }
+            catch (Exception)
+            {
+                return Content(null);
+            }
+        }
+
+        public String GetEventsFormations(int id_educateur, DateTime start, DateTime end)
+        {
+            /*try
+            {*/
+            DataTable formations = CalendrierManager.GetFormations(id_educateur, start, end);
+
+            //entrainements.Columns[0].DataType = typeof(String);
+            string result = JsonConvert.SerializeObject(formations);
+
+
+            return result;
+            /*}
+            catch (Exception e)
+            {
+                return "";
+            }*/
+        }
+
+        public JsonResult GetFormationById(int id_formation)
+        {
+            try
+            {
+                DataTable formation = CalendrierManager.GetFormationById(id_formation);
+
+                if (formation.Rows.Count > 0)
+                {
+                    return Json(new { ok = true, hasResult = true, titre = formation.Rows[0]["title"].ToString(), educateur = formation.Rows[0]["id_educateur"].ToString(), debut = formation.Rows[0]["start"].ToString(), fin = formation.Rows[0]["fin"].ToString() });
+                }
+                else
+                {
+                    return Json(new { ok = true, hasResult = false });
+                }
+            }
+            catch (Exception e)
+            {
+                return Json(new { ok = false, error = e.Message });
+            }
+        }
+
+        public JsonResult SaveFormation(String title, DateTime start, DateTime end, int id_educateur)
+        {
+            try
+            {
+                CalendrierManager.AddFormation(title, start, end, id_educateur);
+                return Json(new { ok = true });
+
+            }
+            catch (Exception e)
+            {
+                return Json(new { ok = false, error = e.Message });
+            }
+        }
+
+        public JsonResult UpdateFormation(int id, String title, DateTime start, DateTime end, int id_educateur)
+        {
+            try
+            {
+                CalendrierManager.UpdateFormation(id, title, start, end, id_educateur);
+                return Json(new { ok = true });
+
+            }
+            catch (Exception e)
+            {
+                return Json(new { ok = false, error = e.Message });
+            }
+        }
+
+        public JsonResult DeleteFormation(int id)
+        {
+            try
+            {
+
+                CalendrierManager.DeleteFormation(id);
                 return Json(new { ok = true });
 
             }

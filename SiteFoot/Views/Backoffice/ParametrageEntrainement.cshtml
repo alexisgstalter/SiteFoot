@@ -1,0 +1,65 @@
+﻿@{
+    ViewBag.Title = "ParametrageEntrainement";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<center><h2>Parametrage des Entrainements</h2></center>
+<br />
+<blockquote>Le but ici est de définir les entrainements fixes par période (exemple : de septembre à novembre l'équipe U11A aura entrainement tous les mercredis de 15h30 à 17h30). Il sera alors possible ultérieurement d'ajouter ou de supprimer des entrainements à la main sur la page permettant de chercher les entrainements</blockquote>
+<br />
+<form class="container" id="form_creneau_entrainement">
+    <div class="input-field">
+        <input id="intitule" name="intitule" class="validate" />
+        <label class="active">Intitulé de l'entrainement (facultatif)</label>
+    </div>
+    <div class="input-field">
+        <select id="equipe" name="equipe" multiple>
+            @Html.Action("LoadListEquipes", "Calendrier")
+        </select>
+        <label>Equipe</label>
+    </div>
+    <div class="input-field">
+        <select id="terrain" name="terrain">
+            @Html.Action("LoadListTerrains", "Calendrier")
+        </select>
+        <label>Terrain</label>
+    </div>
+    <div class="row">
+        <div class="input-field col s6">
+            <input id="heure_debut" name="heure_debut" class="validate" />
+            <label class="active">Heure de début</label>
+        </div>
+        <div class="input-field col s6">
+            <input id="heure_fin" name="heure_fin" class="validate" />
+            <label class="active">Heure de fin</label>
+        </div>
+    </div>
+    <div class="input-field">
+        <select id="jour_semaine" multiple>
+            <option>lundi</option>
+            <option>mardi</option>
+            <option>mercredi</option>
+            <option>jeudi</option>
+            <option>vendredi</option>
+            <option>samedi</option>
+            <option>dimanche</option>
+        </select>
+        <label>Jour de la semaine</label>
+    </div>
+    <center><h4>Période de validité du créneau d'entrainement</h4></center>
+    <div class="input-field">
+        <input id="date_debut" name="date_debut" class="validate" />
+        <label class="active">Date de debut</label>
+    </div>
+    <div class="input-field">
+        <input id="date_fin" name="date_fin" class="validate" />
+        <label class="active">Date de fin</label>
+    </div>
+    <center><button type="submit" class="btn hoverable" id="add">Valider</button></center>
+    <br />
+    <center><button type="button" class="btn hoverable" id="supp">Supprimer</button></center>
+    <p>Permet de supprimer tous les créneaux des équipes sélectionnées durant la période ci-dessus et pour les jours de la semaine sélectionnés</p>
+</form>
+<br />
+<div id="calendrier_entrainement" class="" style="color : #6a1b9a"></div>
+@Scripts.Render("~/Scripts/Backoffice/ParametrageEntrainement.js")

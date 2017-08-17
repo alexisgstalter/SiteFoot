@@ -64,13 +64,13 @@ namespace SiteFoot.Façades
                     groupe.Id = (int)reader[0];
                     groupe.Nom = reader[1].ToString();
                     groupe.Code_Groupe = reader[2].ToString();
-                    Debug.WriteLine(reader[3].ToString());
-                    groupe.Droit_gerer_buvette = Convert.ToBoolean(reader[3]);
-                    groupe.Droit_gerer_entrainement = Convert.ToBoolean(reader[4]);
-                    groupe.Droit_entrainement_autre = Convert.ToBoolean(reader[5]);
-                    groupe.Droit_gerer_formateur = Convert.ToBoolean(reader[6]);
-                    groupe.Droit_formateur_autre = Convert.ToBoolean(reader[7]);
-                    groupe.Droit_poster_annonce = Convert.ToBoolean(reader[8]);
+                    groupe.Droit_gerer_buvette = Convert.ToBoolean(reader[4]);
+                    groupe.Droit_gerer_entrainement = Convert.ToBoolean(reader[5]);
+                    groupe.Droit_entrainement_autre = Convert.ToBoolean(reader[6]);
+                    groupe.Droit_gerer_formateur = Convert.ToBoolean(reader[7]);
+                    groupe.Droit_formateur_autre = Convert.ToBoolean(reader[8]);
+                    groupe.Droit_poster_annonce = Convert.ToBoolean(reader[9]);
+                    groupe.Droit_gerer_match = Convert.ToBoolean(reader[10]);
                     groupes.Add(groupe);
                 }
             }
@@ -142,16 +142,17 @@ namespace SiteFoot.Façades
                 String connectionString = ConfigurationManager.ConnectionStrings["SQLSiteFoot"].ToString(); //Récupération de la chaîne de connexion
                 SqlConnection myConnection = new SqlConnection(connectionString); //Nouvelle connexion à la base de donnée
                 myConnection.Open(); //On ouvre la connexion
-                String query = "INSERT INTO Groupe (nom,code_groupe, droit_gerer_buvette, droit_gerer_entrainement,droit_entrainement_autre, droit_gerer_formateur, droit_formateur_autre) VALUES (@nom,@code_groupe,@droit_gerer_buvette,@droit_gerer_entrainement,@droit_entrainement_autres,@droit_gerer_formateur,@droit_formateur_autres)";
+                String query = "INSERT INTO Groupe (nom,code_groupe, droit_gerer_buvette, droit_gerer_entrainement,droit_entrainement_autres, droit_gerer_formateur, droit_formateur_autres, droit_poster_annonce, droit_gerer_match) VALUES (@nom,@code_groupe,@droit_gerer_buvette,@droit_gerer_entrainement,@droit_entrainement_autres,@droit_gerer_formateur,@droit_formateur_autres, @droit_poster_annonce, @droit_gerer_match)";
                 SqlCommand command = new SqlCommand(query, myConnection);
                 command.Parameters.AddWithValue("@nom", g.Nom);
                 command.Parameters.AddWithValue("@code_groupe", g.Code_Groupe);
-                command.Parameters.Add("@droit_gerer_buvette", SqlDbType.TinyInt).Value = g.Droit_gerer_buvette;
-                command.Parameters.Add("@droit_gerer_entrainement", SqlDbType.TinyInt).Value = g.Droit_gerer_entrainement;
-                command.Parameters.Add("@droit_entrainement_autres", SqlDbType.TinyInt).Value = g.Droit_entrainement_autre;
-                command.Parameters.Add("@droit_gerer_formateur", SqlDbType.TinyInt).Value = g.Droit_gerer_formateur;
-                command.Parameters.Add("@droit_formateur_autres", SqlDbType.TinyInt).Value = g.Droit_formateur_autre;
-
+                command.Parameters.Add("@droit_gerer_buvette", SqlDbType.TinyInt).Value = Convert.ToInt32(g.Droit_gerer_buvette);
+                command.Parameters.Add("@droit_gerer_entrainement", SqlDbType.TinyInt).Value = Convert.ToInt32(g.Droit_gerer_entrainement);
+                command.Parameters.Add("@droit_entrainement_autres", SqlDbType.TinyInt).Value =Convert.ToInt32( g.Droit_entrainement_autre);
+                command.Parameters.Add("@droit_gerer_formateur", SqlDbType.TinyInt).Value = Convert.ToInt32(g.Droit_gerer_formateur);
+                command.Parameters.Add("@droit_formateur_autres", SqlDbType.TinyInt).Value = Convert.ToInt32(g.Droit_formateur_autre);
+                command.Parameters.Add("@droit_poster_annonce", SqlDbType.TinyInt).Value = Convert.ToInt32(g.Droit_poster_annonce);
+                command.Parameters.Add("@droit_gerer_match", SqlDbType.TinyInt).Value = Convert.ToInt32(g.Droit_gerer_match);
                 command.ExecuteNonQuery();
 
                 myConnection.Close();
@@ -191,7 +192,7 @@ namespace SiteFoot.Façades
                 String connectionString = ConfigurationManager.ConnectionStrings["SQLSiteFoot"].ToString(); //Récupération de la chaîne de connexion
                 SqlConnection myConnection = new SqlConnection(connectionString); //Nouvelle connexion à la base de donnée
                 myConnection.Open(); //On ouvre la connexion
-                String query = "UPDATE Groupe SET nom=@nom,code_groupe=@code_groupe, Droit_gerer_buvette=@droit_gerer_buvette,droit_gerer_entrainement=@droit_gerer_entrainement,droit_entrainement_autres=@droit_entrainement_autres,droit_gerer_formateur=@droit_gerer_formateur,droit_formateur_autres=@droit_formateur_autres WHERE id=@id";
+                String query = "UPDATE Groupe SET nom=@nom,code_groupe=@code_groupe, Droit_gerer_buvette=@droit_gerer_buvette,droit_gerer_entrainement=@droit_gerer_entrainement,droit_entrainement_autres=@droit_entrainement_autres,droit_gerer_formateur=@droit_gerer_formateur,droit_formateur_autres=@droit_formateur_autres, droit_poster_annonce=@droit_poster_annonce, droit_gerer_match=@droit_gerer_match WHERE id=@id";
                 SqlCommand command = new SqlCommand(query, myConnection);
                 command.Parameters.AddWithValue("@nom", g.Nom);
 
@@ -202,6 +203,8 @@ namespace SiteFoot.Façades
                 command.Parameters.Add("@droit_entrainement_autres", SqlDbType.TinyInt).Value = g.Droit_entrainement_autre;
                 command.Parameters.Add("@droit_gerer_formateur", SqlDbType.TinyInt).Value = g.Droit_gerer_formateur;
                 command.Parameters.Add("@droit_formateur_autres", SqlDbType.TinyInt).Value = g.Droit_formateur_autre;
+                command.Parameters.Add("@droit_poster_annonce", SqlDbType.TinyInt).Value = g.Droit_poster_annonce;
+                command.Parameters.Add("@droit_gerer_match", SqlDbType.TinyInt).Value = g.Droit_gerer_match;
                 command.ExecuteNonQuery();
                 myConnection.Close();
                 return true;

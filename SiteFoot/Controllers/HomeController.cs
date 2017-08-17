@@ -9,7 +9,8 @@ using System.Web.Mvc;
 using System.Web.Security;
 
 namespace SiteFoot.Controllers
-{ 
+{
+    [CustomAuthorize(GroupeAllow = "Anonymous")]
     public class HomeController : Controller
     {
         public ActionResult Index()
@@ -46,7 +47,7 @@ namespace SiteFoot.Controllers
             {
                 User connected_user = Utilisateur.GetByName(u); //On récupère toutes les informations de l'utilisateur et on les place dans la base de données
                 String authString = connected_user.Login + "#" + u.Password;    //On stocke le nom d'utilisateur et le mot de passe dans un cookie
-                FormsAuthentication.SetAuthCookie(authString, false);
+                FormsAuthentication.SetAuthCookie(authString, true);
                 //On ajoute dans un cookie l'activité et le dépot de l'utilisateur
 
                 Session["CurrentUser"] = connected_user;    //On place l'utilisateur dans la session

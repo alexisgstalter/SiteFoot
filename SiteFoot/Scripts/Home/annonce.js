@@ -1,5 +1,6 @@
-﻿$(document).ready(function () {
-    var offset = 0;
+﻿$(function () {
+    $('.carousel.carousel-slider').carousel({ fullWidth: true });
+    var offset = 1;
     var win = $(window);
     $.ajax({
         url: '/Annonce/GetAnnonces',
@@ -10,6 +11,7 @@
         success: function (data) {
             $('#posts').append(data.html);
             offset += 5;
+            $('.carousel.carousel-slider').carousel({ fullWidth: true });
         }
     });
     // Each time the user scrolls
@@ -28,20 +30,7 @@
                     if (data.ok) {
                         $('#posts').append(data.html);
                         offset += 5;
-                    }
-                }
-            });
-
-            $.ajax({
-                url: '/Annonce/GetAnnoncesByTerme',
-                dataType: 'json',
-                type: "POST",
-                contentType: "application/json;charset=utf-8",
-                data: JSON.stringify({ offset: offset }),
-                success: function (data) {
-                    if (data.ok) {
-                        $('#posts').append(data.html);
-                        offset += 5;
+                        $('.carousel.carousel-slider').carousel({ fullWidth: true });
                     }
                 }
             });
@@ -51,7 +40,7 @@
 
 
     $("#recherche_terme").submit(function () {
-        var offset = 0;
+        var offset = 1;
         
         var terme_recherhe = $("#terme").val();
         $('#posts').empty();
@@ -64,6 +53,7 @@
             success: function (data) {
                 $('#posts').append(data.html);
                 offset += 5;
+                $('.carousel.carousel-slider').carousel({ fullWidth: true });
             }
         });
         return false;

@@ -40,12 +40,15 @@ namespace SiteFoot.Controllers
                     html += "<li><div class='card-panel'><center><h2>" + row["titre"].ToString() + "</h2></center><br><blockquote>Auteur: "+ row["prenom"].ToString() + " " + row["nom"].ToString() +"</blockquote><section>" + row["texte"].ToString() + "</section><br>";
 
                     DataTable img = AnnonceManager.GetPiecesJointes(int.Parse(row["id"].ToString()));
-
-                    foreach (DataRow i in img.Rows)
+                    if (img.Rows.Count > 0)
                     {
-                        html += "<img class='responsive-img' src='/Fichiers SiteFoot/" + i["chemin"].ToString() + "'/>";
+                        html += "<div class='carousel carousel-slider'>";
+                        foreach (DataRow i in img.Rows)
+                        {
+                            html += "<a class='carousel-item'><img class='responsive-img' src='/Fichiers SiteFoot/" + i["chemin"].ToString() + "'/></a>";
+                        }
+                        html += "</div>";
                     }
-
                     html += "<blockquote> Date : "+ row["date"].ToString() +"</blockquote></div></li>";
 
                 }
@@ -156,7 +159,7 @@ namespace SiteFoot.Controllers
          
         public JsonResult GetAnnoncesByTerme(int offset, String term)
         {
-            try
+            try 
             {
                 //TEST Compte le nombre d'enregistrement pour la recherche avec l'offset
                 int nb_annonce = 0;

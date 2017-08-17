@@ -8362,18 +8362,7 @@ Picker.extend( 'pickadate', DatePicker )
         // Options
         var setCarouselHeight = function() {
           var firstImage = view.find('.carousel-item img').first();
-          if (firstImage.length) {
-            if (firstImage.prop('complete')) {
-              view.css('height', firstImage.height());
-            } else {
-              firstImage.on('load', function(){
-                view.css('height', $(this).height());
-              });
-            }
-          } else {
-            var imageHeight = view.find('.carousel-item').first().height();
-            view.css('height', imageHeight);
-          }
+          $(window).on('load', function () { view.css('height', $(firstImage).height()); });
         };
 
         if (options.fullWidth) {

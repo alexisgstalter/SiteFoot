@@ -1,0 +1,28 @@
+﻿@{
+    ViewBag.Title = "CoordonneesEntraineurs";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="row">
+    <center><h2>Coordonnées des entraineurs</h2></center>
+    @Html.Action("GetCoordonneesEntraineurs", "Coordonnees")
+</div>
+<script>
+    var i = 0;
+    var prevDiv = null;
+    $('div.card-panel').each(function () {
+        if (i % 2 == 1) {
+            var h1 = prevDiv.height();
+            var h2 = $(this).height();
+            if (h1 > h2) {
+                $(this).height(h1);
+            }
+            else {
+                prevDiv.height(h2);
+            }
+        }
+        prevDiv = $(this);
+        i++;
+    });
+</script>

@@ -1,24 +1,24 @@
 ﻿@{
-    var user = new SiteFoot.Models.User();
-    var groupe = new List<SiteFoot.Models.Groupe>();
+    SiteFoot.Models.User user = new SiteFoot.Models.User();
+    List<SiteFoot.Models.Groupe> groupe = new List<SiteFoot.Models.Groupe>();
     if (Request.IsAuthenticated)
     {
         user = (SiteFoot.Models.User)HttpContext.Current.Session["CurrentUser"];
         groupe = (List<SiteFoot.Models.Groupe>)HttpContext.Current.Session["CurrentGroupe"];
 
-        if (user != null)
+        if (groupe != null)
         {
-            user = SiteFoot.Façades.Utilisateur.GetByName(user);
-            HttpContext.Current.Session["CurrentUser"] = user;
+            groupe = SiteFoot.Façades.GroupeManager.GetById(user.Id);
+            HttpContext.Current.Session["CurrentGroupe"] = groupe;
         }
     }
 
 }
 <!DOCTYPE html>
 <html lang="en">
-    <head>
+    <head style=" height : 100%!important;">
         <meta http-equiv="X-UA-Compatible" content="IE=edge" charset="utf-8" />
-        <title>@ViewBag.Title - My ASP.NET MVC Application</title>
+        <title>@ViewBag.Title</title>
         <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
         <meta name="viewport" content="width=device-width" />
@@ -27,41 +27,45 @@
         @Scripts.Render("~/bundles/jquery")
         @Scripts.Render("~/bundles/jqueryval")
         @Scripts.Render("~/bundles/fullcalendar")
-        @Scripts.Render(@"~\Scripts\Home\common.js")
         @Styles.Render("~/bundles/materialise")
         @Styles.Render("~/Content/css")
     </head>
     <body>
         <header>
-            <nav class="top-nav">
+
                 
-                <div class="nav-wrapper" style="background-color : #6a1b9a">
-                    <ul class="left">
-                        <li><button id="collapse" data-activates="nav-mobile" class="button-collapse top-nav full hide-on-large-only btn btn-flat">Menu</button></li>
-                    </ul>
-                        
-                    @if (Request.IsAuthenticated && user != null)
-                    {
-                        <ul class="right">
-                            <li>Vous êtes connecté en temps que @user.Login</li>
-                        </ul>
-                    }
-                </div>
-                
-            </nav>
-            <ul id="nav-mobile" class="side-nav fixed">
-                <li class="logo active">
+
+
+            <button id="collapse" data-activates="nav-mobile" class="button-collapse top-nav full hide-on-large-only btn btn-flat" style="position:fixed;top:0px;left:0px;width:100%;"><div class="left"><i class="material-icons" style="color : white!important;">menu</i></div></button>
+
+            <ul id="nav-mobile" class="side-nav fixed z-depth-5" style="transform: translateX(0%);">
+                <li class="logo">
                     <center>
                         <div class="background">
-                            <a id="logo-container" href="/" class="brand-logo">
+                            <a id="logo-container" href="/" class="brand-logo" style="width : 100%!important; height : 100%!important">
                                 <img src="~/Content/images/FC_Sélestat.jpg" />
                             </a>
                         </div>
                     </center>
 
                 </li>
-                <li id="accueil_list">@Html.ActionLink("Accueil", "Index", "Home")</li>
-                <li id="about_list">@Html.ActionLink("A propos du FCS", "About", "Home")</li>
+                <li class="logo">
+                    <center>
+                        <div class="background">
+                            <a class="btn-floating btn-large hoverable blue darken-3" href="https://www.facebook.com/FC-S%C3%A9lestat-nouvelle-page-491185594378157/" onclick="window.open(this.href); return false;"><i class="fa fa-facebook fa-3x" style="color : white!important; padding : initial"></i></a>
+                            <a class="btn-floating btn-large hoverable blue darken-1"><i class="fa fa-twitter fa-3x" style="color : white!important; padding : initial"></i></a>
+                        </div>
+                    </center>
+
+                </li>
+
+                @if (Request.IsAuthenticated && user != null)
+                {
+
+                    <li><center>Bienvenue @user.Login !</center></li>
+
+                }
+                <li id="about_list"><a href="https://lafa.fff.fr/recherche-clubs/?scl=255&tab=staff" onclick="window.open(this.href); return false;"><i class="fa fa-map-marker fa-2x" aria-hidden="true" style="color:white!important;"></i>Contacts</a></li>
                 @{
 
                     if (Request.IsAuthenticated && groupe != null)
@@ -80,11 +84,11 @@
                                 <ul id="collapse_annonce" class="collapsible collapsible-accordion">
 
                                     <li>
-                                        <a class="collapsible-header waves-effect ">Annonces</a>
+                                        <a class="collapsible-header waves-effect "><i class="fa fa-newspaper-o fa-2x" aria-hidden="true" style="color : white!important"></i>Annonces</a>
                                         <div class="collapsible-body">
                                             <ul>
                                                 <li id="annonces_list">@Html.ActionLink("Annonces", "Annonce", "Annonce")</li>
-                                                <li id="annonces_list">@Html.ActionLink("Gerer les annonces", "GestionAnnonce", "Annonce")</li>
+                                                <li id="annonces_gerer">@Html.ActionLink("Gerer les annonces", "GestionAnnonce", "Annonce")</li>
                                             </ul>
                                         </div>
                                     </li>
@@ -93,24 +97,50 @@
                         }
                         else
                         {
-                            <li id="annonces_list">@Html.ActionLink("Annonces", "Annonce", "Annonce")</li>
+                            <li id="annonces_list"><a href="/Annonce/Annonce"><i class="fa fa-newspaper-o fa-2x" aria-hidden="true" style="color : white!important"></i>Annonces</a></li>
 
                         }
                     }
                     else
                     {
-                        <li id="annonces_list">@Html.ActionLink("Annonces", "Annonce", "Annonce")</li>
+                        <li id="annonces_list"><a href="/Annonce/Annonce"><i class="fa fa-newspaper-o fa-2x" aria-hidden="true" style="color : white!important"></i>Annonces</a></li>
 
                     }
                 }
+                <li>
+                    <ul id="collapse_resultats" class="collapsible collapsible-accordion">
+
+                        <li>
+                            <a class="collapsible-header waves-effect "><i class="fa fa-futbol-o" aria-hidden="true" style="color : white!important"></i>Résultats</a>
+                            <div class="collapsible-body">
+                                <ul>
+                                    <li id="matchs_list">@Html.ActionLink("Matchs", "Match", "Resultats")</li>
+                                    <li id="championnats_list">@Html.ActionLink("Championnats", "Championnat", "Resultats")</li>
+                                </ul>
+                            </div>
+                        </li>
+                    </ul>
+                </li>
                 @if (Request.IsAuthenticated && user != null)
                 {
-                    
+                    <li>
+                        <ul id="collapse_messagerie" class="collapsible collapsible-accordion">
+
+                            <li>
+                                <a class="collapsible-header waves-effect "><i class="fa fa-envelope-o" aria-hidden="true" style="color : white!important"></i>Messagerie</a>
+                                <div class="collapsible-body">
+                                    <ul>
+                                        <li id="boite_recep">@Html.ActionLink("Boîte de réception", "BoiteDeReception", "Messagerie")</li>
+                                    </ul>
+                                </div>
+                            </li>
+                        </ul>
+                    </li>
                     <li>
                         <ul id="collapse_calendrier" class="collapsible collapsible-accordion">
-                             
+
                             <li>
-                                <a class="collapsible-header waves-effect ">Calendrier</a>
+                                <a class="collapsible-header waves-effect "><i class="fa fa-calendar fa-2x" aria-hidden="true" style="color : white!important"></i>Calendrier</a>
                                 <div class="collapsible-body">
                                     <ul>
                                         <li id="buvette_list">@Html.ActionLink("Buvette", "Buvette", "Calendrier")</li>
@@ -121,15 +151,16 @@
                             </li>
                         </ul>
                     </li>
+
                     <li>
-                        <ul id="collapse_calendrier" class="collapsible collapsible-accordion">
+                        <ul id="collapse_coordonnees" class="collapsible collapsible-accordion">
 
                             <li>
-                                <a class="collapsible-header waves-effect ">Résultats</a>
+                                <a class="collapsible-header waves-effect "><i class="fa fa-list-alt fa-2x" aria-hidden="true" style="color:white!important;"></i>Coordonnées</a>
                                 <div class="collapsible-body">
                                     <ul>
-                                        <li id="matchs_list">@Html.ActionLink("Matchs", "Match", "Resultats")</li>
-                                        <li id="championnats_list">@Html.ActionLink("Championnats", "Championnat", "Resultats")</li>
+                                        <li id="coordonnees_entraineurs">@Html.ActionLink("Coordonnées des Entraineurs", "CoordonneesEntraineurs", "Coordonnees")</li>
+                                        <li id="coordonnees_joueurs">@Html.ActionLink("Coordonnées des Joueurs", "CoordonneesJoueurs", "Coordonnees")</li>
                                     </ul>
                                 </div>
                             </li>
@@ -140,13 +171,16 @@
                         if (grp.Nom == "ADMIN")
                         {
                             <li>
-                                <ul id="collapse_calendrier" class="collapsible collapsible-accordion">
+                                <ul id="collapse_admin" class="collapsible collapsible-accordion">
                                     <li>
-                                        <a class="collapsible-header waves-effect">BackOffice</a>
+                                        <a class="collapsible-header waves-effect"><i class="fa fa-user-plus fa-2x" aria-hidden="true" style="color:white!important;"></i>Administration</a>
                                         <div class="collapsible-body">
                                             <ul>
                                                 <li id="creation_equipe_list">@Html.ActionLink("Gèrer les Utilisateurs", "CreateUser", "Backoffice")</li>
+                                                <li id="gestiondesjoueurs">@Html.ActionLink("Gèrer les joueurs", "GestionDesJoueurs", "Backoffice")</li>
                                                 <li id="creation_equipe_list">@Html.ActionLink("Création Equipe", "CreateEquipe", "Backoffice")</li>
+                                                <li id="parametrageentrainement">@Html.ActionLink("Paramètrer les entrainements", "ParametrageEntrainement", "Backoffice")</li>
+                                                <li id="gestiondesgroupes">@Html.ActionLink("Gestion des groupes", "GestionDesGroupes", "Backoffice")</li>
                                             </ul>
                                         </div>
                                     </li>
@@ -155,7 +189,7 @@
                         }
                     }
 
-                    <li>@Html.ActionLink("Déconnexion", "Deconnexion", "Home")</li>
+                    <li><a href="/Home/Deconnexion"><i class="fa fa-sign-out fa-2x" aria-hidden="true" style="color:white!important;"></i>Déconnexion</a></li>
                 }
                 else
                 {
@@ -163,7 +197,7 @@
                         <ul id="collapse_calendrier" class="collapsible collapsible-accordion">
 
                             <li>
-                                <a class="collapsible-header waves-effect ">Calendrier</a>
+                                <a class="collapsible-header waves-effect "><i class="fa fa-calendar fa-2x" aria-hidden="true" style="color : white!important"></i>Calendrier</a>
                                 <div class="collapsible-body">
                                     <ul>
                                         <li id="entrainement_list">@Html.ActionLink("Entrainement", "Entrainement", "Calendrier")</li>
@@ -172,16 +206,22 @@
                             </li>
                         </ul>
                     </li>
-                    <li><a onclick="$('#modal_connect').modal('open');">Connexion</a></li>
+                    <li><a onclick="$('#modal_connect').modal('open');"><i class="fa fa-sign-in fa-2x" aria-hidden="true" style="color : white!important"></i>Connexion</a></li>
                 }
-                
+
+                <li>
+                    <div class="content-wrapper">
+                        <div class="float-left">
+                            <p>&copy; @DateTime.Now.Year - Football Club Sélestat</p>
+                        </div>
+                    </div>
+                </li>
             </ul>
+
         </header>
-        <div id="body" class="row">
-            <div class="col s9 offset-s3">
+        <main id="body" class="row">
                 @RenderBody()
-            </div>
-        </div>
+        </main>
         <div id="modal_connect" class="modal">
             <div class="modal-content">
                 <h4>Connexion</h4>
@@ -197,8 +237,15 @@
                                 <label>Mot de passe</label>
                             </div>
                         </div>
-                        <button href="#!" class="btn hoverable" id="btn_connect" type="submit">Connexion</button>
-                        <a href="#!" class="btn hoverable" id="btn_fermer">Fermer</a>
+                        <div class="row">
+                            <div class="col s6">
+                                <button href="#!" class="btn hoverable" id="btn_connect" type="submit">Connexion</button>
+                            </div>
+                            <div class="col s6">
+                                <button href="#!" class="btn hoverable" id="btn_fermer">Fermer</button>
+                            </div>
+                            
+                        </div>
                     </form>
                 </div>
             </div>
@@ -206,13 +253,10 @@
 
             </div>
         </div>
-        <footer>
-            <div class="content-wrapper">
-                <div class="float-left">
-                    <p>&copy; @DateTime.Now.Year - Football Club Sélestat</p>
-                </div>
-            </div>
-        </footer>
 
-        <script src="https://nightly.datatables.net/js/jquery.dataTables.js"></script>    </body>
+        <script src="https://nightly.datatables.net/js/jquery.dataTables.js"></script>    
+
+    </body>
+
 </html>
+
