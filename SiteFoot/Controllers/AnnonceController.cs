@@ -120,7 +120,7 @@ namespace SiteFoot.Controllers
             catch (Exception ex)
             {
                 return Json(new { ok = false, error = ex.Message });
-            }
+            } 
         }
 
 
