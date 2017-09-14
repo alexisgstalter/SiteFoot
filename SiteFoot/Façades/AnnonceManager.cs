@@ -129,7 +129,7 @@ namespace SiteFoot.Façades
             command.Parameters.AddWithValue("@id", id);
             command.ExecuteNonQuery();
             myConnection.Close();
-        }
+        } 
 
         public static void UpdateAnnonce(int id_annonce_clef, String intitule_modif, String texte_modif)
         {
